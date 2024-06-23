@@ -1,21 +1,9 @@
-import { createHash, randomBytes } from "crypto";
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-export interface UserProps extends Document {
-  firstName: string;
-  lastName: string;
-  email: string;
-  photo: string;
-  _id: string;
-  id:String
-  createdAt: Date;
-}
-
-const UserSchema = new Schema<UserProps>(
+const UserSchema = new Schema(
   {
-    firstName: { type: String, required: [true, "Please tell us your first name."] },
-    lastName: { type: String, required: [true, "Please tell us your last name."] },
-    createdAt: { type: Date, default: Date.now },
+    firstName: { type: String, required: false },
+    lastName: { type: String, required: false },
     email: {
       type: String,
       required: [true, "Please provide your email."],
@@ -23,11 +11,11 @@ const UserSchema = new Schema<UserProps>(
       lowercase: true,
     },
     photo: { type: String, default: "" },
-
+    clerkUserId: { type: String, required: true, unique: true },
+    createdAt: { type: Date, default: Date.now },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-
-const User = mongoose.models.User || mongoose.model<UserProps>("User", UserSchema);
+const User = mongoose.models.User || mongoose.model("User", UserSchema);
 export default User;

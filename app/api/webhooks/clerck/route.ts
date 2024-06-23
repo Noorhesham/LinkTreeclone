@@ -51,7 +51,7 @@ export async function POST(req: Request) {
   if (eventType === "user.created") {
     const { id, email_addresses, first_name, last_name, image_url } = evt.data;
 
-    if (!id || !email_addresses) {
+    if (!id || !email_addresses || email_addresses.length === 0) {
       return new Response("Error occurred -- missing data", {
         status: 400,
       });
@@ -62,7 +62,7 @@ export async function POST(req: Request) {
       email: email_addresses[0].email_address,
       ...(first_name ? { firstName: first_name } : {}),
       ...(last_name ? { lastName: last_name } : {}),
-      ...(image_url ? { imageUrl: image_url } : {}),
+      ...(image_url ? { photo: image_url } : {}),
     };
 
     await createUser(user);
