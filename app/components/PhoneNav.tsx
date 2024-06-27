@@ -72,7 +72,7 @@ const PhoneNav = ({ navigation }: { navigation: any}) => {
           </motion.nav>
         )}
       </AnimatePresence>
-      <button className="ml-auto z-50 right-2 fixed top-6 lg:hidden" onClick={toggleNavigation}>
+      <button className="ml-auto z-50 right-2 fixed top-7 lg:hidden" onClick={toggleNavigation}>
         <MenuSvg openNavigation={openNavigation} />
       </button>
     </div>

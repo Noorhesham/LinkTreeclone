@@ -31,8 +31,8 @@ const InputUserName = ({id,bio}:{id:string,bio?:string}) => {
   return (
     <div className="w-full self-center mx-auto">
       <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex w-full items-center gap-8 px-5 py-4">
-          <div className="flex items-center justify-between w-full gap-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col md:flex-row w-full items-center gap-8 px-5 py-4">
+          <div className="flex items-center flex-col md:flex-row justify-between w-full gap-4">
             <FormField
               control={control}
               name="bio"

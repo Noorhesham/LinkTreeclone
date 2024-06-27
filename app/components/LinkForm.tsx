@@ -46,7 +46,7 @@ const LinkForm = ({ userId, linkData, handleDeleteLink }: { userId: string; link
   console.log(form.getValues("provider"));
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex bg-[#1f1f23]  rounded-2xl w-full flex-col gap-8 px-5 py-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex bg-[#1f1f23]  rounded-2xl w-full flex-col gap-4 lg:gap-8 px-3 py-1.5  md:px-5 md:py-4">
         <div className="flex items-stretch gap-2">
           <div className="flex flex-col w-full gap-2">
             <SelectDemo setImage={setImage} control={form.control} name="provider" />

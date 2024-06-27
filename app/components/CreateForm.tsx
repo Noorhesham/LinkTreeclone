@@ -32,7 +32,7 @@ const CreateForm = ({ userId, links }: { userId: string; links: { link: string; 
   };
 
   return (
-    <div className="max-w-5xl min-w-[550px]  rounded-2xl mx-auto px-8 py-4">
+    <div className="max-w-5xl w-full lg:min-w-[550px]  rounded-2xl mx-auto px-4 md:px-8 py-2 md:py-4">
       <Button onClick={handleAddLink} className="flex items-center w-full gap-5">
         <PlusIcon /> Add Link
       </Button>

@@ -26,7 +26,7 @@ export default function NavBar({ user }: { user: any }) {
               {/* mobile nav */}
               <div className=" ml-4 flex ">
                 <Link href={"/"}>
-                  <h1 className="text-2xl font-bold">Generate Link Now</h1>
+                  <h1 className=" sm:text-base md:text-lg lg:text-2xl font-bold">Generate Link Now</h1>
                 </Link>
               </div>
               <div className="hidden flex-grow  lg:block  z-50">
@@ -52,7 +52,7 @@ export default function NavBar({ user }: { user: any }) {
                   </>
                 )}
                 {!user && (
-                  <div className="flex items-center gap-5">
+                  <div className="flex text-sm mr-2 md:mr-0  md:text-base items-center gap-5">
                     <SignUpButton />
                     <SignInButton />
                   </div>

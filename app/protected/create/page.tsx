@@ -7,9 +7,11 @@ import Link from "@/app/lib/models/linkModel"; // Ensure Link model is imported
 import { auth } from "@clerk/nextjs/server";
 import InputUserName from "@/app/components/InputUserName";
 import MaxWidthWrapper from "@/app/components/MaxWidthWrapper";
+import { redirect } from "next/navigation";
 
 const page = async () => {
   const { userId } = await auth();
+  if(!userId) redirect("/")
   await connect();
   const user = await User.findOne({ clerkUserId: userId })
   const links=await Link.find({userId:user._id})
@@ -19,7 +21,7 @@ const page = async () => {
       <section className="w-full min-h-screen pt-20">
       <div className="flex flex-col items-center gap-5 mt-10">
         <UserCard user={user} />
-        <div className=" w-[45%]">
+        <div className=" w-full md:w-[45%]">
         <InputUserName bio={user.bio} id={user._id}/>
         </div>
         <CreateForm links={links} userId={user._id} />
