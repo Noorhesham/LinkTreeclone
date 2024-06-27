@@ -4,35 +4,38 @@ import { WebhookEvent } from "@clerk/nextjs/server";
 import { createUser } from "@/app/lib/actions/actions";
 
 export async function POST(req: Request) {
+  console.log("Webhook POST request received");
+
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
-    throw new Error("Please add CLERK_WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local");
+    console.error("CLERK_WEBHOOK_SECRET is not set");
+    return new Response("Webhook secret is not set", {
+      status: 500,
+    });
   }
 
-  // Get the headers
   const headerPayload = headers();
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
   const svix_signature = headerPayload.get("svix-signature");
 
-  // If there are no headers, error out
+  console.log("Headers received:", { svix_id, svix_timestamp, svix_signature });
+
   if (!svix_id || !svix_timestamp || !svix_signature) {
+    console.error("Missing svix headers");
     return new Response("Error occurred -- no svix headers", {
       status: 400,
     });
   }
 
-  // Get the body
   const payload = await req.json();
   const body = JSON.stringify(payload);
 
-  // Create a new Svix instance with your secret.
   const wh = new Webhook(WEBHOOK_SECRET);
 
   let evt: WebhookEvent;
 
-  // Verify the payload with the headers
   try {
     evt = wh.verify(body, {
       "svix-id": svix_id,
@@ -46,12 +49,17 @@ export async function POST(req: Request) {
     });
   }
 
+  console.log("Webhook event received:", evt);
+
   const eventType = evt.type;
+  console.log("Webhook event type:", eventType);
 
   if (eventType === "user.created") {
+    console.log("Processing user.created event");
     const { id, email_addresses, first_name, last_name, image_url } = evt.data;
 
-    if (!id || !email_addresses || email_addresses.length === 0) {
+    if (!id || !email_addresses) {
+      console.error("Missing data in webhook event");
       return new Response("Error occurred -- missing data", {
         status: 400,
       });
@@ -65,8 +73,20 @@ export async function POST(req: Request) {
       ...(image_url ? { photo: image_url } : {}),
     };
 
-    await createUser(user);
+    console.log("Creating user with data:", user);
+
+    try {
+      await createUser(user);
+      console.log("User created successfully");
+    } catch (error) {
+      console.error("Error creating user:", error);
+      return new Response("Error creating user", {
+        status: 500,
+      });
+    }
+  } else {
+    console.log("Ignoring event type:", eventType);
   }
 
-  return new Response("", { status: 200 });
+  return new Response("Webhook processed", { status: 200 });
 }

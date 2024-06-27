@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import Link from "./linkModel"; // Importing Link model to avoid circular dependency issues
 
 const UserSchema = new Schema(
   {
@@ -6,16 +7,22 @@ const UserSchema = new Schema(
     lastName: { type: String, required: false },
     email: {
       type: String,
-      required: [true, "Please provide your email."],
       unique: true,
       lowercase: true,
     },
+    bio: { type: String, default: "" },
     photo: { type: String, default: "" },
-    clerkUserId: { type: String, required: true, unique: true },
+    clerkUserId: { type: String, unique: true },
     createdAt: { type: Date, default: Date.now },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+
+UserSchema.virtual("links", {
+  ref: "Link",
+  localField: "_id",
+  foreignField: "userId",
+});
 
 const User = mongoose.models.User || mongoose.model("User", UserSchema);
 export default User;
