@@ -1,7 +1,26 @@
+'use client'
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
+import { FaShareAlt } from "react-icons/fa";
 import { FcApproval } from "react-icons/fc";
+import { toast } from "react-toastify";
 
 const UserView = ({ user }: { user: any }) => {
+  const [copied, setCopied] = React.useState(false);
+  const path=usePathname()
+
+  const handleCopyLink = () => {
+    const fullUrl = window.location.origin + path;
+    try {
+      navigator.clipboard.writeText(fullUrl);
+      toast.success("Link copied to clipboard!");
+      setCopied(true);
+    } catch (error) {
+      toast.error("Failed to copy the link");
+    }
+  };
+
   return (
     <div className="flex  relative overflow-hidden w-full mb-auto h-full self-stretch flex-col items-center py-2 px-4  md:py-4 md:px-8 ">
       <div className="image-wrapper shine rounded-full ">
@@ -15,6 +34,10 @@ const UserView = ({ user }: { user: any }) => {
           {<h4 className=" text-gray-50">{user.bio}</h4>}
         </div>
       </div>
+      <Link  className=" underline my-2 flex items-center gap-2 hover:text-violet-500 duration-200" href={`/profile/${user._id}`}>
+        Public Profile Link <FaShareAlt onClick={handleCopyLink} />
+
+      </Link>
     </div>
   );
 };
