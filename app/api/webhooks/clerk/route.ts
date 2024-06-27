@@ -1,7 +1,7 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { createUser } from "@/app/lib/actions/actions";
+import { createUser, updateUser } from "@/app/lib/actions/actions"; // Assuming you have an updateUser function
 
 export async function POST(req: Request) {
   console.log("Webhook POST request received");
@@ -54,8 +54,8 @@ export async function POST(req: Request) {
   const eventType = evt.type;
   console.log("Webhook event type:", eventType);
 
-  if (eventType === "user.created") {
-    console.log("Processing user.created event");
+  if (eventType === "user.created" || eventType === "user.updated") {
+    console.log(`Processing ${eventType} event`);
     const { id, email_addresses, first_name, last_name, image_url } = evt.data;
 
     if (!id || !email_addresses) {
@@ -73,14 +73,19 @@ export async function POST(req: Request) {
       ...(image_url ? { photo: image_url } : {}),
     };
 
-    console.log("Creating user with data:", user);
+    console.log(`${eventType === 'user.created' ? 'Creating' : 'Updating'} user with data:`, user);
 
     try {
-      await createUser(user);
-      console.log("User created successfully");
+      if (eventType === "user.created") {
+        await createUser(user);
+        console.log("User created successfully");
+      } else if (eventType === "user.updated") {
+        await updateUser(user,id);
+        console.log("User updated successfully");
+      }
     } catch (error) {
-      console.error("Error creating user:", error);
-      return new Response("Error creating user", {
+      console.error(`Error ${eventType === 'user.created' ? 'creating' : 'updating'} user:`, error);
+      return new Response(`Error ${eventType === 'user.created' ? 'creating' : 'updating'} user`, {
         status: 500,
       });
     }

@@ -14,6 +14,7 @@ const PRODUCT_CATEGORIES: { text: string; url: string }[] = [
 export default function NavBar({ user }: { user: any }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
+  console.log(user);
   return (
     <nav
       className={` ${isScrolled ? "bg-background" : "bg-transparent"} duration-150  fixed z-50  top-0  inset-0 h-16`}
