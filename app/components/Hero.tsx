@@ -11,8 +11,8 @@ import { useAuth } from "@clerk/nextjs";
 import Button from "./Button";
 
 const Hero = () => {
-  const {isLoaded,sessionId,userId}=useAuth()
-  console.log(isLoaded,sessionId,userId)
+  const { isLoaded, sessionId, userId } = useAuth();
+  console.log(isLoaded, sessionId, userId);
   return (
     <section className="flex min-h-screen flex-col pt-14 lg:max-h-screen lg:pt-24 overflow-hidden lg:flex-row relative items-center lg:gap-20 justify-center px-10 lg:px-20">
       <span className="w-32 h-12 scale-125 -rotate-45 absolute top-36 -left-12  bg-violet-700/50 rounded-full"></span>
@@ -27,10 +27,12 @@ const Hero = () => {
           text="Simplify your online presence with Connect"
         />
         <div className="flex items-center  lg:items-start gap-5">
-          {userId?<InputUserName />:<div className="flex items-center">
-            <Button text="Get Started"/>
-            <Button text="Log In" />
-            </div>}
+          {
+            <div className="flex items-center">
+              <Button text="Get Started" />
+              <Button text="Log In" />
+            </div>
+          }
         </div>
       </div>
       <MouseParallax strength={0.07}>

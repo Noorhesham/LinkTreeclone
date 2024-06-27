@@ -1,7 +1,6 @@
-import { Button } from "@/components/ui/button";
 import React from "react";
 import { FcApproval } from "react-icons/fc";
-import { UserButton, UserProfile } from "@clerk/nextjs";
+import { UserButton,  } from "@clerk/nextjs";
 import Link from "next/link";
 
 const UserCard = ({ user }: { user: any }) => {

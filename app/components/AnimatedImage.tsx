@@ -1,6 +1,5 @@
 "use client";
 import Lottie from "lottie-react";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { CgSpinner } from "react-icons/cg";
 const AnimatedImage = ({ data, className }: { data?: any; className?: string }) => {
