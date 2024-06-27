@@ -44,7 +44,7 @@ export default function NavBar({ user }: { user: any }) {
                     <UserButton
                       appearance={{
                         elements: {
-                          avatarBox: "w-[3.2rem] h-[3.2rem] rounded-full",
+                          avatarBox: "w-[3.2rem]  mr-4 md:mr-0 h-[3.2rem] rounded-full",
                           userButtonAvatarBox: "w-[3.2rem] h-[3.2rem] rounded-full",
                         },
                       }}
@@ -52,7 +52,7 @@ export default function NavBar({ user }: { user: any }) {
                   </>
                 )}
                 {!user && (
-                  <div className="flex text-sm mr-2 md:mr-0  md:text-base items-center gap-5">
+                  <div className="flex text-sm mr-4 md:mr-0  md:text-base items-center gap-5">
                     <SignUpButton />
                     <SignInButton />
                   </div>
