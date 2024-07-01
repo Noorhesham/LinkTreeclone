@@ -26,7 +26,6 @@ export default async function RootLayout({
         <body style={{ direction: locale === "ar" ? "rtl" : "ltr" }} className={`${locale==='ar'&&"text-right"} dark`}>
           <NextIntlClientProvider messages={messages}>
             <ToastContainer position="top-center" theme="dark" />
-
             <NavBar />
             {children}
           </NextIntlClientProvider>

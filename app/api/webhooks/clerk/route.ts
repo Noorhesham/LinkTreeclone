@@ -80,7 +80,7 @@ export async function POST(req: Request) {
         await createUser(user);
         console.log("User created successfully");
       } else if (eventType === "user.updated") {
-        await updateUser(user,id);
+        await updateUser(user, id);
         console.log("User updated successfully");
       }
     } catch (error) {
