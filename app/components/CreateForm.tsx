@@ -54,7 +54,7 @@ const CreateForm = ({
   return (
     <div className="max-w-5xl w-full flex flex-col lg:min-w-[550px] rounded-2xl mx-auto px-4 md:px-8 py-2 md:py-4">
       <div className="flex items-center gap-3 flex-col">
-        <Reorder.Group axis="y" className="flex flex-col w-[80%] gap-4" values={linkList} onReorder={handleReorder}>
+        <Reorder.Group axis="y" className="flex flex-col w-full md:w-[80%] gap-4" values={linkList} onReorder={handleReorder}>
           {linkList?.map((link, index) => (
             <LinkForm key={link._id || index} userId={userId} linkData={link} handleDeleteLink={handleDeleteLink} />
           ))}

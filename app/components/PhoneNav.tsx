@@ -4,6 +4,7 @@ import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import MenuSvg from "./MenuSvg";
+import { useTranslations } from "next-intl";
 const container = {
   hidden: { opacity: 1, scale: 0 },
   exit: { opacity: 0, scale: 0 },
@@ -24,8 +25,9 @@ const item = {
     opacity: 1,
   },
 };
-const PhoneNav = ({ navigation }: { navigation: any}) => {
+const PhoneNav = ({ navigation }: { navigation: any }) => {
   const pathName = usePathname();
+  const t = useTranslations();
   const [openNavigation, setOpenNavigation] = useState(false);
   const handleClick = () => {
     if (!openNavigation || !(window.innerWidth <= 1024)) return;
@@ -55,7 +57,7 @@ const PhoneNav = ({ navigation }: { navigation: any}) => {
             }  fixed top-0 left-0 bg-black/40 backdrop-blur-lg bottom-0 right-0 z-40 bg-n-8 lg:static lg:flex lg:mx-auto lg:bg-transparent`}
           >
             <div className=" relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
-              {navigation.map((link:any, i:number) => (
+              {navigation.map((link: any, i: number) => (
                 <motion.a
                   variants={item}
                   onClick={handleClick}
@@ -64,7 +66,7 @@ const PhoneNav = ({ navigation }: { navigation: any}) => {
                   href={link.url}
                   key={i}
                 >
-                  {link.text}
+                  {t(`navbar.${link.text.toLowerCase()}`)}
                 </motion.a>
               ))}
             </div>

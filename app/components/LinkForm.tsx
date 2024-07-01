@@ -78,16 +78,21 @@ const LinkForm = ({ userId, linkData, handleDeleteLink }: { userId: string; link
                 control={form.control}
                 name="provider"
               />
-              <FormInput placeholder={t("linkForm.linkForProvider", { provider: form.getValues("provider") })} control={form.control} name="link" />
+              <FormInput
+                placeholder={t("linkForm.linkForProvider", { provider: form.getValues("provider") })}
+                control={form.control}
+                name="link"
+              />
             </div>
             {form.getValues("provider") && (
               <Image width={50} height={50} alt={`${form.getValues("provider")}`} src={`/${image}.png`} />
             )}
           </div>
           <div className="flex ml-10 justify-between">
-            <div className="flex gap-3 flex-row-reverse ml-auto self-end">
-              <Button disabled={isPending} className="flex ml-auto items-center self-end gap-5">
-                {!linkData._id ? <PlusIcon /> : <PenIcon />} {linkData._id ? t("linkForm.updateLink") : t("linkForm.createLink")}
+            <div className="flex gap-3 items-center flex-row-reverse ml-auto self-end">
+              <Button disabled={isPending} className="flex ml-auto items-center self-end gap-2 md:gap-5">
+                {!linkData._id ? <PlusIcon /> : <PenIcon />}{" "}
+                {linkData._id ? t("linkForm.updateLink") : t("linkForm.createLink")}
               </Button>
               <div className="flex flex-col h-full items-center self-center px-1 py-1 gap-3">
                 <Delete

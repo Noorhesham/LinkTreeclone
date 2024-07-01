@@ -27,7 +27,7 @@ const page = async () => {
           <div className={` w-full min-h-screen pt-20`}>
             <div className="flex flex-col items-center">
               <UserCard user={user} />
-              <div className=" w-full flex items-center gap-2 md:w-[80%]">
+              <div className=" w-full flex-col md:flex-row flex items-center gap-2 md:w-[80%]">
                 <InputUserName bio={user.bio} id={user._id} />
                 <CustomDialog
                   content={<FontSelector />}

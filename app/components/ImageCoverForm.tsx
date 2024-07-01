@@ -92,11 +92,11 @@ const ImageCoverForm = ({ user }: { user: any }) => {
           {isPending && <BabySpinner />}
         </>
       )}
-      <div className="flex w-96 flex-col items-center gap-2 absolute left-1/2 top-[35%] -translate-y-1/2 -translate-x-1/2">
+      <div className="flex w-52  md:w-96 flex-col items-center gap-2 absolute left-1/2 top-[35%] -translate-y-1/2 -translate-x-1/2">
         <div className="flex  w-full items-center gap-2 bg-background rounded-lg ">
           <div
             onClick={handleOnclick}
-            className={` flex-1 duration-200 flex cursor-pointer items-center px-6 py-3 gap-2 ${
+            className={` flex-1 duration-200 flex cursor-pointer items-center  py-1.5 px-3 md:px-6 md:py-3 gap-2 ${
               isImage && " bg-slate-900 text-violet-400"
             } opacity-85`}
           >
@@ -105,7 +105,7 @@ const ImageCoverForm = ({ user }: { user: any }) => {
           </div>
           <div
             onClick={handleOnclick}
-            className={`flex-1 duration-200 flex cursor-pointer items-center px-6 py-3 gap-2 ${
+            className={`flex-1 duration-200 flex cursor-pointer items-center  py-1.5 px-3 md:px-6 md:py-3 gap-2 ${
               !isImage && " bg-slate-900 text-violet-400"
             } opacity-85`}
           >
@@ -120,7 +120,7 @@ const ImageCoverForm = ({ user }: { user: any }) => {
                 control={form.control}
                 name="cover"
                 render={({ field }) => (
-                  <FormItem className=" min-w-28 my-2">
+                  <FormItem className="  w-44 md:min-w-28 my-2">
                     <FormControl className="">
                       <div className=" flex gap-2 items-center">
                         <FormLabel className=" text-gray-50 text-nowrap ">{isImage ? t('image') : t('color')}</FormLabel>

@@ -37,7 +37,7 @@ export default function NavBar() {
                   ))}
                 </div>
               </div>
-              <div className="rounded-full mr-6 lg:mr-0 ml-auto flex gap-6 items-center">
+              <div className="rounded-full mx-6 mr-10 lg:mr-0 ml-auto flex gap-6 items-center">
                 <LanguageSwitcher />
                 {isSignedIn && (
                   <>

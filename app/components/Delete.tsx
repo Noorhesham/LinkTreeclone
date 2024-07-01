@@ -56,7 +56,7 @@ export function Delete({
           <DialogDescription>This action cannot be undone.</DialogDescription>
         </DialogHeader>
         <p className=" text-accent-foreground ">Are you sure you want to delete {value && value.name}?</p>
-        <DialogFooter className="flex mt-5 items-center self-end ml-auto">
+        <DialogFooter className="flex flex-nowrap flex-row mt-5 items-center self-end ml-auto">
           <Button
             disabled={disabled}
             onClick={() => {
