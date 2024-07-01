@@ -45,5 +45,14 @@
     "noFileSelected": "لم يتم تحديد ملف",
     "fileUploadFailed": "فشل تحميل الملف",
     "unexpectedError": "حدث خطأ غير متوقع"
+  },
+  "UserView": {
+    "profileLink": "رابط الملف الشخصي",
+    "linkCopied": "تم نسخ الرابط إلى الحافظة!",
+    "copyLinkFailed": "فشل في نسخ الرابط",
+    "share":" مشاركة الرابط",
+    "shareDesc":"اي احد  يستطيع مشاركة الرابط",
+    "copy":"نسخ",
+    "close":"اغلاق"
   }
 }

@@ -18,8 +18,8 @@ const ImageCoverForm = ({ user }: { user: any }) => {
   const form = useForm({ defaultValues: { cover: user.coverColor || undefined } });
   const [isImage, setIsImage] = useState(true);
   const handleOnclick = async () => {
-    await toggleImg(!isImage);
     setIsImage((img) => !img);  
+    await toggleImg();
   };
   const [isPending, startTransition] = useTransition();
   const onSubmit = async (data: any) => {

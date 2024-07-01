@@ -82,14 +82,13 @@ export async function deleteImage(publicId: string) {
   }
 }
 
-export async function toggleImg(isImage: boolean) {
+export async function toggleImg() {
   try {
     const { userId } = await auth();
     const user = await User.findOne({ clerkUserId: userId });
     if (!user) return { error: "User not found" };
-    user.isImg = isImage;
+    user.isImg = !user.isImg;
     await user.save();
-    console.log(user);
     return { success: "Image toggled successfully!", status: 200 };
   } catch (error) {
     console.log(error);

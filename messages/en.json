@@ -44,5 +44,15 @@
     "noFileSelected": "No file selected",
     "fileUploadFailed": "File upload failed",
     "unexpectedError": "An unexpected error occurred"
+  },
+  "UserView":{
+
+    "profileLink": "Public Profile Link",
+    "linkCopied": "Link copied to clipboard!",
+    "copyLinkFailed": "Failed to copy the link",
+    "share":"share",
+    "shareDesc":"Anyone who has this link will be able to view this.",
+    "copy":"copy",
+    "close":"Close"
   }
 }

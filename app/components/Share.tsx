@@ -12,37 +12,39 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CopyIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { FaShareAlt } from "react-icons/fa";
 
 export function Share({ link, onClick }: { link: string; onClick: any }) {
+  const t = useTranslations('UserView');
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" className="flex items-center gap-3">
-          Share <FaShareAlt />
+          {t('share')} <FaShareAlt />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Share link</DialogTitle>
-          <DialogDescription>Anyone who has this link will be able to view this.</DialogDescription>
+          <DialogTitle>{t('share')}</DialogTitle>
+          <DialogDescription>{t('shareDesc')}</DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">
           <div className="grid flex-1 gap-2">
             <Label htmlFor="link" className="sr-only">
-              Link
+            {t('share')} 
             </Label>
             <Input id="link" defaultValue={link} readOnly />
           </div>
           <Button onClick={onClick} type="submit" size="sm" className="px-3">
-            <span className="sr-only">Copy</span>
+            <span className="sr-only">{t('copy')}</span>
             <CopyIcon className="h-4 w-4" />
           </Button>
         </div>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
             <Button type="button" variant="secondary">
-              Close
+              {t('close')}
             </Button>
           </DialogClose>
         </DialogFooter>
