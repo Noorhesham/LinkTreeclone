@@ -8,17 +8,15 @@ import User from "@/app/lib/models/userModel";
 import React from "react";
 
 const page = async ({ params }: { params: { id: string } }) => {
-  await connect();
-  const user = await User.findById(params.id);
-  const links = await Link.find({ userId: user._id });
+  const user :any = await User.findById(params.id).populate({ path: "links", model: Link }).lean();;
   return (
     <MaxWidthWrapper>
       <section className="w-full min-h-screen pt-20">
-      <div className="flex flex-col gap-5 mt-10">
-        <UserView user={user} />
-        <DisplyLinks links={links} />
-      </div>
-    </section>
+        <div className="flex flex-col gap-5 mt-10">
+          <UserView user={user} />
+          <DisplyLinks links={user.links} />
+        </div>
+      </section>
     </MaxWidthWrapper>
   );
 };

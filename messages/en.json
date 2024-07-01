@@ -1,0 +1,48 @@
+{
+  "page": {
+    "userNotFound": "User not found"
+  },
+  "navbar": {
+    "title": "Generate Link Now",
+    "home": "Home",
+    "create": "Create",
+    "contact": "Contact",
+    "signUp": "Sign Up",
+    "signIn": "Sign In"
+  },
+  "hero": {
+    "highlight": "Effortlessly!",
+    "welcome": "Welcome to Cone!",
+    "paragraph": "Your one-stop solution to link everything you care about in one place. Share your social profiles, websites, portfolios, and more with a single, customizable link.",
+    "text": "Simplify your online presence with Connect",
+    "getStarted": "Get Started",
+    "logIn": "Log In"
+  },
+  "inputUserName": {
+    "addBioPlaceholder": "Add Your Bio Here",
+    "addBioButton": "Add Bio"
+  },
+  "createForm": {
+    "addLinkButton": "Add Link"
+  },
+  "linkForm": {
+    "createLink": "Create Link",
+    "updateLink": "Update Link",
+    "delete": "Delete",
+    "invalidURL": "Invalid URL",
+    "required": "Required",
+    "linkForProvider": "Link for {{provider}}"
+  }
+  ,  "languageSwitcher": {
+    "selectLanguage": "Select a language",
+    "english": "English",
+    "arabic": "العربية"
+  },
+  "ImageCoverForm": {
+    "image": "Image",
+    "color": "Color",
+    "noFileSelected": "No file selected",
+    "fileUploadFailed": "File upload failed",
+    "unexpectedError": "An unexpected error occurred"
+  }
+}

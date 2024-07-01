@@ -1,0 +1,134 @@
+/* styles/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;600&family=Inter:wght@400;600&family=Montserrat:wght@400;600&family=Nunito:wght@400;600&family=Lato:wght@400;600&family=Open+Sans:wght@400;600&family=Raleway:wght@400;600&family=Oswald:wght@400;600&family=Playfair+Display:wght@400;600&family=Merriweather:wght@400;600&family=Source+Sans+Pro:wght@400;600&family=Quicksand:wght@400;600&family=Fira+Sans:wght@400;600&family=Work+Sans:wght@400;600&family=DM+Sans:wght@400;600&family=Rubik:wght@400;600&family=Bebas+Neue&family=Ubuntu:wght@400;600&family=Cairo:wght@400;600&family=Amiri:wght@400;600&family=El+Messiri:wght@400;600&family=Lateef:wght@400;600&family=Tajawal:wght@400;600&family=Noto+Sans+Arabic:wght@400;600&family=Droid+Arabic+Kufi:wght@400;600&family=Harmattan:wght@400;600&family=Kufam:wght@400;600&family=Noto+Serif+Arabic:wght@400;600&family=Mada:wght@400;600&family=Sukar:wght@400;600&family=Reem+Kufi:wght@400;600&family=Aref+Ruqaa:wght@400;600&display=swap');
+
+.poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+.roboto {
+  font-family: 'Roboto', sans-serif;
+}
+
+.inter {
+  font-family: 'Inter', sans-serif;
+}
+
+.montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.nunito {
+  font-family: 'Nunito', sans-serif;
+}
+
+.lato {
+  font-family: 'Lato', sans-serif;
+}
+
+.open-sans {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.raleway {
+  font-family: 'Raleway', sans-serif;
+}
+
+.oswald {
+  font-family: 'Oswald', sans-serif;
+}
+
+.playfair {
+  font-family: 'Playfair Display', serif;
+}
+
+.merriweather {
+  font-family: 'Merriweather', serif;
+}
+
+.source-sans-pro {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.quicksand {
+  font-family: 'Quicksand', sans-serif;
+}
+
+.fira-sans {
+  font-family: 'Fira Sans', sans-serif;
+}
+
+.work-sans {
+  font-family: 'Work Sans', sans-serif;
+}
+
+.dm-sans {
+  font-family: 'DM Sans', sans-serif;
+}
+
+.rubik {
+  font-family: 'Rubik', sans-serif;
+}
+
+.bebas-neue {
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.ubuntu {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.cairo {
+  font-family: 'Cairo', sans-serif;
+}
+
+.amiri {
+  font-family: 'Amiri', serif;
+}
+
+.el-messiri {
+  font-family: 'El Messiri', sans-serif;
+}
+
+.lateef {
+  font-family: 'Lateef', serif;
+}
+
+.tajawal {
+  font-family: 'Tajawal', sans-serif;
+}
+
+.noto-sans-arabic {
+  font-family: 'Noto Sans Arabic', sans-serif;
+}
+
+.droid-arabic-kufi {
+  font-family: 'Droid Arabic Kufi', sans-serif;
+}
+
+.harmattan {
+  font-family: 'Harmattan', sans-serif;
+}
+
+.kufam {
+  font-family: 'Kufam', sans-serif;
+}
+
+.noto-serif-arabic {
+  font-family: 'Noto Serif Arabic', serif;
+}
+
+.mada {
+  font-family: 'Mada', sans-serif;
+}
+
+.sukar {
+  font-family: 'Sukar', sans-serif;
+}
+
+.reem-kufi {
+  font-family: 'Reem Kufi', sans-serif;
+}
+
+.aref-ruqaa {
+  font-family: 'Aref Ruqaa', serif;
+}

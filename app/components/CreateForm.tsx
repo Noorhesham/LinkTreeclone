@@ -3,14 +3,24 @@ import React, { useEffect, useTransition, useState } from "react";
 import Button from "./Button";
 import { PlusIcon } from "lucide-react";
 import LinkForm from "./LinkForm";
-import { deleteLink } from "../linkActions/actions";
+import { deleteLink, updateOrderLinks } from "../linkActions/actions";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { Reorder } from "framer-motion";
+import { socialMediaPlatforms } from "../constants";
+import { useTranslations } from "next-intl";
 
-const CreateForm = ({ userId, links }: { userId: string; links: { link: string; provider: string ,_id:string}[] }) => {
+const CreateForm = ({
+  userId,
+  links,
+}: {
+  userId: string;
+  links: { link: string; provider: string; _id: string }[];
+}) => {
   const [linkList, setLinkList] = useState(links);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const t = useTranslations();
 
   const handleDeleteLink = (id: string) => {
     setLinkList((prev) => prev.filter((link) => link._id !== id));
@@ -31,21 +41,27 @@ const CreateForm = ({ userId, links }: { userId: string; links: { link: string; 
     setLinkList([...linkList, { link: "", provider: "", _id: "" }]);
   };
 
+  const handleReorder = async (newItems: any[]) => {
+    setLinkList(newItems);
+    startTransition(async () => {
+      const res = await updateOrderLinks(newItems);
+      if (res.success) toast.success(res.success);
+      if (res.error) toast.error(res.error);
+      router.refresh();
+    });
+  };
   return (
-    <div className="max-w-5xl w-full lg:min-w-[550px]  rounded-2xl mx-auto px-4 md:px-8 py-2 md:py-4">
-      <Button onClick={handleAddLink} className="flex items-center w-full gap-5">
-        <PlusIcon /> Add Link
-      </Button>
-     <div className="flex items-center mt-5 gap-3 flex-col">
-     {linkList.map((link, index) => (
-        <LinkForm
-          key={index}
-          userId={userId}
-          linkData={link}
-          handleDeleteLink={handleDeleteLink}
-        />
-      ))}
+    <div className="max-w-5xl w-full flex flex-col lg:min-w-[550px] rounded-2xl mx-auto px-4 md:px-8 py-2 md:py-4">
+      <div className="flex items-center gap-3 flex-col">
+        <Reorder.Group axis="y" className="flex flex-col w-[80%] gap-4" values={linkList} onReorder={handleReorder}>
+          {linkList.map((link, index) => (
+            <LinkForm key={link._id || index} userId={userId} linkData={link} handleDeleteLink={handleDeleteLink} />
+          ))}
+        </Reorder.Group>
       </div>
+      <Button onClick={handleAddLink} className="flex mt-5 items-center w-[50%] mx-auto self-center gap-5">
+        <PlusIcon /> {t("createForm.addLinkButton")}
+      </Button>
     </div>
   );
 };

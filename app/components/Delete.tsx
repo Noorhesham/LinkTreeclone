@@ -55,7 +55,7 @@ export function Delete({
           <DialogTitle>Delete Confirmation !</DialogTitle>
           <DialogDescription>This action cannot be undone.</DialogDescription>
         </DialogHeader>
-        <p className=" text-accent-foreground text-gray-800">Are you sure you want to delete {value && value.name}?</p>
+        <p className=" text-accent-foreground ">Are you sure you want to delete {value && value.name}?</p>
         <DialogFooter className="flex mt-5 items-center self-end ml-auto">
           <Button
             disabled={disabled}

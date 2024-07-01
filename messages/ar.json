@@ -1,0 +1,49 @@
+{
+  "page": {
+    "userNotFound": "المستخدم غير موجود"
+  },
+  "navbar": {
+    "title": "أنشئ الرابط الآن",
+    "home": "الرئيسية",
+    "create": "إنشاء",
+    "contact": "اتصل بنا",
+    "signUp": "سجل الآن",
+    "signIn": "تسجيل الدخول"
+  },
+  "hero": {
+    "highlight": "بسهولة!",
+    "welcome": "مرحبا بك في كون!",
+    "paragraph": "حلّك الشامل لربط كل شيء تهتم به في مكان واحد. شارك ملفاتك الشخصية على وسائل التواصل الاجتماعي، مواقع الويب، المحفظات، وأكثر من ذلك باستخدام رابط قابل للتخصيص.",
+    "text": "بسط وجودك على الإنترنت مع Connect",
+    "getStarted": "ابدأ الآن",
+    "logIn": "تسجيل الدخول"
+  },
+  "inputUserName": {
+    "addBioPlaceholder": "أضف سيرتك الذاتية هنا",
+    "addBioButton": "أضف السيرة الذاتية"
+  },
+  "createForm": {
+    "addLinkButton": "أضف رابطًا"
+  },
+  "linkForm": {
+    "createLink": "إنشاء رابط",
+    "updateLink": "تحديث الرابط",
+    "delete": "حذف",
+    "invalidURL": "رابط غير صالح",
+    "required": "مطلوب",
+    "linkForProvider": "رابط لـ {{provider}}"
+  },
+  "languageSwitcher": {
+    "selectLanguage": "اختر لغة",
+    "english": "English",
+    "arabic": "العربية"
+  },
+
+  "ImageCoverForm": {
+    "image": "صورة",
+    "color": "لون",
+    "noFileSelected": "لم يتم تحديد ملف",
+    "fileUploadFailed": "فشل تحميل الملف",
+    "unexpectedError": "حدث خطأ غير متوقع"
+  }
+}
