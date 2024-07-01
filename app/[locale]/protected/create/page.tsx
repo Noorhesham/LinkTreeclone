@@ -20,7 +20,6 @@ const page = async () => {
   await connect();
   const user: any = await User.findOne({ clerkUserId: userId }).populate({ path: "links", model: Link }).lean();
   if (!user) return <h1>User not found</h1>;
-  console.log(user.font);
   return (
     <FontProvider defaultFont={user.font}>
       <MaxWidthWrapper>
