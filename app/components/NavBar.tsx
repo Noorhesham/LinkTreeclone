@@ -23,14 +23,13 @@ export default function NavBar() {
         <MaxWidthWrapper>
           <div className="border-b border-foreground">
             <div className="flex h-16 items-center">
-              {/* mobile nav */}
-              <div className="ml-4 flex">
+              <div className="ml-4 hidden lg:flex">
                 <Link href={"/"}>
                   <h1 className="sm:text-base md:text-lg lg:text-2xl font-bold">{t("navbar.title")}</h1>
                 </Link>
               </div>
               <div className="hidden flex-grow lg:block z-50">
-                <div className="flex items-center justify-center gap-4 h-full">
+                <div className="hidden lg:flex items-center justify-center gap-4 h-full">
                   {PRODUCT_CATEGORIES.map((category, i) => (
                     <Button key={i} variant={"ghost"} className="gap-1.5">
                       <Link href={category.url}>{t(`navbar.${category.text.toLowerCase()}`)}</Link>
