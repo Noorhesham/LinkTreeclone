@@ -20,7 +20,10 @@
   },
   "inputUserName": {
     "addBioPlaceholder": "أضف سيرتك الذاتية هنا",
-    "addBioButton": "أضف السيرة الذاتية"
+    "addBioButton": "أضف السيرة الذاتية",
+    "addUserNamePlaceholder":"اضف اسم المستخدم هنا",
+    "addUserNameButton":"اضف اسم المستخدم",
+    "viewProfileButton": "عرض الصفحة الشحصية العامة"
   },
   "createForm": {
     "addLinkButton": "أضف رابطًا"
@@ -54,5 +57,5 @@
     "shareDesc":"اي احد  يستطيع مشاركة الرابط",
     "copy":"نسخ",
     "close":"اغلاق"
-  }
+  },"profileLink":"رابط الملف الشخصي"
 }

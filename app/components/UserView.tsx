@@ -10,7 +10,7 @@ import { Share } from "./Share";
 import { useTranslations } from "next-intl";
 
 const UserView = ({ user }: { user: any }) => {
-  const t = useTranslations('UserView');
+  const t = useTranslations("UserView");
   const [copied, setCopied] = React.useState(false);
   const path = usePathname();
 
@@ -18,10 +18,10 @@ const UserView = ({ user }: { user: any }) => {
     const fullUrl = window.location.origin + path;
     try {
       navigator.clipboard.writeText(fullUrl);
-      toast.success(t('linkCopied'));
+      toast.success(t("linkCopied"));
       setCopied(true);
     } catch (error) {
-      toast.error(t('copyLinkFailed'));
+      toast.error(t("copyLinkFailed"));
     }
   };
 
@@ -44,19 +44,20 @@ const UserView = ({ user }: { user: any }) => {
         <div className="flex z-5 py-3 px-5 md:py-5 md:px-10 w-full rounded-3xl text-gray-800 items-center text-lg flex-col gap-2">
           <div className="flex flex-col items-center">
             <h1 className="font-bold text-gray-50 flex items-center gap-2">
-              {user.firstName} {user.lastName} <FcApproval />
+              {user.firstName} {user.lastName}{" "}
+              <span className="text-gray-400 text-xs font-medium">{`(${user.userName || ""})`}</span> <FcApproval />
             </h1>
             {<h4 className="text-center text-gray-50">{user.bio}</h4>}
           </div>
         </div>
         <div className="flex items-center gap-5">
           <Link
-            className="underline my-2 flex items-center gap-2 hover:text-violet-500 duration-200"
-            href={`/profile/${user._id}`}
+            className={`card-${user.theme} p-2 rounded-lg underline my-2 flex items-center gap-2 hover:text-violet-500 duration-200`}
+            href={`/profile/${user.userName}`}
           >
-            {t('profileLink')}
+            {t("profileLink")}
           </Link>
-          <Share onClick={handleCopyLink} link={`${window.location.origin}/profile/${user._id}`} />
+          <Share theme={user.theme} onClick={handleCopyLink} link={`${window.location.origin}/profile/${user._id}`} />
         </div>
       </div>
     </div>

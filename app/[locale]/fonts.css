@@ -132,3 +132,38 @@
 .aref-ruqaa {
   font-family: 'Aref Ruqaa', serif;
 }
+.card-light {
+  background: #ffffff;
+  color: #000000;
+}
+.theme-light {
+  background: linear-gradient(135deg, #f6a38e, #37caff);
+  color: #000000;
+}
+.card-yellow {
+  background: #ffffff;
+  color: #000000;
+}
+.theme-yellow {
+  background: linear-gradient(135deg, #f68ed5, #e4d784);
+  color: #000000;
+}
+
+.card-babyBlue {
+  background: #ffffff;
+  color: #000000;
+}
+.theme-babyBlue {
+  background: linear-gradient(135deg, #8ec2f6, #e788d1);
+  color: #000000;
+}
+
+.theme-dark {
+  background: #ffffff;
+  color: #333333;
+}
+
+.theme-gradient {
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  color: #ffffff;
+}

@@ -67,12 +67,18 @@ export async function deleteLink(id?: string) {
   }
 }
 
-export async function updateBio(data: { bio: string; _id: string }, id?: string) {
+export async function updateUserDetails(data: { bio?: string; userName?: string }, id?: string) {
   try {
-    const user = await User.findByIdAndUpdate(id, { bio: data.bio }).lean();
-    if (!user) return { error: "User not updated !" };
-    return { success: "User updated successfully !", status: 200, data: { user } };
-  } catch (error) {}
+    const updateData: any = {};
+    if (data.bio !== undefined) updateData.bio = data.bio;
+    if (data.userName !== undefined) updateData.userName = data.userName;
+
+    const user = await User.findByIdAndUpdate(id, updateData).lean();
+    if (!user) return { error: "User not updated!" };
+    return { success: "User updated successfully!", status: 200, data: { user } };
+  } catch (error) {
+    return { error: "An error occurred while updating the user." };
+  }
 }
 export async function updateFont(font: string) {
   try {
@@ -81,4 +87,14 @@ export async function updateFont(font: string) {
     if (!user) return { error: "User not updated !" };
     return { success: "User updated successfully !", status: 200, data: { user } };
   } catch (error) {}
+}
+export async function updateTheme(theme: string) {
+  try {
+    const { userId } = await auth();
+    const user = await User.findOneAndUpdate({ clerkUserId: userId }, { theme: theme }).lean();
+    if (!user) return { error: "User not updated !" };
+    return { success: "User updated successfully !", status: 200, data: { user } };
+  } catch (error) {
+    console.log(error);
+  }
 }

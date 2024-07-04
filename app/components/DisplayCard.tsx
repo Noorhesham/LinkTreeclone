@@ -7,7 +7,7 @@ import { TiTick } from "react-icons/ti";
 import { CiLink } from "react-icons/ci";
 import Link from "next/link";
 
-const DisplayCard = ({ link }: { link: { link: string; provider: string; _id: string } }) => {
+const DisplayCard = ({ link, theme }: { link: { link: string; provider: string; _id: string }; theme?: string }) => {
   const [copied, setCopied] = React.useState(false);
   const handleCopyLink = () => {
     try {
@@ -28,7 +28,11 @@ const DisplayCard = ({ link }: { link: { link: string; provider: string; _id: st
   };
 
   return (
-    <div className=" border border-background hover:bg-opacity-85 duration-200 bg-[#1f1f23] flex items-center w-[90%] gap-5 rounded-3xl py-2 md:py-3 px-4 md:px-6">
+    <div
+      className={`" border border-background hover:bg-opacity-85 duration-200 ${
+        theme ? `card-${theme}` : "bg-[#1f1f23]"
+      } flex items-center w-[90%] gap-5 rounded-3xl py-2 md:py-3 px-4 md:px-6`}
+    >
       <div className=" aspect-square w-10 h-10 md:w-24 md:h-24 rounded-full relative">
         <Image className=" object-cover" src={`/${link.provider}.png`} fill alt={link.provider} />
       </div>

@@ -10,11 +10,12 @@ import InputUserName from "./InputUserName";
 import { useAuth } from "@clerk/nextjs";
 import Button from "./Button";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
-const Hero = () => {
+const Hero = ({ user }: { user?: any }) => {
   const { isLoaded, sessionId, userId } = useAuth();
   const t = useTranslations();
-
+  console.log(isLoaded, sessionId, userId);
   return (
     <section className="flex min-h-screen flex-col pt-28 md:pt-14 lg:max-h-screen lg:pt-24 overflow-hidden lg:flex-row relative items-center lg:gap-20 justify-center px-10 lg:px-20">
       <span className="w-32 h-12 scale-125 -rotate-45 absolute top-36 -left-12 bg-violet-700/50 rounded-full"></span>
@@ -30,8 +31,22 @@ const Hero = () => {
         />
         <div className="flex items-center mt-5 lg:items-start gap-5">
           <div className="flex flex-col  gap-3 mx-auto md:mx-0 md:mt-0 md:flex-row items-center">
-            <Button text={t("hero.getStarted")} />
-            <Button text={t("hero.logIn")} />
+            {!userId ? (
+              <>
+                {" "}
+                <Button text={t("hero.getStarted")} />
+                <Button text={t("hero.logIn")} />
+              </>
+            ) : (
+              <div>
+                <InputUserName
+                  fieldType="userName"
+                  value={user?.userName || ""}
+                  id={user?._id}
+                  disablee={user.userName!!}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

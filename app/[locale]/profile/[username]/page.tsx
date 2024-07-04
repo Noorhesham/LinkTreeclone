@@ -6,15 +6,17 @@ import connect from "@/app/lib/db";
 import Link from "@/app/lib/models/linkModel";
 import User from "@/app/lib/models/userModel";
 import React from "react";
+import "@/app/[locale]/fonts.css";
 
-const page = async ({ params }: { params: { id: string } }) => {
-  const user :any = await User.findById(params.id).populate({ path: "links", model: Link }).lean();;
+const page = async ({ params }: { params: { username: string } }) => {
+  await connect();
+  const user: any = await User.findOne({ userName: params.username }).populate({ path: "links", model: Link }).lean();
   return (
     <MaxWidthWrapper>
-      <section className="w-full min-h-screen pt-20">
-        <div className="flex flex-col gap-5 mt-10">
-          <UserView user={user} />
-          <DisplyLinks links={user.links} />
+      <section className={`w-full min-h-screen ${user.font} pt-20 theme-${user.theme}`}>
+        <div className="flex flex-col gap-5 ">
+          <UserView  user={user} />
+          <DisplyLinks theme={user.theme} links={user.links} />
         </div>
       </section>
     </MaxWidthWrapper>

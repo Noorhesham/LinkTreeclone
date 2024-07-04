@@ -26,9 +26,11 @@ const UserCard = ({ user }: { user: any }) => {
             {<h4 className=" text-gray-50">{user.email}</h4>}
           </div>
         </div>
-        <Link className=" underline my-2 hover:text-violet-500 duration-200" href={`/profile/${user._id}`}>
-          Show Public Profile
-        </Link>
+        {user.userName && (
+          <Link className=" underline my-2 hover:text-violet-500 duration-200" href={`/profile/${user.userName}`}>
+            Show Public Profile
+          </Link>
+        )}
       </div>
     </div>
   );

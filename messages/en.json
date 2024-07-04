@@ -20,7 +20,10 @@
   },
   "inputUserName": {
     "addBioPlaceholder": "Add Your Bio Here",
-    "addBioButton": "Add Bio"
+    "addBioButton": "Add Bio",
+    "addUserNamePlaceholder": "Add Your Username Here",
+    "addUserNameButton": "Add Username",
+    "viewProfileButton": "View Profile"
   },
   "createForm": {
     "addLinkButton": "Add Link"
@@ -32,8 +35,8 @@
     "invalidURL": "Invalid URL",
     "required": "Required",
     "linkForProvider": "Link for {{provider}}"
-  }
-  ,  "languageSwitcher": {
+  },
+  "languageSwitcher": {
     "selectLanguage": "Select a language",
     "english": "English",
     "arabic": "العربية"
@@ -45,14 +48,14 @@
     "fileUploadFailed": "File upload failed",
     "unexpectedError": "An unexpected error occurred"
   },
-  "UserView":{
-
+  "UserView": {
     "profileLink": "Public Profile Link",
     "linkCopied": "Link copied to clipboard!",
     "copyLinkFailed": "Failed to copy the link",
-    "share":"share",
-    "shareDesc":"Anyone who has this link will be able to view this.",
-    "copy":"copy",
-    "close":"Close"
-  }
+    "share": "share",
+    "shareDesc": "Anyone who has this link will be able to view this.",
+    "copy": "copy",
+    "close": "Close"
+  },
+  "profileLink": "Public Profile Link"
 }

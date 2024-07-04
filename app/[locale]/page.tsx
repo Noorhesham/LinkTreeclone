@@ -1,10 +1,19 @@
 import Image from "next/image";
 import Hero from "../components/Hero";
+import { auth } from "@clerk/nextjs/server";
+import User from "../lib/models/userModel";
+import connect from "../lib/db";
 
-export default function Home() {
+export default async function Home() {
+  const { userId } = auth();
+  let user = null;
+  if (userId) {
+    await connect();
+    user = await User.findOne({ clerkUserId: userId }).lean();
+  }
   return (
     <div>
-      <Hero />
+      <Hero user={user} />
     </div>
   );
 }

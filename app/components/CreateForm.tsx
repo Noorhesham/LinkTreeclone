@@ -7,7 +7,6 @@ import { deleteLink, updateOrderLinks } from "../linkActions/actions";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { Reorder } from "framer-motion";
-import { socialMediaPlatforms } from "../constants";
 import { useTranslations } from "next-intl";
 
 const CreateForm = ({
@@ -21,7 +20,6 @@ const CreateForm = ({
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const t = useTranslations();
-
   const handleDeleteLink = (id: string) => {
     setLinkList((prev) => prev.filter((link) => link._id !== id));
     startTransition(async () => {
@@ -52,7 +50,7 @@ const CreateForm = ({
   };
   console.log(linkList);
   return (
-    <div className="max-w-5xl w-full flex flex-col lg:min-w-[550px] rounded-2xl mx-auto px-4 md:px-8 py-2 md:py-4">
+    <div className={` max-w-5xl w-full flex flex-col lg:min-w-[550px] rounded-2xl mx-auto px-4 md:px-8 py-2 md:py-4`}>
       <div className="flex items-center gap-3 flex-col">
         <Reorder.Group axis="y" className="flex flex-col w-full md:w-[80%] gap-4" values={linkList} onReorder={handleReorder}>
           {linkList?.map((link, index) => (

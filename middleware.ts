@@ -6,21 +6,20 @@ const intlMiddleware = createMiddleware({
   localePrefix: "always",
   defaultLocale: "en",
 });
-
 const isPublicRoute = createRouteMatcher([
   "/",
   "/ar",
   "/en",
   "/sign-in",
   "/en/sign-in",
+  "/en/sign-in(.*)",
   "/ar/sign-in",
   "/sign-up",
-  "/en/sign-up",
+  "/en/sign-up(.*)",
   "/ar/sign-up",
   "/webhook",
   "/api/webhooks/clerk",
 ]);
-
 export default clerkMiddleware((auth, req) => {
   if (!isPublicRoute(req)) {
     auth().protect();

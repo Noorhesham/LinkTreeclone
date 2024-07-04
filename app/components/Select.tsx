@@ -2,6 +2,7 @@ import * as React from "react";
 import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem } from "@/components/ui/select";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { socialMediaPlatforms } from "../constants";
+import { useThemes } from "../context/ThemeProvider";
 
 export function SelectDemo({
   control,
@@ -16,14 +17,14 @@ export function SelectDemo({
   setImage: any;
   defaultProvider: string;
 }) {
-  console.log(defaultProvider);
+  const {theme}=useThemes()
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
-          <Select
+        <FormItem className={`card-${theme}`}>
+          <Select 
             onValueChange={(val) => {
               setImage(val);
               field.onChange(val);
@@ -31,14 +32,14 @@ export function SelectDemo({
             defaultValue={defaultProvider || value || field.value}
           >
             <FormControl>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a platform" />
+              <SelectTrigger className={`card-${theme}`}>
+                <SelectValue className={`card-${theme}`} placeholder="Select a platform" />
               </SelectTrigger>
             </FormControl>
-            <SelectContent>
+            <SelectContent className={`card-${theme}`}>
               {socialMediaPlatforms
                 .map((platform) => (
-                  <SelectItem key={platform} value={platform}>
+                  <SelectItem className={`card-${theme}`} key={platform} value={platform}>
                     {platform}
                   </SelectItem>
                 ))}
