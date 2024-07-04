@@ -271,7 +271,7 @@
 }
 
 .theme-image1 {
-  background: url('/path/to/image1.jpg') no-repeat center center;
+  background: url('/bg2.png') no-repeat center center;
   background-size: cover;
   color: #ffffff;
 }
@@ -281,11 +281,100 @@
 }
 
 .theme-image2 {
-  background: url('/path/to/image2.jpg') no-repeat center center;
+  background: url('/confetti.jpg') no-repeat center center;
   background-size: cover;
-  color: #ffffff;
+  color: black;
 }
 .card-image2 {
   background: rgba(255, 255, 255, 0.8);
   color: #000000;
+}
+.theme-cartoon {
+  background: linear-gradient(135deg, #ffcc00, #ff6666);
+  color: #000;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.card-cartoon {
+  background: #fff;
+  color: #000;
+  border: 2px dashed #000;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.card-cartoon:hover {
+  background: #ff6666;
+  color: #fff;
+  border-color: #ffcc00;
+}
+
+.theme-cartoon2 {
+  background: linear-gradient(135deg, #ffcc00, #ff6666);
+  color: #000;
+}
+
+.card-cartoon2 {
+  background: #fff;
+  color: #000;
+  border: 2px dashed #000;
+}
+
+.card-cartoon2:hover {
+  background: #ffcc66;
+  color: #fff;
+  border-color: #cc6600;
+}
+
+.theme-cartoon3 {
+  background: linear-gradient(135deg, #66ccff, #ffcc66);
+  color: #000;
+}
+
+.card-cartoon3 {
+  background: #fff;
+  color: #000;
+  border: 2px dashed #000;
+}
+
+.card-cartoon3:hover {
+  background: #66ccff;
+  color: #fff;
+  border-color: #3399ff;
+}
+
+.theme-cartoon4 {
+  background: linear-gradient(135deg, #ccff66, #66ffcc);
+  color: #000;
+}
+
+.card-cartoon4 {
+  background: #fff;
+  color: #000;
+  border: 2px dashed #000;
+}
+
+.card-cartoon4:hover {
+  background: #66ffcc;
+  color: #fff;
+  border-color: #33cc99;
+}
+
+.theme-cartoon5 {
+  background: linear-gradient(135deg, #ff99cc, #cc99ff);
+  color: #000;
+}
+
+.card-cartoon5 {
+  background: #fff;
+  color: #000;
+  border: 2px dashed #000;
+}
+
+.card-cartoon5:hover {
+  background: #cc99ff;
+  color: #fff;
+  border-color: #9933ff;
 }

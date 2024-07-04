@@ -29,7 +29,7 @@ const DisplayCard = ({ link, theme }: { link: { link: string; provider: string; 
 
   return (
     <div
-      className={`" border border-background hover:bg-opacity-85 duration-200 ${
+      className={`  border border-background hover:bg-opacity-85 duration-200 ${
         theme ? `card-${theme}` : "bg-[#1f1f23]"
       } flex items-center w-[90%] gap-5 rounded-3xl py-2 md:py-3 px-4 md:px-6`}
     >

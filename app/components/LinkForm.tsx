@@ -55,7 +55,7 @@ const LinkForm = ({ userId, linkData, handleDeleteLink }: { userId: string; link
 
   return (
     <Reorder.Item
-      className={`w-full  `}
+      className={`w-full   `}
       style={{ boxShadow, y }}
       dragListener={false}
       dragControls={dragControls}
@@ -67,7 +67,7 @@ const LinkForm = ({ userId, linkData, handleDeleteLink }: { userId: string; link
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
           onSubmit={form.handleSubmit(onSubmit)}
-          className={`flex ${
+          className={`flex duration-200 ${
             theme ? `card-${theme}` : "bg-[#1f1f23]"
           }  select-none rounded-2xl w-full flex-col gap-2 lg:gap-3 px-3 py-2 md:px-5 md:py-2`}
         >

@@ -25,11 +25,14 @@ const themes = [
   { name: "Air White", className: "airwhite" },
   { name: "Air Moon", className: "airmoon" },
   { name: "Air Snow", className: "airsnow" },
-  { name: "Image 1", className: "image1" },
-  { name: "Image 2", className: "image2" },
-  // Add more themes here
+  { name: "Space", className: "image1" },
+  { name: "confetti", className: "image2" },
+  { name: "Cartoon 1", className: "cartoon" },
+  { name: "Cartoon 2", className: "cartoon2" },
+  { name: "Cartoon 3", className: "cartoon3" },
+  { name: "Cartoon 4", className: "cartoon4" },
+  { name: "Cartoon 5", className: "cartoon5" },
 ];
-
 const ThemeSelector = () => {
   const { theme, setTheme } = useThemes();
   const [isPending, startTransition] = useTransition();
