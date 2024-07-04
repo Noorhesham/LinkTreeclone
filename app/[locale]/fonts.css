@@ -138,7 +138,7 @@
 }
 .theme-light {
   background: linear-gradient(135deg, #f6a38e, #37caff);
-  color: #000000;
+  color: #ffffff;
 }
 .card-yellow {
   background: #ffffff;
@@ -146,24 +146,146 @@
 }
 .theme-yellow {
   background: linear-gradient(135deg, #f68ed5, #e4d784);
-  color: #000000;
+  color: #ffffff;
 }
 
 .card-babyBlue {
   background: #ffffff;
   color: #000000;
 }
-.theme-babyBlue {
-  background: linear-gradient(135deg, #8ec2f6, #e788d1);
+.theme-clouds {
+  background: linear-gradient(135deg, #dfe9f3, #ffffff);
+  color: #333;
+}
+.card-clouds {
+  background: #ffffff;
   color: #000000;
 }
 
-.theme-dark {
+.theme-pebble {
+  background: linear-gradient(135deg, #e6e6e6, #d1d1d1);
+  color: #333;
+}
+.card-pebble {
   background: #ffffff;
-  color: #333333;
+  color: #000000;
 }
 
-.theme-gradient {
-  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+.theme-breeze {
+  background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+  color: #333;
+}
+.card-breeze {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-3dblocks {
+  background: linear-gradient(135deg, #fdcbf1, #e6dee9);
+  color: #333;
+}
+.card-3dblocks {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-starrynight {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   color: #ffffff;
+}
+.card-starrynight {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-lakeblack {
+  background: linear-gradient(135deg, #141e30, #243b55);
+  color: #ffffff;
+}
+.card-lakeblack {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-lakewhite {
+  background: linear-gradient(135deg, #e0eafc, #cfdef3);
+  color: #333;
+}
+.card-lakewhite {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-hydrangea {
+  background: linear-gradient(135deg, #b3ffab, #12fff7);
+  color: #333;
+}
+.card-hydrangea {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-poppy {
+  background: linear-gradient(135deg, #ff6f61, #d5bb8e);
+  color: #ffffff;
+}
+.card-poppy {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-iris {
+  background: linear-gradient(135deg, #c2e59c, #64b3f4);
+  color: #333;
+}
+.card-iris {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-airwhite {
+  background: linear-gradient(135deg, #ffffff, #f8f8f8);
+  color: #333;
+}
+.card-airwhite {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-airmoon {
+  background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+  color: #333;
+}
+.card-airmoon {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-airsnow {
+  background: linear-gradient(135deg, #e0eafc, #cfdef3);
+  color: #333;
+}
+.card-airsnow {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-image1 {
+  background: url('/path/to/image1.jpg') no-repeat center center;
+  background-size: cover;
+  color: #ffffff;
+}
+.card-image1 {
+  background: rgba(255, 255, 255, 0.8);
+  color: #000000;
+}
+
+.theme-image2 {
+  background: url('/path/to/image2.jpg') no-repeat center center;
+  background-size: cover;
+  color: #ffffff;
+}
+.card-image2 {
+  background: rgba(255, 255, 255, 0.8);
+  color: #000000;
 }

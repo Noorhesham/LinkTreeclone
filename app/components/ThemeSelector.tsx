@@ -5,11 +5,28 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useThemes } from "../context/ThemeProvider";
 import { updateTheme } from "../linkActions/actions";
+
 const themes = [
   { name: "Default", className: "" },
-  { name: "Dark", className: "dark" },
+  { name: "Yellow", className: "yellow" },
   { name: "Gradient", className: "gradient" },
   { name: "Light", className: "light" },
+  { name: "Baby Blue", className: "babyBlue" },
+  { name: "Clouds", className: "clouds" },
+  { name: "Pebble", className: "pebble" },
+  { name: "Breeze", className: "breeze" },
+  { name: "3D Blocks", className: "3dblocks" },
+  { name: "Starry Night", className: "starrynight" },
+  { name: "Lake Black", className: "lakeblack" },
+  { name: "Lake White", className: "lakewhite" },
+  { name: "Hydrangea", className: "hydrangea" },
+  { name: "Poppy", className: "poppy" },
+  { name: "Iris", className: "iris" },
+  { name: "Air White", className: "airwhite" },
+  { name: "Air Moon", className: "airmoon" },
+  { name: "Air Snow", className: "airsnow" },
+  { name: "Image 1", className: "image1" },
+  { name: "Image 2", className: "image2" },
   // Add more themes here
 ];
 
