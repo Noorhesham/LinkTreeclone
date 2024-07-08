@@ -14,7 +14,7 @@ const PRODUCT_CATEGORIES: { text: string; url: string }[] = [
 ];
 
 export default function NavBar() {
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, userId } = useAuth();
   const t = useTranslations();
 
   return (
@@ -41,7 +41,8 @@ export default function NavBar() {
                 <LanguageSwitcher />
                 {isSignedIn && (
                   <>
-                    <UserButton afterSignOutUrl="/"
+                    <UserButton
+                      afterSignOutUrl="/"
                       appearance={{
                         elements: {
                           avatarBox: "w-[3.2rem]  mr-4 md:mr-0 h-[3.2rem] rounded-full",
