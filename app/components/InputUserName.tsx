@@ -32,7 +32,7 @@ const InputUserName = ({ disablee, id, value, fieldType }: InputUserNameProps) =
   const [isPending, startTransition] = useTransition();
   const onSubmit = (data: any) => {
     startTransition(async () => {
-      const res: any = await updateUserDetails({ [fieldType]: data[fieldType] }, id);
+      const res: any = await updateUserDetails({ [fieldType]: data[fieldType] }, );
       if (res.success) {
         toast.success(res.success);
         router.refresh();

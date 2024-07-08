@@ -57,7 +57,7 @@ const UserView = ({ user }: { user: any }) => {
           >
             {t("profileLink")}
           </Link>
-          <Share theme={user.theme} onClick={handleCopyLink} link={`${window.location.origin}/profile/${user._id}`} />
+          <Share theme={user.theme} onClick={handleCopyLink} link={`${window?.location.origin}/profile/${user._id}`} />
         </div>
       </div>
     </div>

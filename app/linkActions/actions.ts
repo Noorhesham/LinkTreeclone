@@ -67,13 +67,15 @@ export async function deleteLink(id?: string) {
   }
 }
 
-export async function updateUserDetails(data: { bio?: string; userName?: string }, id?: string) {
+export async function updateUserDetails(data: { bio?: string; userName?: string }, ) {
   try {
+    const { userId } = await auth();
     const updateData: any = {};
     if (data.bio !== undefined) updateData.bio = data.bio;
     if (data.userName !== undefined) updateData.userName = data.userName;
-
-    const user = await User.findByIdAndUpdate(id, updateData).lean();
+    console.log(updateData);
+    const user = await User.findOneAndUpdate({clerkUserId:userId}, updateData).lean();
+    console.log(user);
     if (!user) return { error: "User not updated!" };
     return { success: "User updated successfully!", status: 200, data: { user } };
   } catch (error) {
