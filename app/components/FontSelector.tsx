@@ -61,7 +61,7 @@ const FontSelector = () => {
   };
 
   return (
-    <div className="grid lg:grid-cols-4 gap-2">
+    <div className="grid grid-cols-2 max-h-[60vh] overflow-y-scroll lg:grid-cols-4 gap-2">
       {fonts.map((fontItem, index) => (
         <div
           key={index}

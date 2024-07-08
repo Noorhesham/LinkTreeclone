@@ -67,14 +67,14 @@ export async function deleteLink(id?: string) {
   }
 }
 
-export async function updateUserDetails(data: { bio?: string; userName?: string }, ) {
+export async function updateUserDetails(data: { bio?: string; userName?: string }) {
   try {
     const { userId } = await auth();
     const updateData: any = {};
     if (data.bio !== undefined) updateData.bio = data.bio;
     if (data.userName !== undefined) updateData.userName = data.userName;
     console.log(updateData);
-    const user = await User.findOneAndUpdate({clerkUserId:userId}, updateData).lean();
+    const user = await User.findOneAndUpdate({ clerkUserId: userId }, updateData).lean();
     console.log(user);
     if (!user) return { error: "User not updated!" };
     return { success: "User updated successfully!", status: 200, data: { user } };
@@ -99,4 +99,10 @@ export async function updateTheme(theme: string) {
   } catch (error) {
     console.log(error);
   }
+}
+export async function deleteUser() {
+  const { userId } = await auth();
+  const user = await User.findByIdAndDelete(userId);
+  if (!user) return { error: "User not deleted !" };
+  return { success: "User deleted successfully !", status: 200 };
 }

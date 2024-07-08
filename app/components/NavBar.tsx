@@ -41,7 +41,7 @@ export default function NavBar() {
                 <LanguageSwitcher />
                 {isSignedIn && (
                   <>
-                    <UserButton
+                    <UserButton afterSignOutUrl="/"
                       appearance={{
                         elements: {
                           avatarBox: "w-[3.2rem]  mr-4 md:mr-0 h-[3.2rem] rounded-full",
