@@ -5,7 +5,7 @@ import MaxWidthWrapper from "@/app/components/MaxWidthWrapper";
 const page = () => {
   return (
     <MaxWidthWrapper>
-      <div className="flex justify-center items-center py-6 px-12 bg-background  text-xl mt-10 h-full w-full lg:min-h-[60vh]">
+      <div className="flex justify-center items-center py-24 lg:py-6 px-12 bg-background  text-xl mt-10 h-full w-full lg:min-h-[60vh]">
         <NFCWriter />
       </div>
     </MaxWidthWrapper>

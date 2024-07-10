@@ -7,6 +7,7 @@ const NFCWriter: React.FC = () => {
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
   const [scannedData, setScannedData] = useState("");
+  const [scanningStatus, setScanningStatus] = useState("");
 
   const generateProfileUrl = (username: string) => {
     return `https://yourdomain.com/${username}`;
@@ -23,7 +24,7 @@ const NFCWriter: React.FC = () => {
       }
     } catch (error) {
       console.error("Error writing to NFC card", error);
-      setMessage("Failed to write to NFC card.");
+      setMessage(`Failed to write to NFC card. Error: ${error.message}`);
     }
   };
 
@@ -33,10 +34,12 @@ const NFCWriter: React.FC = () => {
         const ndef = new (window as any).NDEFReader();
         await ndef.scan();
         ndef.onreading = (event: any) => {
+          setScanningStatus("NFC tag detected");
           const decoder = new TextDecoder();
           for (const record of event.message.records) {
             setScannedData(decoder.decode(record.data));
           }
+          setScanningStatus(`NFC tag scanned: ${event.serialNumber}`);
         };
         setMessage("Scanning for NFC tags...");
       } else {
@@ -44,7 +47,7 @@ const NFCWriter: React.FC = () => {
       }
     } catch (error) {
       console.error("Error scanning NFC card", error);
-      setMessage("Failed to scan NFC card.");
+      setMessage(`Failed to scan NFC card. Error: ${error.message}`);
     }
   };
 
@@ -54,18 +57,18 @@ const NFCWriter: React.FC = () => {
   };
 
   return (
-    <div className=" flex-col gap-2 h-full w-[60%]">
+    <div className="flex flex-col gap-2 h-full w-full lg:w-[60%]">
       <h2>NFC Writer and Scanner</h2>
-      <div className="flex items-center gap-5">
+      <div className="flex flex-col lg:flex-row items-center gap-5">
         <Input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter username" />
         <Button text="Write to NFC" onClick={handleWrite} />
         <Button text="Scan NFC" onClick={scanNFC} />
       </div>
       {message && <p>{message}</p>}
+      {scanningStatus && <p>{scanningStatus}</p>}
       {scannedData && <p>Scanned Data: {scannedData}</p>}
     </div>
   );
 };
 
 export default NFCWriter;
-``
