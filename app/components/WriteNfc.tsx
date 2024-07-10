@@ -13,10 +13,9 @@ const NFCWriter: React.FC = () => {
     return `https://yourdomain.com/${username}`;
   };
 
-  const writeToNFC = async (ndef:any,url: string) => {
+  const writeToNFC = async (ndef: any, url: string) => {
     try {
       if ("NDEFWriter" in window) {
-        
         await ndef.write({ records: [{ recordType: "url", data: url }] });
         setMessage("Successfully written to NFC card!");
       } else {
@@ -45,7 +44,18 @@ const NFCWriter: React.FC = () => {
 
           // Write to the scanned NFC tag
           const url = generateProfileUrl(username);
-          await writeToNFC(ndef,url);
+          ndef
+            .write({
+              records: [{ recordType: "url", data: url }],
+            })
+            .then((d: any) => {
+              console.log("Message written.");
+              setMessage(d);
+            })
+            .catch((error: any) => {
+              console.log(`Write failed :-( try again: ${error}.`);
+              setMessage(error);
+            });
         };
         setMessage("Scanning for NFC tags...");
       } else {
@@ -61,7 +71,12 @@ const NFCWriter: React.FC = () => {
     <div className="flex flex-col gap-2 h-full w-full lg:w-[60%]">
       <h2>NFC Writer and Scanner</h2>
       <div className="flex flex-col lg:flex-row items-center gap-5">
-        <Input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter username" />
+        <Input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Enter username"
+        />
         <Button text="Scan and Write to NFC" onClick={scanAndWriteToNFC} />
       </div>
       {message && <p>{message}</p>}
