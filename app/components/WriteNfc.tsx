@@ -39,11 +39,11 @@ const NFCWriter: React.FC = ({ username }: { username?: string }) => {
   };
 
   return (
-    <div className="flex flex-col gap-2 h-full w-full lg:w-[60%]">
-      <h2>NFC Writer and Scanner</h2>
+    <div className="flex flex-col gap-2 h-full ml-5 mt-3 w-full lg:w-[60%]">
       <div className="flex flex-col lg:flex-row items-center gap-5">
         <Button text="Scan and Write to NFC" onClick={scanAndWriteToNFC} />
       </div>
+      <h2 className=" text-xs">NFC Writer and Scanner {'(only enabled when running on a mobile device)'}</h2>
       {message && <p>{message}</p>}
       {scanningStatus && <p>{scanningStatus}</p>}
       {scannedData && <p>Scanned Data: {scannedData}</p>}

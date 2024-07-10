@@ -38,7 +38,7 @@ const Hero = ({ user }: { user?: any }) => {
                 <Button text={t("hero.logIn")} />
               </>
             ) : (
-              <div>
+              <div className="flex flex-col items-start">
                 <InputUserName
                   fieldType="userName"
                   value={user?.userName || ""}
