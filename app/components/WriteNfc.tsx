@@ -10,29 +10,15 @@ const NFCWriter: React.FC = () => {
   const [scanningStatus, setScanningStatus] = useState("");
 
   const generateProfileUrl = (username: string) => {
-    return `https://yourdomain.com/${username}`;
-  };
-
-  const writeToNFC = async (ndef: any, url: string) => {
-    try {
-      if ("NDEFWriter" in window) {
-        await ndef.write({ records: [{ recordType: "url", data: url }] });
-        setMessage("Successfully written to NFC card!");
-      } else {
-        setMessage("Web NFC is not supported on this device.");
-      }
-    } catch (error: any) {
-      console.error("Error writing to NFC card", error);
-      setMessage(`Failed to write to NFC card. Error: ${error.message}`);
-    }
+    return `https://link-treeclone-olive.vercel.app/${username}`;
   };
 
   const scanAndWriteToNFC = async () => {
     try {
       if ("NDEFReader" in window) {
-        const ndef = new (window as any).NDEFReader();
-        await ndef.scan();
-        ndef.onreading = async (event: any) => {
+        const ndefReader = new (window as any).NDEFReader();
+        await ndefReader.scan();
+        ndefReader.onreading = async (event: any) => {
           setScanningStatus("NFC tag detected");
           const decoder = new TextDecoder();
           let scannedContent = "";
@@ -42,20 +28,17 @@ const NFCWriter: React.FC = () => {
           setScannedData(scannedContent);
           setScanningStatus(`NFC tag scanned: ${event.serialNumber}`);
 
-          // Write to the scanned NFC tag
-          const url = generateProfileUrl(username);
-          ndef
-            .write({
+          // Now write to the scanned NFC tag
+          if ("NDEFWriter" in window) {
+            const ndefWriter = new (window as any).NDEFWriter();
+            const url = generateProfileUrl(username);
+            await ndefWriter.write({
               records: [{ recordType: "url", data: url }],
-            })
-            .then((d: any) => {
-              console.log("Message written.");
-              setMessage(d);
-            })
-            .catch((error: any) => {
-              console.log(`Write failed :-( try again: ${error}.`);
-              setMessage(error);
             });
+            setMessage("Successfully written to NFC card!");
+          } else {
+            setMessage("Web NFC is not supported on this device.");
+          }
         };
         setMessage("Scanning for NFC tags...");
       } else {
