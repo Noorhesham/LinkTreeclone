@@ -3,13 +3,13 @@ import React, { useState } from "react";
 import Button from "./Button";
 import { Input } from "@/components/ui/input";
 
-const NFCWriter: React.FC = () => {
-  const [username, setUsername] = useState("");
+const NFCWriter: React.FC = ({ username }: { username?: string }) => {
   const [message, setMessage] = useState("");
   const [scannedData, setScannedData] = useState("");
   const [scanningStatus, setScanningStatus] = useState("");
 
   const scanAndWriteToNFC = async () => {
+    setMessage("Scanning for NFC tags...");
     try {
       if ("NDEFReader" in window) {
         const urlRecord = {
@@ -24,13 +24,14 @@ const NFCWriter: React.FC = () => {
         const message = await new Promise((resolve) => {
           ndef.onreading = (event: any) => resolve(event.message);
         });
-        setMessage(`Message: ${message}`);
+        setMessage(`Nfc written successfully ${message}`);
+        const textDecoder = new TextDecoder();
+        setMessage(`Scanned data: ${textDecoder.decode(ndef.records[0].data)}`);
         //@ts-ignore
         setScannedData(message);
         await new Promise((r) => setTimeout(r, 3000));
         abortController.abort();
       }
-      setMessage("Scanning for NFC tags...");
     } catch (error: any) {
       console.error("Error scanning NFC card", error);
       setMessage(`Failed to scan NFC card. Error: ${error.message}`);

@@ -11,6 +11,7 @@ import { useAuth } from "@clerk/nextjs";
 import Button from "./Button";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import NFCWriter from "./WriteNfc";
 
 const Hero = ({ user }: { user?: any }) => {
   const { isLoaded, sessionId, userId } = useAuth();
@@ -44,6 +45,9 @@ const Hero = ({ user }: { user?: any }) => {
                   id={user?._id}
                   disablee={user?.userName!!}
                 />
+                {user.userName && (
+                  <NFCWriter/>
+                )}
               </div>
             )}
           </div>
