@@ -7,8 +7,14 @@ const NFCWriter = ({ userName }: { userName?: string }) => {
   const [message, setMessage] = useState("");
   const [scannedData, setScannedData] = useState("");
   const [scanningStatus, setScanningStatus] = useState("");
+  const [isNFCWritten, setIsNFCWritten] = useState(false);
 
   const scanAndWriteToNFC = async () => {
+    if (isNFCWritten) {
+      setMessage("NFC card has already been written to.");
+      return;
+    }
+
     setMessage("Scanning for NFC tags...");
     try {
       if ("NDEFReader" in window) {
@@ -24,10 +30,9 @@ const NFCWriter = ({ userName }: { userName?: string }) => {
         const message = await new Promise((resolve) => {
           ndef.onreading = (event: any) => resolve(event.message);
         });
-        setMessage(`Nfc written successfully ${message}`);
-    
-        //@ts-ignore
+        setMessage(`NFC written successfully: ${message}`);
         setScannedData(message);
+        setIsNFCWritten(true);  // Lock the NFC card
         await new Promise((r) => setTimeout(r, 3000));
         abortController.abort();
       }
@@ -42,7 +47,7 @@ const NFCWriter = ({ userName }: { userName?: string }) => {
       <div className="flex flex-col lg:flex-row items-center gap-5">
         <Button text="Scan and Write to NFC" onClick={scanAndWriteToNFC} />
       </div>
-      <h2 className=" text-xs">NFC Writer and Scanner {'(only enabled when running on a mobile device)'}</h2>
+      <h2 className="text-xs">NFC Writer and Scanner (only enabled when running on a mobile device)</h2>
       {message && <p>{message}</p>}
       {scanningStatus && <p>{scanningStatus}</p>}
       {scannedData && <p>Scanned Data: {scannedData}</p>}
