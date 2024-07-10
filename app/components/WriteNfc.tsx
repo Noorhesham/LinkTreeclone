@@ -25,8 +25,7 @@ const NFCWriter: React.FC = ({ username }: { username?: string }) => {
           ndef.onreading = (event: any) => resolve(event.message);
         });
         setMessage(`Nfc written successfully ${message}`);
-        const textDecoder = new TextDecoder();
-        setMessage(`Scanned data: ${textDecoder.decode(ndef.records[0].data)}`);
+    
         //@ts-ignore
         setScannedData(message);
         await new Promise((r) => setTimeout(r, 3000));
