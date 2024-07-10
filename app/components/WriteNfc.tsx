@@ -22,7 +22,7 @@ const NFCWriter: React.FC = () => {
       } else {
         setMessage("Web NFC is not supported on this device.");
       }
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error writing to NFC card", error);
       setMessage(`Failed to write to NFC card. Error: ${error.message}`);
     }
@@ -45,7 +45,7 @@ const NFCWriter: React.FC = () => {
       } else {
         setMessage("Web NFC is not supported on this device.");
       }
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error scanning NFC card", error);
       setMessage(`Failed to scan NFC card. Error: ${error.message}`);
     }
