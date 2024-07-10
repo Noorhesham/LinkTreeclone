@@ -31,6 +31,7 @@ const NFCWriter = ({ userName }: { userName?: string }) => {
           ndef.onreading = (event: any) => resolve(event.message);
         });
         setMessage(`NFC written successfully: ${message}`);
+        //@ts-ignore
         setScannedData(message);
         setIsNFCWritten(true);  // Lock the NFC card
         await new Promise((r) => setTimeout(r, 3000));
