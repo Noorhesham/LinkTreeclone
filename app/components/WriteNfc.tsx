@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Button from "./Button";
 import { Input } from "@/components/ui/input";
 
-const NFCWriter: React.FC = ({ username }: { username?: string }) => {
+const NFCWriter: React.FC = ({ userName }: { userName?: string }) => {
   const [message, setMessage] = useState("");
   const [scannedData, setScannedData] = useState("");
   const [scanningStatus, setScanningStatus] = useState("");
@@ -14,7 +14,7 @@ const NFCWriter: React.FC = ({ username }: { username?: string }) => {
       if ("NDEFReader" in window) {
         const urlRecord = {
           recordType: "url",
-          data: `https://link-treeclone-olive.vercel.app/${username || ""}`,
+          data: `https://link-treeclone-olive.vercel.app/${userName || ""}`,
         };
 
         const ndef = new (window as any).NDEFReader();
