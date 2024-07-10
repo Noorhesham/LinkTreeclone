@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Button from "./Button";
 import { Input } from "@/components/ui/input";
 
-const NFCWriter: React.FC = ({ userName }: { userName?: string }) => {
+const NFCWriter = ({ userName }: { userName?: string }) => {
   const [message, setMessage] = useState("");
   const [scannedData, setScannedData] = useState("");
   const [scanningStatus, setScanningStatus] = useState("");

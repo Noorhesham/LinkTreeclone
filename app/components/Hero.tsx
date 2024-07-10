@@ -46,7 +46,7 @@ const Hero = ({ user }: { user?: any }) => {
                   disablee={user?.userName!!}
                 />
                 {user.userName && (
-                  <NFCWriter userName={user.userName} />
+                  <NFCWriter userName={user?.userName||""} />
                 )}
               </div>
             )}
