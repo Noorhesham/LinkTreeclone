@@ -18,6 +18,8 @@ const NFCWriter: React.FC = () => {
       if ("NDEFReader" in window) {
         const ndefReader = new (window as any).NDEFReader();
         await ndefReader.scan();
+        const url = generateProfileUrl(username);
+
         ndefReader.onreading = async (event: any) => {
           setScanningStatus("NFC tag detected");
           const decoder = new TextDecoder();
@@ -27,27 +29,18 @@ const NFCWriter: React.FC = () => {
           }
           setScannedData(scannedContent);
           setScanningStatus(`NFC tag scanned: ${event.serialNumber}`);
-
-          // Now write to the scanned NFC tag
-          if ("NDEFWriter" in window) {
-            const ndefWriter = new (window as any).NDEFWriter();
-            const url = generateProfileUrl(username);
-            await ndefWriter.write({
-              records: [{ recordType: "url", data: url }],
+          ndefReader
+            .write(url)
+            .then((e: any) => {
+              console.log("Message written.");
+              setMessage("Message written."+ e);
+            })
+            .catch((error: any) => {
+              console.log(`Write failed :-( try again: ${error}.`);
             });
-            setMessage("Successfully written to NFC card!");
-          } else {
-            setMessage("Web NFC is not supported on this device.");
-          }
         };
-        setMessage("Scanning for NFC tags...");
-      } else {
-        setMessage("Web NFC is not supported on this device.");
       }
-    } catch (error: any) {
-      console.error("Error scanning NFC card", error);
-      setMessage(`Failed to scan NFC card. Error: ${error.message}`);
-    }
+    } catch (error) {}
   };
 
   return (
