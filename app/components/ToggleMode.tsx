@@ -9,7 +9,7 @@ const ToggleMode = ({ user }: { user: any }) => {
   return (
     <Checkbox
       checked={user.active == false ? false : true}
-      onCheckedChange={async (e) => {
+      onCheckedChange={async (e:boolean) => {
         const res = await deactivateUser(user.clerkUserId, e);
         if (res.success) toast.success(res.success);
         else toast.error(res.error);
