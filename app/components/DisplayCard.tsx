@@ -6,9 +6,11 @@ import { toast } from "react-toastify";
 import { TiTick } from "react-icons/ti";
 import { CiLink } from "react-icons/ci";
 import Link from "next/link";
+import { useButtons } from "../context/ButtonProvider";
 
 const DisplayCard = ({ link, theme }: { link: { link: string; provider: string; _id: string }; theme?: string }) => {
   const [copied, setCopied] = React.useState(false);
+  const { border, color } = useButtons();
   const handleCopyLink = () => {
     try {
       navigator.clipboard.writeText(link.link);
@@ -29,6 +31,7 @@ const DisplayCard = ({ link, theme }: { link: { link: string; provider: string; 
 
   return (
     <div
+      style={{ borderRadius: border, backgroundColor: color }}
       className={`  border border-background hover:bg-opacity-85 duration-200 ${
         theme ? `card-${theme}` : "bg-[#1f1f23]"
       } flex items-center w-[90%] gap-5 rounded-3xl py-2 md:py-3 px-4 md:px-6`}

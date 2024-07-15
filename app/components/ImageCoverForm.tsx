@@ -10,24 +10,21 @@ import { addCoverImage, deleteImage, toggleImg } from "../lib/actions/actions";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import BabySpinner from "./BabySpinner";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 const ImageCoverForm = ({ user }: { user: any }) => {
-  console.log(user)
-  const t = useTranslations('ImageCoverForm');
+  console.log(user);
+  const t = useTranslations("ImageCoverForm");
   const form = useForm({ defaultValues: { cover: user.coverColor || undefined } });
   const [isImage, setIsImage] = useState(true);
-  const handleOnclick = async () => {
-    setIsImage((img) => !img);  
-    await toggleImg();
-  };
+
   const [isPending, startTransition] = useTransition();
   const onSubmit = async (data: any) => {
     startTransition(async () => {
       if (isImage) {
         const file = data.cover[0];
         if (!file) {
-          toast.error(t('noFileSelected'));
+          toast.error(t("noFileSelected"));
           return;
         }
         if (user.coverImage) {
@@ -44,7 +41,7 @@ const ImageCoverForm = ({ user }: { user: any }) => {
           });
 
           if (!res.ok) {
-            throw new Error(t('fileUploadFailed'));
+            throw new Error(t("fileUploadFailed"));
           }
 
           const { public_id, secure_url } = await res.json();
@@ -56,7 +53,7 @@ const ImageCoverForm = ({ user }: { user: any }) => {
           }
         } catch (error: any) {
           console.error(error);
-          toast.error(error.message || t('unexpectedError'));
+          toast.error(error.message || t("unexpectedError"));
         }
       } else {
         const color = data.cover;
@@ -70,7 +67,7 @@ const ImageCoverForm = ({ user }: { user: any }) => {
           }
         } catch (error: any) {
           console.error(error);
-          toast.error(error.message || t('unexpectedError'));
+          toast.error(error.message || t("unexpectedError"));
         }
       }
     });
@@ -95,15 +92,14 @@ const ImageCoverForm = ({ user }: { user: any }) => {
       <div className="flex w-52  md:w-96 flex-col items-center gap-2 absolute left-1/2 top-[35%] -translate-y-1/2 -translate-x-1/2">
         <div className="flex  w-full items-center gap-2 bg-background rounded-lg ">
           <div
-            onClick={handleOnclick}
             className={` flex-1 duration-200 flex cursor-pointer items-center  py-1.5 px-3 md:px-6 md:py-3 gap-2 ${
               isImage && " bg-slate-900 text-violet-400"
             } opacity-85`}
           >
-            <h2>{t('image')}</h2>
+            <h2>{t("image")}</h2>
             <FaImage />
           </div>
-          <div
+          {/* <div
             onClick={handleOnclick}
             className={`flex-1 duration-200 flex cursor-pointer items-center  py-1.5 px-3 md:px-6 md:py-3 gap-2 ${
               !isImage && " bg-slate-900 text-violet-400"
@@ -111,7 +107,7 @@ const ImageCoverForm = ({ user }: { user: any }) => {
           >
             <h2>{t('color')}</h2>
             <IoIosColorPalette />
-          </div>
+          </div> */}
         </div>
         <Form {...form}>
           <form className=" " onSubmit={form.handleSubmit(onSubmit)}>
@@ -123,7 +119,9 @@ const ImageCoverForm = ({ user }: { user: any }) => {
                   <FormItem className="  w-44 md:min-w-28 my-2">
                     <FormControl className="">
                       <div className=" flex gap-2 items-center">
-                        <FormLabel className=" text-gray-50 text-nowrap ">{isImage ? t('image') : t('color')}</FormLabel>
+                        <FormLabel className=" text-gray-50 text-nowrap ">
+                          {isImage ? t("image") : t("color")}
+                        </FormLabel>
                         {isImage ? (
                           <Input
                             onChange={(e) => {

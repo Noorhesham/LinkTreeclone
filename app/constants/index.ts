@@ -6,7 +6,9 @@ export const socialMediaPlatforms = [
     "Snapchat",
     "TikTok",
     "YouTube",
-    "WhatsApp",
+    "Whatsapp",
     "Pinterest",
+    "Telegram",
+    "Threads",
     "Reddit","Custom_Link"
   ];

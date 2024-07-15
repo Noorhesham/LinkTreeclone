@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { ReactElement, ReactNode } from "react";
-const CustomDialog = ({ btn, title, content }: { btn: ReactElement; title: string; content: ReactNode }) => {
+const CustomDialog = ({ btn, title, content,save=true }: { btn: ReactElement; title: string; content: ReactNode,save?:boolean }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>{btn}</DialogTrigger>
@@ -23,7 +23,7 @@ const CustomDialog = ({ btn, title, content }: { btn: ReactElement; title: strin
         <div className="grid gap-4 py-4">{content}</div>
      <DialogClose>
      <DialogFooter >
-          <Button className=" text-gray-50" type="button">Save changes</Button>
+          {save&&<Button className=" text-gray-50" type="button">Save changes</Button>}
         </DialogFooter>
      </DialogClose>
       </DialogContent>

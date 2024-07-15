@@ -106,3 +106,24 @@ export async function deleteUser() {
   if (!user) return { error: "User not deleted !" };
   return { success: "User deleted successfully !", status: 200 };
 }
+export async function updateButtons(data: { border: number; color: string }) {
+  try {
+    console.log(data);
+    const { border, color } = data;
+    const { userId } = await auth();
+    const user = await User.findOneAndUpdate({ clerkUserId: userId }, { buttons: { border, color } }).lean();
+    if (!user) return { error: "User not updated !" };
+    return { success: "User updated successfully !", status: 200, data: { user } };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deactivateUser(id: string, value: boolean) {
+  console.log(id, value);
+  const user = await User.findOneAndUpdate({ clerkUserId: id }, { active: value });
+  if (!user) return { error: "User not found !" };
+  user.active = value;
+  await user.save();
+  return { success: `User ${value === true ? "activated" : "deactivated"} successfully !`, status: 200 };
+}

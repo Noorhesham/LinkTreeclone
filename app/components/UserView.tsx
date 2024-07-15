@@ -31,7 +31,7 @@ const UserView = ({ user }: { user: any }) => {
         style={{ backgroundColor: !user.isImg && user.coverColor }}
         className="bg-[#1f1f23] h-60 relative rounded-2xl w-full"
       >
-        {user.isImg && user.coverImage && (
+        {user.coverImage && (
           <div>
             <Image fill alt="cover" className="rounded-2xl object-cover" src={user?.coverImage?.secure_url} />
           </div>
@@ -57,7 +57,7 @@ const UserView = ({ user }: { user: any }) => {
           >
             {t("profileLink")}
           </Link>
-          <Share theme={user.theme} onClick={handleCopyLink} link={`${window?.location.origin}/profile/${user._id}`} />
+          <Share theme={user.theme} onClick={handleCopyLink} link={`${global.window?.location.origin}/profile/${user._id}`} />
         </div>
       </div>
     </div>

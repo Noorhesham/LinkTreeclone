@@ -32,6 +32,8 @@ const UserSchema = new Schema(
     },
     userName: { type: String, unique: true },
     theme: { type: String, default: "" },
+    buttons: { type: { color: String, border: String } },
+    active: { type: Boolean, default: true },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
