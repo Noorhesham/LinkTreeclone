@@ -20,7 +20,7 @@ const page = async ({ params }: { params: { username: string } }) => {
   }
 
   return (
-    <ButtonProvider defaultBorder={user.buttons.border} defaultColor={user.buttons.color}>
+    <ButtonProvider defaultBorder={user.buttons?.border} defaultColor={user.buttons?.color}>
       <MaxWidthWrapper>
         <section className={`w-full min-h-screen ${user.font} pt-20 theme-${user.theme}`}>
           <div className="flex flex-col gap-5">
