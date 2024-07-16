@@ -20,9 +20,11 @@ import { ButtonProvider } from "@/app/context/ButtonProvider";
 const page = async () => {
   const { userId } = await auth();
   if (!userId) redirect("/");
+  console.log(userId);
   await connect();
   const user: any = await User.findOne({ clerkUserId: userId }).populate({ path: "links", model: Link }).lean();
-  if (!user||!user.active) return <h1>User not found</h1>;
+  console.log(user);
+  if (!user ) return <h1>User not found</h1>;
   return (
     <FontProvider defaultFont={user.font}>
       <ThemeProvider defaultTheme={user.theme}>

@@ -110,7 +110,7 @@ export const columns: ColumnDef<any>[] = [
             <p className="text-sm text-muted-foreground">Change activity status</p>
             <ToggleMode user={user} />
           </div>
-        );
+        );  
       }
     },
   },
