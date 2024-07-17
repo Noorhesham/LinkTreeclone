@@ -28,7 +28,7 @@ const DisplayCard = ({ link, theme }: { link: { link: string; provider: string; 
       return url; // Return the original link if URL parsing fails
     }
   };
-
+  
   return (
     <div
       style={{ borderRadius: border, backgroundColor: color }}

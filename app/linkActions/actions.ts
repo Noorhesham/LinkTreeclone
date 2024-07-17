@@ -102,7 +102,7 @@ export async function updateTheme(theme: string) {
 }
 export async function deleteUser() {
   const { userId } = await auth();
-  const user = await User.findByIdAndDelete(userId);
+  const user = await User.findOneAndDelete({ clerkUserId: userId });
   if (!user) return { error: "User not deleted !" };
   return { success: "User deleted successfully !", status: 200 };
 }

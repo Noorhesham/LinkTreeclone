@@ -18,7 +18,7 @@ const page = async ({ params }: { params: { username: string } }) => {
     // Handle user not found case
     return <div>User not found</div>;
   }
-
+  
   return (
     <ButtonProvider defaultBorder={user.buttons?.border} defaultColor={user.buttons?.color}>
       <MaxWidthWrapper>
