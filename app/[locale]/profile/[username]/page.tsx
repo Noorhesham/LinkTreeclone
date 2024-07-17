@@ -27,8 +27,8 @@ const page = async ({ params }: { params: { username: string } }) => {
             <UserView user={user} />
             {user.links && user.links.length > 0 ? (
               <DisplyLinks
-                border={user.buttons.border}
-                color={user.buttons.color}
+                border={user.buttons?.border}
+                color={user.buttons?.color}
                 theme={user.theme}
                 links={user.links}
               />
