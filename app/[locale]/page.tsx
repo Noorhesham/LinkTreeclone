@@ -12,7 +12,7 @@ export default async function Home() {
     await connect();
     user = await User.findOne({ clerkUserId: userId }).lean();
     //@ts-ignore
-    if (user.isAdmin) redirect("/admin");
+    if (user?.isAdmin) redirect("/admin");
   }
   return (
     <div>
