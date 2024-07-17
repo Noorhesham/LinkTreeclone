@@ -23,7 +23,7 @@ const page = async () => {
   console.log(userId);
   await connect();
   const user: any = await User.findOne({ clerkUserId: userId }).populate({ path: "links", model: Link }).lean();
-  console.log(user);
+  console.log(user,userId);
   if (!user ) return <h1>User not found</h1>;
   return (
     <FontProvider defaultFont={user.font}>
@@ -66,6 +66,7 @@ const page = async () => {
 
 export default page;
 
-//card layouts
-//public page
-//cutom 404
+/*
+
+
+*/

@@ -5,7 +5,7 @@ export const socialMediaPlatforms = [
     "LinkedIn",
     "Snapchat",
     "TikTok",
-    "YouTube",
+    "Youtube",
     "Whatsapp",
     "Pinterest",
     "Telegram",
