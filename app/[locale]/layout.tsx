@@ -1,4 +1,4 @@
-import { ClerkProvider} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import NavBar from "../components/NavBar";
 import { dark } from "@clerk/themes";
@@ -6,6 +6,11 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "VEGA | NFC CARDS",
+  description: "Create and share your personalized link profiles with NFC support",
+};
 
 export default async function RootLayout({
   children,
@@ -23,7 +28,10 @@ export default async function RootLayout({
       }}
     >
       <html lang={locale}>
-        <body style={{ direction: locale === "ar" ? "rtl" : "ltr" }} className={`${locale==='ar'&&"text-right"} dark`}>
+        <body
+          style={{ direction: locale === "ar" ? "rtl" : "ltr" }}
+          className={`${locale === "ar" && "text-right"} dark`}
+        >
           <NextIntlClientProvider messages={messages}>
             <ToastContainer position="top-center" theme="dark" />
             <NavBar />

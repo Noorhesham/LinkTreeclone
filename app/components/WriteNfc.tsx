@@ -45,11 +45,11 @@ const NFCWriter = ({ userName }: { userName?: string }) => {
   };
 
   return (
-    <div className="flex lg:flex-row flex-col items-center gap-2 h-full ml-5 mt-3 w-full lg:w-[60%]">
+    <div className="flex flex-col  items-center lg:flex-row   gap-2 h-full ml-5 mt-3 w-full lg:w-[60%]">
       <div>
         <AnimatedImage className="mx-auto w-[24rem]" data={"nfc.json"} />
       </div>
-      <div className="flex flex-col items-start gap-2">
+      <div className="flex flex-col items-center mb-2 lg:items-start gap-2">
         <div className="flex flex-col  items-center gap-5">
           <Button text="Scan and Write to NFC" onClick={scanAndWriteToNFC} />
           {scanningStatus === "success" && (
