@@ -5,11 +5,11 @@ import { toast } from "react-toastify"; // Import icons
 import AnimatedImage from "./AnimatedImage";
 import { CheckCircleIcon, XCircleIcon } from "lucide-react";
 import BabySpinner from "./BabySpinner";
-
+import cookies from "js-cookie";
 const NFCWriter = ({ userName }: { userName?: string }) => {
   const [isNFCWritten, setIsNFCWritten] = useState(false);
   const [scanningStatus, setScanningStatus] = useState<"success" | "error" | "" | "scanning">(""); // For status icon
-
+  console.log(userName);
   const scanAndWriteToNFC = async () => {
     if (isNFCWritten) {
       toast.info("NFC card has already been written to.");
@@ -23,7 +23,7 @@ const NFCWriter = ({ userName }: { userName?: string }) => {
       if ("NDEFReader" in window) {
         const urlRecord = {
           recordType: "url",
-          data: `https://link-treeclone-olive.vercel.app/profile/${userName || ""}`,
+          data: `https://link-treeclone-olive.vercel.app/${cookies.get("NEXT_LOCALE")}/profile/${userName || ""}`,
         };
 
         const ndef = new (window as any).NDEFReader();
