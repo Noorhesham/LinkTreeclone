@@ -1,22 +1,24 @@
 "use client";
 import React, { useState } from "react";
 import Button from "./Button";
-import { Input } from "@/components/ui/input";
+import { toast } from "react-toastify"; // Import icons
 import AnimatedImage from "./AnimatedImage";
+import { CheckCircleIcon, XCircleIcon } from "lucide-react";
+import BabySpinner from "./BabySpinner";
 
 const NFCWriter = ({ userName }: { userName?: string }) => {
-  const [message, setMessage] = useState("");
-  const [scannedData, setScannedData] = useState("");
-  const [scanningStatus, setScanningStatus] = useState("");
   const [isNFCWritten, setIsNFCWritten] = useState(false);
+  const [scanningStatus, setScanningStatus] = useState<"success" | "error" | "" | "scanning">(""); // For status icon
 
   const scanAndWriteToNFC = async () => {
     if (isNFCWritten) {
-      setMessage("NFC card has already been written to.");
+      toast.info("NFC card has already been written to.");
       return;
     }
 
-    setMessage("Scanning for NFC tags...");
+    setScanningStatus(""); // Reset status
+    toast.info("Scanning for NFC tags...");
+    setScanningStatus("scanning"); // Set status to scanning
     try {
       if ("NDEFReader" in window) {
         const urlRecord = {
@@ -28,34 +30,42 @@ const NFCWriter = ({ userName }: { userName?: string }) => {
         await ndef.write({ records: [urlRecord] });
         const abortController = new AbortController();
         await ndef.scan({ signal: abortController.signal });
-        const message = await new Promise((resolve) => {
-          ndef.onreading = (event: any) => resolve(event.message);
-        });
-        setMessage(`NFC written successfully: ${message}`);
-        //@ts-ignore
-        setScannedData(message);
+
+        toast.success("NFC written successfully!");
+        setScanningStatus("success"); // Set status to success
         setIsNFCWritten(true); // Lock the NFC card
         await new Promise((r) => setTimeout(r, 3000));
         abortController.abort();
       }
     } catch (error: any) {
       console.error("Error scanning NFC card", error);
-      setMessage(`Failed to scan NFC card. Error: ${error.message}`);
+      toast.error(`Failed to scan NFC card. Error: ${error.message}`);
+      setScanningStatus("error"); // Set status to error
     }
   };
 
   return (
-    <div className="flex flex-col gap-2 h-full ml-5 mt-3 w-full lg:w-[60%]">
+    <div className="flex items-center gap-2 h-full ml-5 mt-3 w-full lg:w-[60%]">
       <div>
-        <AnimatedImage data={"/nfc.json"}/> 
+        <AnimatedImage className="mx-auto w-[24rem]" data={"nfc.json"} />
       </div>
-      <div className="flex flex-col lg:flex-row items-center gap-5">
-        <Button text="Scan and Write to NFC" onClick={scanAndWriteToNFC} />
+      <div className="flex flex-col items-start gap-2">
+        <div className="flex flex-col  items-center gap-5">
+          <Button text="Scan and Write to NFC" onClick={scanAndWriteToNFC} />
+          {scanningStatus === "success" && (
+            <CheckCircleIcon className="w-6 h-6 text-green-500" /> // Success icon
+          )}
+          {scanningStatus === "error" && (
+            <XCircleIcon className="w-6 h-6 text-red-500" /> // Error icon
+          )}
+          {scanningStatus === "scanning" && (
+            <p className="text-sm flex items-center gap-2">
+              Scanning For NFC .... <BabySpinner />
+            </p>
+          )}
+        </div>
+        <h2 className="text-xs">NFC Writer and Scanner (only enabled on a mobile device)</h2>
       </div>
-      <h2 className="text-xs">NFC Writer and Scanner (only enabled when running on a mobile device)</h2>
-      {message && <p>{message}</p>}
-      {scanningStatus && <p>{scanningStatus}</p>}
-      {scannedData && <p>Scanned Data: {scannedData}</p>}
     </div>
   );
 };
