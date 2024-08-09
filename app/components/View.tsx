@@ -13,8 +13,8 @@ const UserCard = ({ user }: { user: any }) => {
         <UserButton
           appearance={{
             elements: {
-              avatarBox: "w-[8rem] h-[8rem]  rounded-full",
-              userButtonAvatarBox: "w-[8rem] h-[8rem]  rounded-full",
+              avatarBox: "w-[8rem] h-[8rem] object-cover rounded-full",
+              userButtonAvatarBox: "w-[8rem] h-[8rem]   object-cover rounded-full",
             },
           }}
         />
