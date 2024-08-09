@@ -45,7 +45,7 @@ const NFCWriter = ({ userName }: { userName?: string }) => {
   };
 
   return (
-    <div className="flex items-center gap-2 h-full ml-5 mt-3 w-full lg:w-[60%]">
+    <div className="flex lg:flex-row flex-col items-center gap-2 h-full ml-5 mt-3 w-full lg:w-[60%]">
       <div>
         <AnimatedImage className="mx-auto w-[24rem]" data={"nfc.json"} />
       </div>

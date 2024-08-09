@@ -54,7 +54,7 @@ const page = async () => {
                       />
                     </div>
                   </div>
-                  <NFCWriter />
+                  <NFCWriter userName={user.userName} />
                   <CreateForm links={user.links} userId={user._id} />
                 </div>
               </div>
