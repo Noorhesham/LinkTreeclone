@@ -6,11 +6,12 @@ import PhoneNav from "./PhoneNav";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "./LanguageSwitcher";
+import Logo from "./Logo";
 
 const PRODUCT_CATEGORIES: { text: string; url: string }[] = [
   { url: "/", text: "Home" },
   { url: "/protected/create", text: "Create" },
-  { url: "/contact", text: "Contact" },
+  { url: "/store", text: "Store" },
 ];
 
 export default function NavBar() {
@@ -25,7 +26,7 @@ export default function NavBar() {
             <div className="flex h-16 items-center">
               <div className="ml-4 hidden lg:flex">
                 <Link href={"/"}>
-                  <h1 className="sm:text-base md:text-lg lg:text-2xl font-bold">{t("navbar.title")}</h1>
+                  <Logo/>
                 </Link>
               </div>
               <div className="hidden flex-grow lg:block z-50">
@@ -52,12 +53,15 @@ export default function NavBar() {
                     />
                   </>
                 )}
-                {!isSignedIn && (
-                  <div className="flex text-sm mr-4 md:mr-0  md:text-base items-center gap-5">
-                    <SignUpButton>{t("navbar.signUp")}</SignUpButton>
-                    <SignInButton>{t("navbar.signIn")}</SignInButton>
-                  </div>
-                )}
+                <div className="flex text-sm mr-4 md:mr-0  md:text-base items-center gap-5">
+                  {!isSignedIn && (
+                    <>
+                      {" "}
+                      <SignUpButton>{t("navbar.signUp")}</SignUpButton>
+                      <SignInButton>{t("navbar.signIn")}</SignInButton>
+                    </>
+                  )}
+                </div>
                 <PhoneNav navigation={PRODUCT_CATEGORIES} />
               </div>
             </div>

@@ -35,7 +35,11 @@ export const columns: ColumnDef<any>[] = [
     header: "Photo",
     cell({ row }) {
       //@ts-ignore
-      return <Image src={row.getValue("photo")} className="rounded-xl" height={35} width={35} alt="product image" />;
+      return (
+        <div className=" relative w-12 h-12 rounded-full">
+          <Image src={row.getValue("photo")} className="rounded-full object-cover" fill alt="product image" />
+        </div>
+      );
     },
   },
   {
@@ -110,7 +114,7 @@ export const columns: ColumnDef<any>[] = [
             <p className="text-sm text-muted-foreground">Change activity status</p>
             <ToggleMode user={user} />
           </div>
-        );  
+        );
       }
     },
   },

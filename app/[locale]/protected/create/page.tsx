@@ -17,6 +17,7 @@ import { ThemeProvider } from "@/app/context/ThemeProvider";
 import FontWrapper from "@/app/components/FontWrapper";
 import { ThemeTab } from "@/app/components/ThemeTab";
 import { ButtonProvider } from "@/app/context/ButtonProvider";
+import NFCWriter from "@/app/components/WriteNfc";
 const page = async () => {
   const { userId } = await auth();
   if (!userId) redirect("/");
@@ -53,6 +54,7 @@ const page = async () => {
                       />
                     </div>
                   </div>
+                  <NFCWriter />
                   <CreateForm links={user.links} userId={user._id} />
                 </div>
               </div>

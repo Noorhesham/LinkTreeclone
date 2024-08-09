@@ -19,7 +19,7 @@ const isPublicRoute = createRouteMatcher([
   "/ar/sign-up",
   "/webhook",
   "/api/webhooks/clerk","/en/profile/([^/.])","/en/profile/(.*)",
-  "/ar/profile/([^/.])","/ar/profile/(.*)",
+  "/ar/profile/([^/.])","/ar/profile/(.*)","/en/store","/store"
 ]);
 export default clerkMiddleware((auth, req) => {
   if (!isPublicRoute(req)) {
@@ -39,3 +39,11 @@ export const config = {
     "/(api|trpc)(.*)", // Ensure this includes /api/webhooks/clerk
   ],
 };
+/*
+upload product as admin
+active state for users 
+animation for nfc
+show products 
+allow users to send purchase requests 
+show purchase requests to fathy boi
+ */

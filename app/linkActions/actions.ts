@@ -4,6 +4,9 @@ import { auth } from "@clerk/nextjs/server";
 import connect from "../lib/db";
 import Link from "../lib/models/linkModel";
 import User from "../lib/models/userModel";
+import Product from "../lib/models/ProductModel";
+import { deleteImage } from "../lib/actions/actions";
+import { revalidatePath } from "next/cache";
 
 export async function addLink(data: { link: string; provider: string }, userId: string) {
   console.log(data, userId);
@@ -44,7 +47,8 @@ export async function updateOrderLinks(data: any) {
     await connect();
     const user = await User.findOneAndUpdate({ clerkUserId: userId }, { links: data });
     if (!user) return { error: "User not updated !" };
-    return { success: "User updated successfully !", status: 200, data: { user } };
+    const linkOBJ = JSON.parse(JSON.stringify(user));
+    return { success: "User updated successfully !", status: 200, data: { linkOBJ } };
   } catch (error) {
     console.log(error);
     return { error: "User not updated !" };
@@ -127,3 +131,45 @@ export async function deactivateUser(id: string, value: boolean) {
   await user.save();
   return { success: `User ${value === true ? "activated" : "deactivated"} successfully !`, status: 200 };
 }
+
+export async function uploadProduct(data: any) {
+  const product = await Product.create({
+    ...data,
+  });
+  const productObj = JSON.parse(JSON.stringify(product));
+
+  return { success: "Product uploaded successfully !", status: 200, data: { productObj } };
+}
+export async function deleteProduct(id: string) {
+  const product = await Product.findOne({ _id: id });
+  product.image.forEach(async (image: any) => {
+    await deleteImage(image.public_id);
+  });
+  const productdelete = await Product.findOneAndDelete({ _id: id });
+  revalidatePath("/admin/products");
+  return { success: "Product deleted successfully !", status: 200, data: null };
+}
+export async function updateProduct(data: any, id: string) {
+try {
+  console.log(data, id);
+  const productnew = await Product.findOneAndUpdate(
+    { _id: id },
+    {
+      ...data,
+    }
+  );
+  const productObj = JSON.parse(JSON.stringify(productnew));
+
+  return { success: "Product updated successfully !", status: 200, data: { productObj } };
+} catch (error) {
+  console.log(error);
+}
+}
+export const deleteProductImage = async (public_id: string, productId: string) => {
+  await deleteImage(public_id);
+  const product = await Product.findOne({ _id: productId });
+  product.image = product.image.filter((image: any) => image.public_id !== public_id);
+  await product.save();
+  const productObj = JSON.parse(JSON.stringify(product));
+  return { success: "Image deleted successfully", status: 200, data: { productObj } };
+};

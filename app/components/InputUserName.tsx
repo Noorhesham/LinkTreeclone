@@ -82,7 +82,7 @@ const InputUserName = ({ disablee, id, value, fieldType }: InputUserNameProps) =
                 disabled={isPending}
               />
             ) : (
-              <Button2 type="button" variant={"outline"}>
+              <Button2 className=" rounded-full self-center py-4 px-8 my-auto" type="button" variant={"outline"}>
                 <Link href={`/profile/${value}`}>{t("inputUserName.viewProfileButton")}</Link>
               </Button2>
             )}

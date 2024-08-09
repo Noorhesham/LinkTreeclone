@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Button from "./Button";
 import { Input } from "@/components/ui/input";
+import AnimatedImage from "./AnimatedImage";
 
 const NFCWriter = ({ userName }: { userName?: string }) => {
   const [message, setMessage] = useState("");
@@ -33,7 +34,7 @@ const NFCWriter = ({ userName }: { userName?: string }) => {
         setMessage(`NFC written successfully: ${message}`);
         //@ts-ignore
         setScannedData(message);
-        setIsNFCWritten(true);  // Lock the NFC card
+        setIsNFCWritten(true); // Lock the NFC card
         await new Promise((r) => setTimeout(r, 3000));
         abortController.abort();
       }
@@ -45,6 +46,9 @@ const NFCWriter = ({ userName }: { userName?: string }) => {
 
   return (
     <div className="flex flex-col gap-2 h-full ml-5 mt-3 w-full lg:w-[60%]">
+      <div>
+        <AnimatedImage data={"/nfc.json"}/> 
+      </div>
       <div className="flex flex-col lg:flex-row items-center gap-5">
         <Button text="Scan and Write to NFC" onClick={scanAndWriteToNFC} />
       </div>

@@ -59,7 +59,8 @@ export function Delete({
         <DialogFooter className="flex flex-nowrap flex-row mt-5 items-center self-end ml-auto">
           <Button
             disabled={disabled}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               onClick();
               setOpen(false);
             }}

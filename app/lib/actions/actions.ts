@@ -5,6 +5,7 @@ import { auth } from "@clerk/nextjs/server";
 import connect from "../db";
 import User from "../models/userModel";
 import { revalidatePath } from "next/cache";
+import Product from "../models/ProductModel";
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -93,4 +94,8 @@ export async function toggleImg() {
   } catch (error) {
     console.log(error);
   }
+}
+export async function getProducts() {
+  const products = await Product.find({}).lean();
+  return { status: 200, data: { products } };
 }

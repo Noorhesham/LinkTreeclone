@@ -11,14 +11,25 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import BabySpinner from "./BabySpinner";
 import { useTranslations } from "next-intl";
+import Cropper from "react-easy-crop";
+import getCroppedImg from "@/lib/utils";
+import Button from "./Button";
 
 const ImageCoverForm = ({ user }: { user: any }) => {
-  console.log(user);
   const t = useTranslations("ImageCoverForm");
   const form = useForm({ defaultValues: { cover: user.coverColor || undefined } });
   const [isImage, setIsImage] = useState(true);
-
   const [isPending, startTransition] = useTransition();
+
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+
+  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
   const onSubmit = async (data: any) => {
     startTransition(async () => {
       if (isImage) {
@@ -27,11 +38,16 @@ const ImageCoverForm = ({ user }: { user: any }) => {
           toast.error(t("noFileSelected"));
           return;
         }
+
+        // Get the cropped image
+        const croppedImage = await getCroppedImg(imageSrc!, croppedAreaPixels);
+
         if (user.coverImage) {
           await deleteImage(user.coverImage.public_id);
         }
+
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("file", croppedImage);
         formData.append("upload_preset", "v7t8mt9o");
 
         try {
@@ -45,7 +61,9 @@ const ImageCoverForm = ({ user }: { user: any }) => {
           }
 
           const { public_id, secure_url } = await res.json();
+          console.log({ public_id, secure_url });
           const response: any = await addCoverImage({ public_id, secure_url });
+          console.log(response);
           if (response.success) {
             toast.success(response.success);
           } else if (response.error) {
@@ -72,41 +90,50 @@ const ImageCoverForm = ({ user }: { user: any }) => {
       }
     });
   };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImageSrc(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div style={{ backgroundColor: user.coverColor }} className="bg-[#1f1f23] h-60  relative rounded-2xl w-full">
-      {isImage && (form.getValues("cover")?.[0] instanceof File || user.coverImage) && (
-        <>
-          <Image
-            fill
-            alt="cover"
-            className=" rounded-2xl object-cover"
-            src={
-              form.getValues("cover")?.[0] instanceof File
-                ? URL.createObjectURL(form.getValues("cover")?.[0])
-                : user.coverImage.secure_url
-            }
+      {user.coverImage && (
+        <Image
+          fill
+          src={user?.coverImage?.secure_url}
+          alt="cover"
+          className="rounded-2xl w-full object-cover"
+        />
+      )}
+      {imageSrc && (
+        <div className="relative w-full h-full">
+          <Cropper
+            image={imageSrc}
+            crop={crop}
+            zoom={zoom}
+            aspect={16 / 9}
+            onCropChange={setCrop}
+            onZoomChange={setZoom}
+            onCropComplete={onCropComplete}
           />
-          {isPending && <BabySpinner />}
-        </>
+        </div>
       )}
       <div className="flex w-52  md:w-96 flex-col items-center gap-2 absolute left-1/2 top-[35%] -translate-y-1/2 -translate-x-1/2">
         <div className="flex  w-full items-center gap-2 bg-background rounded-lg ">
-          <div
+          {/* <div
             className={` flex-1 duration-200 flex cursor-pointer items-center  py-1.5 px-3 md:px-6 md:py-3 gap-2 ${
               isImage && " bg-slate-900 text-violet-400"
             } opacity-85`}
           >
             <h2>{t("image")}</h2>
             <FaImage />
-          </div>
-          {/* <div
-            onClick={handleOnclick}
-            className={`flex-1 duration-200 flex cursor-pointer items-center  py-1.5 px-3 md:px-6 md:py-3 gap-2 ${
-              !isImage && " bg-slate-900 text-violet-400"
-            } opacity-85`}
-          >
-            <h2>{t('color')}</h2>
-            <IoIosColorPalette />
           </div> */}
         </div>
         <Form {...form}>
@@ -123,21 +150,23 @@ const ImageCoverForm = ({ user }: { user: any }) => {
                           {isImage ? t("image") : t("color")}
                         </FormLabel>
                         {isImage ? (
-                          <Input
-                            onChange={(e) => {
-                              const value = e.target.files;
-                              field.onChange(value);
-                              if (isImage) {
-                                form.handleSubmit(onSubmit)();
-                              }
-                            }}
-                            disabled={isPending}
-                            type="file"
-                          />
+                          <label htmlFor="cover">
+                            <Input
+                              id="cover"
+                              className={` text-gray-50  file:text-gray-50 `}
+                              onChange={(e) => {
+                                handleImageChange(e);
+                                field.onChange(e.target.files);
+                              }}
+                              disabled={isPending}
+                              type="file"
+                            />
+                          </label>
                         ) : (
                           <Input
                             disabled={isPending}
                             type="color"
+                            className=" text-gray-50  file:text-gray-50"
                             defaultValue={user.coverColor}
                             onBlur={(e) => {
                               field.onChange(e.target.value);
@@ -147,7 +176,7 @@ const ImageCoverForm = ({ user }: { user: any }) => {
                         )}
                       </div>
                     </FormControl>
-
+                    <Button disabled={isPending}>Upload Image</Button>
                     <FormMessage className=" text-sm dark:text-red-500" />
                   </FormItem>
                 )}
