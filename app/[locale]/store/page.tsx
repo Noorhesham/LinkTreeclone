@@ -4,7 +4,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <MaxWidthWrapper className=" py-10 px-20">
+    <MaxWidthWrapper className=" px-8 py-4 lg:py-10 lg:px-20">
       <ProductReel title="Vega Shop" />
     </MaxWidthWrapper>
   );
