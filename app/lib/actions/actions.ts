@@ -6,6 +6,7 @@ import connect from "../db";
 import User from "../models/userModel";
 import { revalidatePath } from "next/cache";
 import Product from "../models/ProductModel";
+import Order from "../models/Order";
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -98,4 +99,52 @@ export async function toggleImg() {
 export async function getProducts() {
   const products = await Product.find({}).lean();
   return { status: 200, data: { products } };
+}
+export async function addToCart(productId: string) {
+  const { userId } = await auth();
+  const user = await User.findOne({ clerkUserId: userId });
+  if (!user) return { error: "User not found" };
+  user.cart = [...user.cart, productId];
+  await user.save();
+
+  return { success: "Cart updated successfully!", status: 200 };
+}
+export async function deleteFromCart(productId: string) {
+  const { userId } = await auth();
+  const user = await User.findOne({ clerkUserId: userId });
+  if (!user) return { error: "User not found" };
+  const index = user.cart.findIndex((item: any) => item._id.toString() === productId);
+
+  if (index !== -1) {
+    user.cart.splice(index, 1);
+  }
+
+  await user.save();
+  revalidatePath("/store");
+  return { success: "Cart Item deleted successfully!", status: 200, data: { cart: user.cart } };
+}
+
+export async function getCart() {
+  await connect();
+  const { userId } = await auth();
+  const user = await User.findOne({ clerkUserId: userId })
+    .populate({
+      path: "cart",
+      model: "Product",
+    })
+    .lean();
+  console.log(user);
+  if (!user) return { error: "User not found" };
+  return { status: 200, data: { cart: user.cart } };
+}
+export async function handleOrder() {
+  const { userId } = await auth();
+  const user = await User.findOne({ clerkUserId: userId });
+  if (!user) return { error: "User not found" };
+  const order = await Order.create({ product: user.cart, customer: user._id });
+  user.cart = [];
+  await user.save();
+  revalidatePath("/store");
+  console.log(order);
+  return { success: "Order Placed successfully!", status: 200 };
 }

@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Metadata } from "next";
+import QueryProvider from "../context/QueryProvider";
 export const metadata: Metadata = {
   title: "VEGA | NFC CARDS",
   description: "Create and share your personalized link profiles with NFC support",
@@ -32,11 +33,14 @@ export default async function RootLayout({
           style={{ direction: locale === "ar" ? "rtl" : "ltr" }}
           className={`${locale === "ar" && "text-right"} dark`}
         >
-          <NextIntlClientProvider messages={messages}>
-            <ToastContainer position="top-center" theme="dark" />
-            <NavBar />
-            {children}
-          </NextIntlClientProvider>
+          <QueryProvider>
+            <NextIntlClientProvider messages={messages}>
+              <ToastContainer position="top-center" theme="dark" />
+              <NavBar />
+
+              {children}
+            </NextIntlClientProvider>
+          </QueryProvider>
         </body>
       </html>
     </ClerkProvider>

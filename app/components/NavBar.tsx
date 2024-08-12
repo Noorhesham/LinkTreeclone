@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "./LanguageSwitcher";
 import Logo from "./Logo";
+import CartItems from "./CartItems";
 
 const PRODUCT_CATEGORIES: { text: string; url: string }[] = [
   { url: "/", text: "Home" },
@@ -26,7 +27,7 @@ export default function NavBar() {
             <div className="flex h-16 items-center">
               <div className="ml-4 hidden lg:flex">
                 <Link href={"/"}>
-                  <Logo/>
+                  <Logo />
                 </Link>
               </div>
               <div className="hidden flex-grow lg:block z-50">
@@ -51,6 +52,7 @@ export default function NavBar() {
                         },
                       }}
                     />
+                    <CartItems/>
                   </>
                 )}
                 <div className="flex text-sm mr-4 md:mr-0  md:text-base items-center gap-5">

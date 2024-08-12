@@ -1,20 +1,43 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useTransition } from "react";
 import { cn, formatPrice } from "@/lib/utils";
 import ImageSlider from "./ImageSlider";
 import { ProductLoader } from "./ProductReel";
 import { useAuth } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import CustomDialog from "./CustomDialog";
+import { addToCart, deleteFromCart } from "../lib/actions/actions";
+import { toast } from "react-toastify";
+import { useQueryClient } from "@tanstack/react-query";
+import { useGetCart } from "../query/query";
+import BabySpinner from "./BabySpinner";
+import Counter from "./Counter";
 const ProductCard = ({ product, index }: { product: any; index: number }) => {
   const { isSignedIn, userId } = useAuth();
   const [isVisible, setIsVisible] = React.useState(false);
+  const [isPending, startTransition] = useTransition();
+  const queryClient = useQueryClient();
+  const handleAddToCart = async (ProductId: string) => {
+    startTransition(async () => {
+      if (!isSignedIn) {
+        return;
+      }
+      const res = await addToCart(ProductId);
+      if (res.success) {
+        toast.success(res.success);
+        queryClient.invalidateQueries({ queryKey: ["cart"] });
+      } else {
+        toast.error(res.error);
+      }
+    });
+  };
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, index * 75);
     return () => clearTimeout(timer);
   }, [index]);
+  const { data, isLoading } = useGetCart();
   return isVisible ? (
     <div
       className={`${cn(" opacity-0  h-full relative w-full cursor-pointer group-main ", {
@@ -38,11 +61,33 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
         </div>
       </div>
       {userId ? (
-        <Button>Order Now</Button>
+        isLoading ? (
+          <BabySpinner />
+        ) : data?.length > 0 ? (
+          <Counter max={product.currentStock}
+            length={data.length}
+            onAdd={() => handleAddToCart(product._id)}
+            onDecrement={async () => {
+              const res = await deleteFromCart(product._id);
+              if (res.success) {
+                toast.success(res.success);
+                queryClient.invalidateQueries({ queryKey: ["cart"] });
+              }
+            }}
+          />
+        ) : (
+          <Button onClick={() => handleAddToCart(product._id)}>Add To Cart</Button>
+        )
       ) : (
-        <CustomDialog btn={<Button>Order Now</Button>} content={<div className=" py-20 px-10">
-            <p>Sign in to order</p>
-        </div>} title="Sign in" />
+        <CustomDialog
+          btn={<Button>Add To Cart</Button>}
+          content={
+            <div className=" py-20 px-10">
+              <p>Sign in to order</p>
+            </div>
+          }
+          title="Sign in"
+        />
       )}
     </div>
   ) : (

@@ -34,6 +34,7 @@ const UserSchema = new Schema(
     theme: { type: String, default: "" },
     buttons: { type: { color: String, border: String } },
     active: { type: Boolean, default: true },
+    cart: { type: [{ type: Schema.Types.ObjectId, ref: "Product" }], required: false },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );

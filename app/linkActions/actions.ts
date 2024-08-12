@@ -7,6 +7,7 @@ import User from "../lib/models/userModel";
 import Product from "../lib/models/ProductModel";
 import { deleteImage } from "../lib/actions/actions";
 import { revalidatePath } from "next/cache";
+import Order from "../lib/models/Order";
 
 export async function addLink(data: { link: string; provider: string }, userId: string) {
   console.log(data, userId);
@@ -173,3 +174,7 @@ export const deleteProductImage = async (public_id: string, productId: string) =
   const productObj = JSON.parse(JSON.stringify(product));
   return { success: "Image deleted successfully", status: 200, data: { productObj } };
 };
+export const deleteOrder = async (id: string) => {
+  const order = await Order.findOneAndDelete({ _id: id });
+  return { success: "Order deleted successfully !", status: 200, data: null };
+}

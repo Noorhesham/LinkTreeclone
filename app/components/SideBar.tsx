@@ -22,6 +22,7 @@ const SideBar = async () => {
         <h4 className=" text-gray-400 md:text-xl text-sm ">Menu</h4>
         <NavLink href={`admin`} title="Users" icon={<IoHomeOutline />} />
         <NavLink href={`admin/products`} title="My Products" icon={<MdOutlineProductionQuantityLimits />} />
+        <NavLink href={`admin/orders`} title="My Orders" icon={<MdOutlineProductionQuantityLimits />} />
       </div>
     </section>
   );
