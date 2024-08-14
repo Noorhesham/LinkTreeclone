@@ -26,6 +26,7 @@ const page = async () => {
   const user: any = await User.findOne({ clerkUserId: userId }).populate({ path: "links", model: Link }).lean();
   console.log(user, userId);
   if (!user) return <h1>User not found</h1>;
+  console.log(user)
   return (
     <FontProvider defaultFont={user.font}>
       <ThemeProvider defaultTheme={user.theme}>

@@ -98,6 +98,7 @@ export async function toggleImg() {
 }
 export async function getProducts() {
   const products = await Product.find({}).lean();
+  console.log(products);
   return { status: 200, data: { products } };
 }
 export async function addToCart(productId: string) {

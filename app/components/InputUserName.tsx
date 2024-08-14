@@ -112,7 +112,7 @@ const InputUserName = ({ disablee, id, value, fieldType }: InputUserNameProps) =
                       </FormControl>
                     </div>
                   </FormItem>
-                  {fieldType === "userName" && (
+                  {fieldType === "userName" &&!disablee&& (
                     <div className="text-sm mt-4 text-gray-200 ">
                       <p className="mb-1">Username must:</p>
                       <ul className="list-disc pl-5">
