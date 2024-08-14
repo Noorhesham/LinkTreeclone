@@ -1,22 +1,23 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 export function formatPrice(
   price: number | string,
-  options: { currency?: "USD" | "EUR" | "GBT" | "BDT"; notation?: Intl.NumberFormatOptions["notation"] } = {}
+  options: { currency?: "EGP"; notation?: Intl.NumberFormatOptions["notation"] } = {}
 ) {
-  const { currency = "USD", notation = "compact" } = options;
+  const { currency = "EGP", notation = "compact" } = options;
   const numericPrice = typeof price === "string" ? parseFloat(price) : price;
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("en-EG", {
     style: "currency",
     currency: currency,
     notation,
     maximumFractionDigits: 2,
   }).format(numericPrice);
 }
+
 import { Area } from "react-easy-crop";
 
 const createImage = (url: string) =>

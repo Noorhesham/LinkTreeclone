@@ -105,23 +105,20 @@ const ImageCoverForm = ({ user }: { user: any }) => {
   return (
     <div style={{ backgroundColor: user.coverColor }} className="bg-[#1f1f23] h-60  relative rounded-2xl w-full">
       {user.coverImage && (
-        <Image
-          fill
-          src={user?.coverImage?.secure_url}
-          alt="cover"
-          className="rounded-2xl w-full object-cover"
-        />
+        <Image fill src={user?.coverImage?.secure_url} alt="cover" className="rounded-2xl w-full w-full object-cover" />
       )}
       {imageSrc && (
-        <div className="relative w-full h-full">
+        <div className=" absolute inset-0 w-full h-full">
           <Cropper
-            image={imageSrc}
+            image={imageSrc} 
             crop={crop}
             zoom={zoom}
-            aspect={16 / 9}
+            aspect={28 / 9} // Aspect ratio for a cover image
             onCropChange={setCrop}
             onZoomChange={setZoom}
             onCropComplete={onCropComplete}
+            cropShape="rect" // Optional: For a rectangular crop area
+            showGrid={false} // Optional: To hide the grid
           />
         </div>
       )}
@@ -143,7 +140,7 @@ const ImageCoverForm = ({ user }: { user: any }) => {
                 control={form.control}
                 name="cover"
                 render={({ field }) => (
-                  <FormItem className="  w-44 md:min-w-28 my-2">
+                  <FormItem className="  w-44 full md:min-w-28 my-2">
                     <FormControl className="">
                       <div className=" flex gap-2 items-center">
                         <FormLabel className=" text-gray-50 text-nowrap ">
