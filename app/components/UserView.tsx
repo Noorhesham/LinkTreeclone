@@ -39,7 +39,7 @@ const UserView = ({ user }: { user: any }) => {
       </div>
       <div className="flex flex-col items-center -mt-24">
         <div className="image-wrapper shine rounded-full">
-          <Image fill alt={user?.firstName} src={user?.photo} className="rounded-full" />
+          <Image fill alt={user?.firstName} src={user?.photo} className="rounded-full object-cover" />
         </div>
         <div className="flex z-5 py-3 px-5 md:py-5 md:px-10 w-full rounded-3xl text-gray-800 items-center text-lg flex-col gap-2">
           <div className="flex flex-col items-center">
