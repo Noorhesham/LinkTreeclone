@@ -8,6 +8,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Metadata } from "next";
 import QueryProvider from "../context/QueryProvider";
+import { cookies } from "next/headers";
 export const metadata: Metadata = {
   title: "VEGA | NFC CARDS",
   description:
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
       },
     ],
     type: "website",
-    locale: "en_US", // Adjust according to your primary locale
+    locale: cookies().get("NEXT_LOCALE")||"en", // Adjust according to your primary locale
   },
   twitter: {
     card: "summary_large_image",
