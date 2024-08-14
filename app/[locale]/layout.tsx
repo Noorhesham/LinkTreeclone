@@ -10,7 +10,30 @@ import { Metadata } from "next";
 import QueryProvider from "../context/QueryProvider";
 export const metadata: Metadata = {
   title: "VEGA | NFC CARDS",
-  description: "Create and share your personalized link profiles with NFC support",
+  description:
+    "Effortlessly create and share your personalized digital profiles with NFC-enabled cards. Experience seamless connectivity and modern convenience in your networking.",
+  openGraph: {
+    title: "VEGA | NFC CARDS",
+    description:
+      "Effortlessly create and share your personalized digital profiles with NFC-enabled cards. Experience seamless connectivity and modern convenience in your networking.",
+    images: [
+      {
+        url: "/VEGA.png", // Replace with the correct path to your image
+        width: 1200,
+        height: 630,
+        alt: "VEGA NFC Cards - Digital Profiles",
+      },
+    ],
+    type: "website",
+    locale: "en_US", // Adjust according to your primary locale
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "VEGA | NFC CARDS",
+    description:
+      "Effortlessly create and share your personalized digital profiles with NFC-enabled cards. Experience seamless connectivity and modern convenience in your networking.",
+    images: ["/VEGA.png"], // Replace with the correct path to your image
+  },
 };
 
 export default async function RootLayout({

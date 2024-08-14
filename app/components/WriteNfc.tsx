@@ -23,7 +23,7 @@ const NFCWriter = ({ userName }: { userName?: string }) => {
       if ("NDEFReader" in window) {
         const urlRecord = {
           recordType: "url",
-          data: `https://link-treeclone-olive.vercel.app/${cookies.get("NEXT_LOCALE")}/profile/${userName || ""}`,
+          data: `https://vega-nfc.vercel.app/${cookies.get("NEXT_LOCALE")}/profile/${userName || ""}`,
         };
 
         const ndef = new (window as any).NDEFReader();
