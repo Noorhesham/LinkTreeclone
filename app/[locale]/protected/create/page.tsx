@@ -38,12 +38,17 @@ const page = async () => {
                   <div className=" w-full flex-col  md:justify-center flex items-center gap-2 md:w-[100%]">
                     <div className="flex flex-col items-center">
                       <InputUserName disablee={false} fieldType="bio" value={user.bio} id={user._id} />
-                      <InputUserName
-                        disablee={false}
-                        fieldType="userName"
-                        value={user?.userName || ""}
-                        id={user?._id}
-                      />
+                      <div className=" flex flex-col gap-2">
+                        {!user.userName && <InputUserName
+                          disablee={false}
+                          fieldType="userName"
+                          value={user?.userName || ""}
+                          id={user?._id}
+                        />}
+                        <p className=" text-xs text-violet-400 font-semibold">
+                          USER NAME CANNOT BE CHANGED ONCE CREATED .. IT WILL BE USED TO GENERATE YOUR NFC AND QR CODE
+                        </p>
+                      </div>
                     </div>
                     <div className="flex gap-4 w-[50%] items-center">
                       <CustomDialog
