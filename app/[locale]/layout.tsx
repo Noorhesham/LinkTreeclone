@@ -26,7 +26,7 @@ export const metadata: Metadata = {
       },
     ],
     type: "website",
-    locale: cookies().get("NEXT_LOCALE")?.value||"en", // Adjust according to your primary locale
+    // Adjust according to your primary locale
   },
   twitter: {
     card: "summary_large_image",
