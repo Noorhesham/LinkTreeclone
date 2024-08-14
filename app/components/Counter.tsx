@@ -28,9 +28,9 @@ const Counter = ({
     }
   };
   return (
-    <div className="">
+    <div className=" w-full">
       {count > 0 && (
-        <div className="flex w-fit my-5 items-center text-lg mr-auto border border-gray-400  px-2 py-1 font-semibold rounded-lg bg-background text-1  gap-4">
+        <div className="flex w-full  justify-center  mt-1 items-center text-lg mr-auto border border-gray-400  px-2 py-1 font-semibold rounded-lg bg-background text-1  gap-4">
           <button className=" px-2   hover:text-gray-200 duration-150 rounded-lg " onClick={decrease}>
             -
           </button>

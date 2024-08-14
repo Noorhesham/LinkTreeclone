@@ -153,7 +153,7 @@ const ImageCoverForm = ({ user }: { user: any }) => {
                           <label htmlFor="cover">
                             <Input
                               id="cover"
-                              className={` text-gray-50  file:text-gray-50 `}
+                              className={` w-full text-gray-50  file:text-gray-50 `}
                               onChange={(e) => {
                                 handleImageChange(e);
                                 field.onChange(e.target.files);

@@ -38,6 +38,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
     return () => clearTimeout(timer);
   }, [index]);
   const { data, isLoading } = useGetCart();
+  console.log(data)
   return isVisible ? (
     <div
       className={`${cn(" opacity-0  h-full relative w-full cursor-pointer group-main ", {
@@ -64,9 +65,9 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
       {userId ? (
         isLoading ? (
           <BabySpinner />
-        ) : data?.length > 0 ? (
+        ) : data?.filter((item: any) => item._id === product._id).length > 0 ? (
           <Counter max={product.currentStock}
-            length={data.length}
+            length={data?.filter((item: any) => item._id === product._id).length}
             onAdd={() => handleAddToCart(product._id)}
             onDecrement={async () => {
               const res = await deleteFromCart(product._id);
