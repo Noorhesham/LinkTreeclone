@@ -112,7 +112,7 @@ const InputUserName = ({ disablee, id, value, fieldType }: InputUserNameProps) =
                       </FormControl>
                     </div>
                   </FormItem>
-                  {fieldType === "userName" &&!disablee&& (
+                  {fieldType === "userName" && !disablee && (
                     <div className="text-sm mt-4 text-gray-200 ">
                       <p className="mb-1">Username must:</p>
                       <ul className="list-disc pl-5">
@@ -128,20 +128,22 @@ const InputUserName = ({ disablee, id, value, fieldType }: InputUserNameProps) =
             />
             {!disablee ? (
               fieldType === "userName" ? (
-                <CustomDialog save={false}
+                <CustomDialog
+                  save={false}
                   title="Confirm Username"
                   content={
                     <div className="flex flex-col items-center gap-3">
                       <h2>Are you sure you want to change your username ?</h2>
                       <p>THIS ACTION CANNOT BE UNDONE </p>
-                      <Button onClick={(e)=>{
-                        e.preventDefault();
-                        form.handleSubmit(onSubmit)
-                      }}>Submit</Button>
+                      <Button onClick={form.handleSubmit(onSubmit)}>Submit</Button>
                     </div>
                   }
                   btn={
-                    <Button2 className=" rounded-full text-gray-50 bg-violet-400 hover:bg-violet-500 mt-3" disabled={form.formState.errors?.userName||form.getValues("userName")?.length < 3} type="button">
+                    <Button2
+                      className=" rounded-full text-gray-50 bg-violet-400 hover:bg-violet-500 mt-3"
+                      disabled={form.formState.errors?.userName || form.getValues("userName")?.length < 3}
+                      type="button"
+                    >
                       {" "}
                       Confirm UserName ?
                     </Button2>

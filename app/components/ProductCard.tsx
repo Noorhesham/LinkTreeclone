@@ -59,6 +59,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
         <div className=" flex items-start flex-col gap-2 mt-auto">
           <p className=" mt-1 font-medium text-sm text-gray-200">Stock : {product.currentStock}</p>
         </div>
+        <p className=" my-2 font-medium text-right text-xs text-gray-200">{product.description}</p>
       </div>
       {userId ? (
         isLoading ? (

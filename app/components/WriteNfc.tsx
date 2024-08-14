@@ -23,7 +23,7 @@ const NFCWriter = ({ userName }: { userName?: string }) => {
       if ("NDEFReader" in window) {
         const urlRecord = {
           recordType: "url",
-          data: `https://vega-nfc.vercel.app/${cookies.get("NEXT_LOCALE")||"en"}/profile/${userName}`,
+          data: `https://vega-nfc.vercel.app/${cookies.get("NEXT_LOCALE") || "en"}/profile/${userName}`,
         };
 
         const ndef = new (window as any).NDEFReader();
@@ -51,8 +51,10 @@ const NFCWriter = ({ userName }: { userName?: string }) => {
       </div>
       <div className="flex flex-col items-center mb-2 lg:items-start gap-2">
         <div className="flex flex-col  items-center gap-5">
-          <Button disabled={Boolean(userName)} text="Scan and Write to NFC" onClick={scanAndWriteToNFC} />
-          {!userName && <p className=" text-base text-muted-foreground">TO WRITE TO NFC YOU MUST ADD USERNAME TO YOUR LINK</p>}
+          <Button disabled={userName === ""} text="Scan and Write to NFC" onClick={scanAndWriteToNFC} />
+          {!userName && (
+            <p className=" text-base text-muted-foreground">TO WRITE TO NFC YOU MUST ADD USERNAME TO YOUR LINK</p>
+          )}
           {scanningStatus === "success" && (
             <CheckCircleIcon className="w-6 h-6 text-green-500" /> // Success icon
           )}
