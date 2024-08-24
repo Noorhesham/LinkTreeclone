@@ -4,8 +4,8 @@ import { unstable_cache } from "next/cache";
 import { getProducts } from "../lib/actions/actions";
 
 const ProductReelFetch = async () => {
-  const res = await getProducts()
-  if (!res) return null;
+  const res = await getProducts();
+
   const { products } = res.data;
   return (
     <>

@@ -7,6 +7,9 @@ import { ArrowUpDown } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
 import Actions from "@/app/components/Actions";
+import CustomDialog from "@/app/components/CustomDialog";
+import { Share } from "@/app/components/Share";
+import Copy from "@/app/components/Copy";
 //@ts-ignore
 export const columns: ColumnDef<any>[] = [
   {
@@ -113,13 +116,19 @@ export const columns: ColumnDef<any>[] = [
       return <div className=" text-center font-medium">{new Date(row.getValue("createdAt")).toLocaleDateString()}</div>;
     },
   },
+
   {
     id: "actions",
     cell: ({ row }) => {
       const product = row.original;
-      console.log(product);
+      console.log(row.original);
       {
-        return <Actions sheet={true} product={product} />;
+        return (
+          <div className="flex flex-col gap-2 ">
+            <Copy user={row.original.customer} />
+            <Actions sheet={true} product={product} />
+          </div>
+        );
       }
     },
   },

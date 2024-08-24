@@ -99,7 +99,8 @@ export async function toggleImg() {
 export async function getProducts() {
   const products = await Product.find({}).lean();
   console.log(products);
-  return { status: 200, data: { products } };
+  const productObj=JSON.parse(JSON.stringify(products))
+  return { status: 200, data: { products:productObj } };
 }
 export async function addToCart(productId: string) {
   const { userId } = await auth();

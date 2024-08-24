@@ -11,7 +11,7 @@ const orderSchema = new Schema(
 orderSchema.pre(/^find/, function (next) {
   this.populate({
     path: "customer",
-    select: "firstName lastName image photo email",
+    select: "firstName userName lastName image photo email",
     model: "User",
   }).populate({
     path: "product",
