@@ -4,13 +4,13 @@ import UserView from "@/app/components/UserView";
 import connect from "@/app/lib/db";
 import Link from "@/app/lib/models/linkModel";
 import User from "@/app/lib/models/userModel";
+import { Metadata } from "next";
 import React from "react";
-import "@/app/[locale]/fonts.css";
 import { ButtonProvider } from "@/app/context/ButtonProvider";
 import { notFound } from "next/navigation";
-import { Metadata } from "next";
-import { UserProps } from "@/app/constants";
 import { WithContext, ProfilePage } from "schema-dts";
+import Head from "next/head";
+import { UserProps } from "@/app/constants";
 
 const getUserData = async (username: string) => {
   await connect();
@@ -41,6 +41,8 @@ export const generateMetadata = async ({
     };
   }
 
+  const imageUrl = user.photo.startsWith("http") ? user.photo : `https://vega-nfc.vercel.app${user.photo}`;
+
   return {
     title: `${user.firstName} ${user.lastName}`,
     description: `Explore the profile and links of ${user.firstName}. ${user.bio}`,
@@ -58,10 +60,10 @@ export const generateMetadata = async ({
       type: "profile",
       images: [
         {
-          url: user.photo,
+          url: imageUrl,
           width: 1200,
           height: 630,
-          alt: "Profile Picture of " + user.firstName,
+          alt: `Profile Picture of ${user.firstName}`,
         },
       ],
     },
@@ -69,7 +71,7 @@ export const generateMetadata = async ({
       card: "summary_large_image",
       title: `${user.firstName} | Vega NFC`,
       description: `Discover the links and more about ${user.firstName}.`,
-      images: [user.photo],
+      images: [imageUrl],
     },
   };
 };
@@ -95,31 +97,34 @@ const Page = async ({ params }: { params: { username: string; locale: string } }
   };
 
   return (
-    <ButtonProvider defaultBorder={user.buttons?.border} defaultColor={user.buttons?.color}>
-      {/* Adding JSON-LD for structured data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        key="profile-jsonld"
-      />
-      <MaxWidthWrapper>
-        <section className={`w-full min-h-screen ${user.font} pt-20 theme-${user.theme}`}>
-          <div className="flex flex-col gap-5">
-            <UserView user={user} />
-            {user.links && user.links.length > 0 ? (
-              <DisplyLinks
-                border={user.buttons?.border}
-                color={user.buttons?.color}
-                theme={user.theme}
-                links={user.links}
-              />
-            ) : (
-              <div>No links available</div>
-            )}
-          </div>
-        </section>
-      </MaxWidthWrapper>
-    </ButtonProvider>
+    <>
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          key="profile-jsonld"
+        />
+      </Head>
+      <ButtonProvider defaultBorder={user.buttons?.border} defaultColor={user.buttons?.color}>
+        <MaxWidthWrapper>
+          <section className={`w-full min-h-screen ${user.font} pt-20 theme-${user.theme}`}>
+            <div className="flex flex-col gap-5">
+              <UserView user={user} />
+              {user.links && user.links.length > 0 ? (
+                <DisplyLinks
+                  border={user.buttons?.border}
+                  color={user.buttons?.color}
+                  theme={user.theme}
+                  links={user.links}
+                />
+              ) : (
+                <div>No links available</div>
+              )}
+            </div>
+          </section>
+        </MaxWidthWrapper>
+      </ButtonProvider>
+    </>
   );
 };
 
