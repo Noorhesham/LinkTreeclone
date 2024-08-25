@@ -3,21 +3,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
-import { FaShareAlt } from "react-icons/fa";
 import { FcApproval } from "react-icons/fc";
 import { toast } from "react-toastify";
 import { Share } from "./Share";
 import { useTranslations } from "next-intl";
-
+const BASE = `https://vega-nfc.vercel.app`;
 const UserView = ({ user }: { user: any }) => {
   const t = useTranslations("UserView");
   const [copied, setCopied] = React.useState(false);
   const path = usePathname();
+  const locale = path.split("/")[1] || "en";
 
   const handleCopyLink = () => {
-    const fullUrl = window.location.origin + path;
     try {
-      navigator.clipboard.writeText(fullUrl);
+      navigator.clipboard.writeText(`${BASE}/${locale}/profile/${user.userName}`);
       toast.success(t("linkCopied"));
       setCopied(true);
     } catch (error) {
@@ -57,7 +56,7 @@ const UserView = ({ user }: { user: any }) => {
           >
             {t("profileLink")}
           </Link>
-          <Share theme={user.theme} onClick={handleCopyLink} link={`${global.window?.location.origin}/profile/${user._id}`} />
+          <Share theme={user.theme} onClick={handleCopyLink} link={`${BASE}/${locale}/profile/${user.userName}`} />
         </div>
       </div>
     </div>
