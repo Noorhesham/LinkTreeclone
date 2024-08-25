@@ -93,39 +93,36 @@ const Page = async ({ params }: { params: { username: string; locale: string } }
       name: `${user.firstName} ${user.lastName}`,
       description: user.bio,
       image: user.photo,
-      url: `${params.locale}/profile/${params.username}`,
+      url: `https://vega-nfc.vercel.app/${params.locale}/profile/${params.username}`,
     },
   };
 
   return (
-    <>
-      <Head>
+    <ButtonProvider defaultBorder={user.buttons?.border} defaultColor={user.buttons?.color}>
+      <MaxWidthWrapper>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
           key="profile-jsonld"
         />
-      </Head>
-      <ButtonProvider defaultBorder={user.buttons?.border} defaultColor={user.buttons?.color}>
-        <MaxWidthWrapper>
-          <section className={`w-full min-h-screen ${user.font} pt-20 theme-${user.theme}`}>
-            <div className="flex flex-col gap-5">
-              <UserView user={user} />
-              {user.links && user.links.length > 0 ? (
-                <DisplyLinks
-                  border={user.buttons?.border}
-                  color={user.buttons?.color}
-                  theme={user.theme}
-                  links={user.links}
-                />
-              ) : (
-                <div>No links available</div>
-              )}
-            </div>
-          </section>
-        </MaxWidthWrapper>
-      </ButtonProvider>
-    </>
+
+        <section className={`w-full min-h-screen ${user.font} pt-20 theme-${user.theme}`}>
+          <div className="flex flex-col gap-5">
+            <UserView user={user} />
+            {user.links && user.links.length > 0 ? (
+              <DisplyLinks
+                border={user.buttons?.border}
+                color={user.buttons?.color}
+                theme={user.theme}
+                links={user.links}
+              />
+            ) : (
+              <div>No links available</div>
+            )}
+          </div>
+        </section>
+      </MaxWidthWrapper>
+    </ButtonProvider>
   );
 };
 
