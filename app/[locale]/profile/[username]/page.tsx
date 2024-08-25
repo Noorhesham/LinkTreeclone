@@ -93,7 +93,7 @@ const Page = async ({ params }: { params: { username: string; locale: string } }
       name: `${user.firstName} ${user.lastName}`,
       description: user.bio,
       image: user.photo,
-      url: `/${params.locale}/${params.username}`,
+      url: `/${params.locale}/profile/${params.username}`,
     },
   };
 
