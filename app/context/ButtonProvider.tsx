@@ -1,9 +1,9 @@
 "use client";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 interface ButtonContextType {
-  border: number;
+  border?: number | undefined;
   setBorder: (Button: number) => void;
-  color: string;
+  color?: string | undefined;
   setColor: (Button: string) => void;
 }
 

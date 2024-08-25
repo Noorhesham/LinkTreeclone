@@ -8,9 +8,11 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Metadata } from "next";
 import QueryProvider from "../context/QueryProvider";
-import { cookies } from "next/headers";
 export const metadata: Metadata = {
-  title: "VEGA | NFC CARDS",
+  title: {
+    default: "VEGA | NFC CARDS",
+    template: "%s | VEGA NFC CARDS",
+  },
   description:
     "Effortlessly create and share your personalized digital profiles with NFC-enabled cards. Experience seamless connectivity and modern convenience in your networking.",
   openGraph: {
@@ -19,22 +21,29 @@ export const metadata: Metadata = {
       "Effortlessly create and share your personalized digital profiles with NFC-enabled cards. Experience seamless connectivity and modern convenience in your networking.",
     images: [
       {
-        url: "/VEGA.png", // Replace with the correct path to your image
+        url: "/VEGA.png",
         width: 1200,
         height: 630,
         alt: "VEGA NFC Cards - Digital Profiles",
       },
     ],
     type: "website",
-    // Adjust according to your primary locale
   },
   twitter: {
     card: "summary_large_image",
     title: "VEGA | NFC CARDS",
     description:
       "Effortlessly create and share your personalized digital profiles with NFC-enabled cards. Experience seamless connectivity and modern convenience in your networking.",
-    images: ["/VEGA.png"], // Replace with the correct path to your image
+    images: ["/VEGA.png"],
   },
+  alternates: {
+    canonical: "https://vega-nfc.vercel.app",
+    languages: {
+      ar: "https://vega-nfc.vercel.app/ar",
+      en: "https://vega-nfc.vercel.app/en",
+    },
+  },
+  metadataBase: new URL("https://vega-nfc.vercel.app"),
 };
 
 export default async function RootLayout({
