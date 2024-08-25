@@ -47,7 +47,7 @@ export const generateMetadata = async ({
     title: `${user.firstName} ${user.lastName}`,
     description: `Explore the profile and links of ${user.firstName}. ${user.bio}`,
     alternates: {
-      canonical: `/${params.locale}/${params.username}`,
+      canonical: `/${params.locale}/profile/${params.username}`,
       languages: {
         en: `/en/profile/${params.username}`,
         ar: `/ar/profile/${params.username}`,
