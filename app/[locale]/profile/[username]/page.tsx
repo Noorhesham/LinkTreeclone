@@ -32,31 +32,31 @@ export const generateMetadata = async ({
       title: "User not found",
       description: "The user you are looking for does not exist.",
       alternates: {
-        canonical: `https://vega-nfc.vercel.app/${params.locale}/user-not-found`,
+        canonical: `/${params.locale}/user-not-found`,
         languages: {
-          en: `https://vega-nfc.vercel.app/en/${params.username}`,
-          ar: `https://vega-nfc.vercel.app/ar/${params.username}`,
+          en: `/en/profile/${params.username}`,
+          ar: `/ar/profile/${params.username}`,
         },
       },
     };
   }
 
-  const imageUrl = user.photo.startsWith("http") ? user.photo : `https://vega-nfc.vercel.app${user.photo}`;
+  const imageUrl = user.photo.startsWith("http") ? user.photo : `${user.photo}`;
 
   return {
     title: `${user.firstName} ${user.lastName}`,
     description: `Explore the profile and links of ${user.firstName}. ${user.bio}`,
     alternates: {
-      canonical: `https://vega-nfc.vercel.app/${params.locale}/${params.username}`,
+      canonical: `/${params.locale}/${params.username}`,
       languages: {
-        en: `https://vega-nfc.vercel.app/en/${params.username}`,
-        ar: `https://vega-nfc.vercel.app/ar/${params.username}`,
+        en: `/en/profile/${params.username}`,
+        ar: `/ar/profile/${params.username}`,
       },
     },
     openGraph: {
       title: `${user.firstName} | Vega NFC`,
       description: `Discover the links and more about ${user.firstName}.`,
-      url: `https://vega-nfc.vercel.app/${params.locale}/${params.username}`,
+      url: `${params.locale}/profile/${params.username}`,
       type: "profile",
       images: [
         {
@@ -92,7 +92,7 @@ const Page = async ({ params }: { params: { username: string; locale: string } }
       name: `${user.firstName} ${user.lastName}`,
       description: user.bio,
       image: user.photo,
-      url: `https://vega-nfc.vercel.app/${params.locale}/${params.username}`,
+      url: `/${params.locale}/${params.username}`,
     },
   };
 
