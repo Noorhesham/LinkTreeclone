@@ -34,8 +34,14 @@ const Hero = ({ user }: { user?: any }) => {
             {!userId ? (
               <>
                 {" "}
-                <Button text={t("hero.getStarted")} />
-                <Button text={t("hero.logIn")} />
+                <Button text={t("hero.getStarted")}>
+                  <Link href="/signup">
+                    <CiUnlock />
+                  </Link>
+                </Button>
+                <Button>
+                  <Link href="/login">{t("hero.logIn")}</Link>
+                </Button>
               </>
             ) : (
               <div className="flex flex-col items-start">
