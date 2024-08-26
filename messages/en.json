@@ -59,12 +59,13 @@
     "close": "Close"
   },
   "profileLink": "Public Profile Link",
-  "product":{
+  "product": {
     "name": "name",
     "description": "description",
     "price": "price",
     "currentStock": "currentStock",
-    "create":"Create",
-    "update":"Update"
-  }
+    "create": "Create",
+    "update": "Update"
+  },
+  "orders": "My Orders"
 }

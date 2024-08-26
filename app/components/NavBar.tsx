@@ -37,6 +37,11 @@ export default function NavBar() {
                       <Link href={category.url}>{t(`navbar.${category.text.toLowerCase()}`)}</Link>
                     </Button>
                   ))}
+                  {isSignedIn && (
+                    <Button variant={"ghost"}>
+                      <Link href={`/orders`}>{t("navbar.orders")}</Link>
+                    </Button>
+                  )}
                 </div>
               </div>
               <div className="rounded-full mx-6 mr-10 lg:mr-0 ml-auto flex gap-6 items-center">
@@ -52,7 +57,7 @@ export default function NavBar() {
                         },
                       }}
                     />
-                    <CartItems/>
+                    <CartItems />
                   </>
                 )}
                 <div className="flex text-sm mr-4 md:mr-0  md:text-base items-center gap-5">
