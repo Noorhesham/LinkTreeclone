@@ -15,9 +15,10 @@ export interface ProductPropsServerProps {
   paginate?: boolean;
   slider?: boolean;
   sort?: string | string[] | undefined;
+  user: any;
 }
 const ProductReel = async (props: ProductReelProps & ProductPropsServerProps) => {
-  const { title, subTitle, href, className, sort, slider, onlyPrice } = props;
+  const { title, subTitle, href, className, sort, slider, onlyPrice, user } = props;
   return (
     <section className={className || " py-12 mt-5 "}>
       <div className="lg:flex lg:items-center lg:justify-between mb-4">
@@ -34,7 +35,7 @@ const ProductReel = async (props: ProductReelProps & ProductPropsServerProps) =>
                 <ProductLoader key={i} />
               ))}
             >
-              <ProductReelFetch />
+              <ProductReelFetch user={user} />
             </Suspense>
           </div>
         </div>
