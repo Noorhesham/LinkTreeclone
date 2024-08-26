@@ -12,7 +12,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useGetCart } from "../query/query";
 import BabySpinner from "./BabySpinner";
 import Counter from "./Counter";
-const ProductCard = ({ product, index }: { product: any; index: number }) => {
+const ProductCard = ({ product, index, username }: { product: any; index: number; username: string }) => {
   const { isSignedIn, userId } = useAuth();
   const [isVisible, setIsVisible] = React.useState(false);
   const [isPending, startTransition] = useTransition();
@@ -38,7 +38,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
     return () => clearTimeout(timer);
   }, [index]);
   const { data, isLoading } = useGetCart();
-  console.log(data)
+  console.log(data);
   return isVisible ? (
     <div
       className={`${cn(" opacity-0  h-full relative w-full cursor-pointer group-main ", {
@@ -62,11 +62,12 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
         </div>
         <p className=" my-2 font-medium text-right text-xs text-gray-200">{product.description}</p>
       </div>
-      {userId ? (
+      {username ? (
         isLoading ? (
           <BabySpinner />
         ) : data?.filter((item: any) => item._id === product._id).length > 0 ? (
-          <Counter max={product.currentStock}
+          <Counter
+            max={product.currentStock}
             length={data?.filter((item: any) => item._id === product._id).length}
             onAdd={() => handleAddToCart(product._id)}
             onDecrement={async () => {
@@ -85,7 +86,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
           btn={<Button>Add To Cart</Button>}
           content={
             <div className=" py-20 px-10">
-              <p>Sign in to order</p>
+              <p>{userId ? "You have to add your user name to make an order" : "Please sign in to make an order"}</p>
             </div>
           }
           title="Sign in"

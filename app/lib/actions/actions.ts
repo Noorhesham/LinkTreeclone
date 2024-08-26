@@ -96,11 +96,16 @@ export async function toggleImg() {
     console.log(error);
   }
 }
-export async function getProducts() {
-  const products = await Product.find({}).lean();
-  console.log(products);
-  const productObj=JSON.parse(JSON.stringify(products))
-  return { status: 200, data: { products:productObj } };
+export async function getProducts(page = 1, limit = 10) {
+  connect();
+  const skip = (page - 1) * limit;
+  const products = await Product.find({}).skip(skip).limit(limit).lean();
+
+  const totalProducts = await Product.countDocuments({});
+  const totalPages = Math.ceil(totalProducts / limit);
+
+  const productObj = JSON.parse(JSON.stringify(products));
+  return { status: 200, data: { products: productObj, totalPages } };
 }
 export async function addToCart(productId: string) {
   const { userId } = await auth();
