@@ -59,21 +59,29 @@ const ImageInput = ({
           htmlFor="image"
           className="flex hover:bg-gray-800 duration-200 h-full flex-col group cursor-pointer items-center gap-2 py-5 px-10 rounded-2xl"
         >
-          {isLoading && <div className="absolute top-1/2  left-1/2 -translate-y-1/2 -translate-x-1/2"><BabySpinner  /></div>
-            }
+          {isLoading && (
+            <div className="absolute top-1/2  left-1/2 -translate-y-1/2 -translate-x-1/2">
+              <BabySpinner />
+            </div>
+          )}
           {defaultImg && (
             <Delete
               value={"Delete"}
               btn={<XIcon className=" text-xl absolute z-10 top-2 right-2" />}
               onClick={async () => {
-                
                 const res = await deleteProductImage(defaultImg.public_id, productId || "");
                 if (res.success) toast.success(res.success);
                 router.refresh();
               }}
             />
           )}
-          <input disabled={defaultImg!==undefined} id="image" type="file" className="hidden" onChange={handleImageChange} />
+          <input
+            disabled={defaultImg !== undefined}
+            id="image"
+            type="file"
+            className="hidden"
+            onChange={handleImageChange}
+          />
           <Image
             src={isPreview || defaultImg.secure_url}
             fill
@@ -87,7 +95,13 @@ const ImageInput = ({
             htmlFor="image"
             className="flex flex-col group cursor-pointer h-full items-center gap-2 py-10 px-10 rounded-2xl border-dashed border-gray-500 border-2"
           >
-            <input id="image" disabled={defaultImg!==undefined} type="file" className="hidden" onChange={handleImageChange} />
+            <input
+              id="image"
+              disabled={defaultImg !== undefined}
+              type="file"
+              className="hidden"
+              onChange={handleImageChange}
+            />
             <TbCameraPlus className="text-4xl text-gray-50 group-hover:text-blue-500 duration-200" />
             <span className="group-hover:text-gray-100 duration-200 rounded-full mt-4">Upload</span>
           </label>

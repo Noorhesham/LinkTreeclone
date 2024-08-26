@@ -9,7 +9,8 @@
     "contact": "Contact",
     "signUp": "Sign Up",
     "signIn": "Sign In",
-    "store": "Store"
+    "store": "Store",
+    "orders": "My Orders"
   },
   "hero": {
     "highlight": "Effortlessly!",
@@ -66,6 +67,5 @@
     "currentStock": "currentStock",
     "create": "Create",
     "update": "Update"
-  },
-  "orders": "My Orders"
+  }
 }

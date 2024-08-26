@@ -39,7 +39,7 @@ export default function NavBar() {
                   ))}
                   {isSignedIn && (
                     <Button variant={"ghost"}>
-                      <Link href={`/orders`}>{t("navbar.orders")}</Link>
+                      <Link href={`/protected/orders`}>{t("navbar.orders")}</Link>
                     </Button>
                   )}
                 </div>

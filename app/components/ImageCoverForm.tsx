@@ -110,7 +110,7 @@ const ImageCoverForm = ({ user }: { user: any }) => {
       {imageSrc && (
         <div className=" absolute inset-0 w-full h-full">
           <Cropper
-            image={imageSrc} 
+            image={imageSrc}
             crop={crop}
             zoom={zoom}
             aspect={28 / 9} // Aspect ratio for a cover image
@@ -146,7 +146,7 @@ const ImageCoverForm = ({ user }: { user: any }) => {
                         <FormLabel className=" text-gray-50 text-nowrap ">
                           {isImage ? t("image") : t("color")}
                         </FormLabel>
-                        {isImage ? (
+                        {(
                           <label htmlFor="cover">
                             <Input
                               id="cover"
@@ -159,21 +159,10 @@ const ImageCoverForm = ({ user }: { user: any }) => {
                               type="file"
                             />
                           </label>
-                        ) : (
-                          <Input
-                            disabled={isPending}
-                            type="color"
-                            className=" text-gray-50  file:text-gray-50"
-                            defaultValue={user.coverColor}
-                            onBlur={(e) => {
-                              field.onChange(e.target.value);
-                              form.handleSubmit(onSubmit)();
-                            }}
-                          />
                         )}
                       </div>
                     </FormControl>
-                    <Button disabled={isPending}>Upload Image</Button>
+                    {form.getValues("cover") && <Button disabled={isPending}>Upload Image</Button>}
                     <FormMessage className=" text-sm dark:text-red-500" />
                   </FormItem>
                 )}

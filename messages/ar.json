@@ -9,7 +9,8 @@
     "contact": "اتصل بنا",
     "signUp": "سجل الآن",
     "signIn": "تسجيل الدخول",
-    "store": "المتجر"
+    "store": "المتجر",
+    "orders": "طلباتي"
   },
   "hero": {
     "highlight": "بسهولة!",
@@ -67,6 +68,5 @@
     "currentStock": "الكمية",
     "create": "انشاء",
     "update": "تحديث"
-  },
-  "orders": "طلباتي"
+  }
 }

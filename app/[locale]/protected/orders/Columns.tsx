@@ -58,7 +58,7 @@ export const columns: ColumnDef<any>[] = [
     },
     cell({ row }) {
       return (
-        <div className=" text-center font-medium">
+        <div className=" text-left font-medium">
           {row.original.product.reduce((acc: number, item: any) => acc + item.price, 0)}
         </div>
       );
@@ -75,7 +75,7 @@ export const columns: ColumnDef<any>[] = [
       );
     },
     cell({ row }) {
-      return <div className=" text-center font-medium">{new Date(row.getValue("createdAt")).toLocaleDateString()}</div>;
+      return <div className=" text-left font-medium">{new Date(row.getValue("createdAt")).toLocaleDateString()}</div>;
     },
   },
 ];
