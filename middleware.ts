@@ -18,20 +18,30 @@ const isPublicRoute = createRouteMatcher([
   "/en/sign-up(.*)",
   "/ar/sign-up",
   "/webhook",
-  "/api/webhooks/clerk","/en/profile/([^/.])","/en/profile/(.*)",
-  "/ar/profile/([^/.])","/ar/profile/(.*)","/en/store","/store"
+  "/api/webhooks/clerk",
+  "/en/profile/([^/.])",
+  "/en/profile/(.*)",
+  "/ar/profile/([^/.])",
+  "/ar/profile/(.*)",
+  "/en/store",
+  "/store",
 ]);
 export default clerkMiddleware((auth, req) => {
+  // Apply intlMiddleware first to ensure locale is appended correctly
+  if (!req.url.includes("/api")) {
+    const intlResponse = intlMiddleware(req);
+    if (intlResponse) {
+      return intlResponse; // Return early if intlMiddleware sends a response
+    }
+  }
+
+  // Check if it's a public route
   if (!isPublicRoute(req)) {
     auth().protect();
   }
-  console.log(req.url);
-  // Apply intlMiddleware only if the request path does not start with /api
-  if (!req.url.includes("/api")) {
-    return intlMiddleware(req);
-  }
-});
 
+  return; // Return undefined to let the request continue
+});
 export const config = {
   matcher: [
     "/((?!.*\\..*|_next).*)",
