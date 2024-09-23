@@ -54,7 +54,7 @@ export const generateMetadata = async ({
       },
     },
     openGraph: {
-      title: `${user.firstName} | Vega NFC`,
+      title: `${user.firstName} | Vega Smart Technology`,
       description: `${user.bio || `Explore the profile and links of ${user.firstName}.`}`,
       url: `${params.locale}/profile/${params.username}`,
       type: "profile",
@@ -69,7 +69,7 @@ export const generateMetadata = async ({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${user.firstName} | Vega NFC`,
+      title: `${user.firstName} | Vega Smart Technology`,
       description: `${user.bio || `Explore the profile and links of ${user.firstName}.`}`,
 
       images: [imageUrl],
@@ -93,7 +93,7 @@ const Page = async ({ params }: { params: { username: string; locale: string } }
       name: `${user.firstName} ${user.lastName}`,
       description: user.bio,
       image: user.photo,
-      url: `https://vega-nfc.vercel.app/${params.locale}/profile/${params.username}`,
+      url: `https://vega-Smart Technology.vercel.app/${params.locale}/profile/${params.username}`,
     },
   };
 

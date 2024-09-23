@@ -11,8 +11,8 @@ export const socialMediaPlatforms = [
   "Telegram",
   "Threads",
   "Reddit",
-  "Custom_Link",
   "Github",
+  "Custom_Link",
 ];
 interface CoverImage {
   secure_url: string;

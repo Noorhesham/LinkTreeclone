@@ -28,7 +28,7 @@ const DisplayCard = ({ link, theme }: { link: { link: string; provider: string; 
       return url; // Return the original link if URL parsing fails
     }
   };
-  
+
   return (
     <div
       style={{ borderRadius: border, backgroundColor: color }}
@@ -49,9 +49,12 @@ const DisplayCard = ({ link, theme }: { link: { link: string; provider: string; 
           {getShortLink(link.link)}
         </p>
       </div>
-      <Link href={link.link} className="slef-end text-xl md:text-4xl cursor-pointer ml-auto">
-        <CiLink />{" "}
-      </Link>
+      <div className="  justify-end  ml-auto  flex items-center gap-2">
+        {link.name && <p className=" rounded-full bg-gray-200 border-input border py-2 px-4 text-gray-900"> {link.name}</p>}
+        <Link href={link.link} className="slef-end text-xl md:text-4xl cursor-pointer ml-auto">
+          <CiLink />{" "}
+        </Link>
+      </div>
     </div>
   );
 };

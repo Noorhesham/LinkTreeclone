@@ -26,7 +26,7 @@ const page = async () => {
   const user: any = await User.findOne({ clerkUserId: userId }).populate({ path: "links", model: Link }).lean();
   console.log(user, userId);
   if (!user) return <h1>User not found</h1>;
-  console.log(user)
+  console.log(user);
   return (
     <FontProvider defaultFont={user.font}>
       <ThemeProvider defaultTheme={user.theme}>
@@ -39,13 +39,16 @@ const page = async () => {
                   <div className=" w-full flex-col  md:justify-center flex items-center gap-2 md:w-[100%]">
                     <div className="flex flex-col items-center">
                       <InputUserName disablee={false} fieldType="bio" value={user.bio} id={user._id} />
+                      <InputUserName disablee={false} fieldType="phone" value={user.phone} id={user._id} />
                       <div className=" flex flex-col items-center my-2 gap-2">
-                        {!user.userName && <InputUserName
-                          disablee={false}
-                          fieldType="userName"
-                          value={user?.userName || ""}
-                          id={user?._id}
-                        />}
+                        {!user.userName && (
+                          <InputUserName
+                            disablee={false}
+                            fieldType="userName"
+                            value={user?.userName || ""}
+                            id={user?._id}
+                          />
+                        )}
                         <p className=" text-xs text-violet-400 font-semibold">
                           USER NAME CANNOT BE CHANGED ONCE CREATED .. IT WILL BE USED TO GENERATE YOUR NFC AND QR CODE
                         </p>

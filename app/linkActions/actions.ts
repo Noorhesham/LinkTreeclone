@@ -15,6 +15,7 @@ export async function addLink(data: { link: string; provider: string }, userId: 
   const link = await Link.create({
     link: data.link,
     provider: data.provider,
+    name: data.name,
     userId,
   });
   const updatedUser = await User.findByIdAndUpdate(userId, {
@@ -33,6 +34,7 @@ export async function updateLink(data: { link: string; provider: string; _id: st
     const linknew = await Link.findByIdAndUpdate(data._id, {
       link: data.link,
       provider: data.provider,
+      name: data.name,
     });
     console.log(linknew, data, id);
     if (!linknew) return { error: "Link not updated !" };
@@ -78,6 +80,7 @@ export async function updateUserDetails(data: { bio?: string; userName?: string 
     const updateData: any = {};
     if (data.bio !== undefined) updateData.bio = data.bio;
     if (data.userName !== undefined) updateData.userName = data.userName;
+    if (data.phone) updateData.phone = data.phone;
     console.log(updateData);
     const user = await User.findOneAndUpdate({ clerkUserId: userId }, updateData).lean();
     console.log(user);
@@ -151,20 +154,20 @@ export async function deleteProduct(id: string) {
   return { success: "Product deleted successfully !", status: 200, data: null };
 }
 export async function updateProduct(data: any, id: string) {
-try {
-  console.log(data, id);
-  const productnew = await Product.findOneAndUpdate(
-    { _id: id },
-    {
-      ...data,
-    }
-  );
-  const productObj = JSON.parse(JSON.stringify(productnew));
+  try {
+    console.log(data, id);
+    const productnew = await Product.findOneAndUpdate(
+      { _id: id },
+      {
+        ...data,
+      }
+    );
+    const productObj = JSON.parse(JSON.stringify(productnew));
 
-  return { success: "Product updated successfully !", status: 200, data: { productObj } };
-} catch (error) {
-  console.log(error);
-}
+    return { success: "Product updated successfully !", status: 200, data: { productObj } };
+  } catch (error) {
+    console.log(error);
+  }
 }
 export const deleteProductImage = async (public_id: string, productId: string) => {
   await deleteImage(public_id);
@@ -177,4 +180,4 @@ export const deleteProductImage = async (public_id: string, productId: string) =
 export const deleteOrder = async (id: string) => {
   const order = await Order.findOneAndDelete({ _id: id });
   return { success: "Order deleted successfully !", status: 200, data: null };
-}
+};

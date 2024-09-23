@@ -23,7 +23,7 @@ const userNameschema = z.object({
     }),
 });
 
-type InputFieldType = "bio" | "userName";
+type InputFieldType = "bio" | "userName" | "phone";
 
 interface InputUserNameProps {
   id: string;
@@ -106,6 +106,8 @@ const InputUserName = ({ disablee, id, value, fieldType }: InputUserNameProps) =
                           placeholder={
                             fieldType === "bio"
                               ? t("inputUserName.addBioPlaceholder")
+                              : fieldType === "phone"
+                              ? t("inputUserName.phone")
                               : t("inputUserName.addUserNamePlaceholder")
                           }
                         />
@@ -152,7 +154,13 @@ const InputUserName = ({ disablee, id, value, fieldType }: InputUserNameProps) =
               ) : (
                 <Button
                   className={`mb-auto `}
-                  text={fieldType === "bio" ? t("inputUserName.addBioButton") : t("inputUserName.addUserNameButton")}
+                  text={
+                    fieldType === "bio"
+                      ? t("inputUserName.addBioButton")
+                      : fieldType === "phone"
+                      ? t("inputUserName.phone")
+                      : t("inputUserName.addUserNameButton")
+                  }
                   disabled={isPending}
                 />
               )

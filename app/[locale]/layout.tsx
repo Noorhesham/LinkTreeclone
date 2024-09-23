@@ -10,13 +10,13 @@ import { Metadata } from "next";
 import QueryProvider from "../context/QueryProvider";
 export const metadata: Metadata = {
   title: {
-    default: "VEGA | NFC CARDS",
-    template: "%s | VEGA NFC CARDS",
+    default: "VEGA | Smart Technology",
+    template: "%s | Smart Technology",
   },
   description:
     "Effortlessly create and share your personalized digital profiles with NFC-enabled cards. Experience seamless connectivity and modern convenience in your networking.",
   openGraph: {
-    title: "VEGA | NFC CARDS",
+    title: "VEGA | Smart Technology",
     description:
       "Effortlessly create and share your personalized digital profiles with NFC-enabled cards. Experience seamless connectivity and modern convenience in your networking.",
     images: [
@@ -24,14 +24,14 @@ export const metadata: Metadata = {
         url: "/VEGA.png",
         width: 1200,
         height: 630,
-        alt: "VEGA NFC Cards - Digital Profiles",
+        alt: "VEGA Smart Technology - Digital Profiles",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "VEGA | NFC CARDS",
+    title: "VEGA | Smart Technology",
     description:
       "Effortlessly create and share your personalized digital profiles with NFC-enabled cards. Experience seamless connectivity and modern convenience in your networking.",
     images: ["/VEGA.png"],

@@ -25,7 +25,8 @@
     "addBioButton": "Add Bio",
     "addUserNamePlaceholder": "Add Your Username Here",
     "addUserNameButton": "Add Username",
-    "viewProfileButton": "View Profile"
+    "viewProfileButton": "View Profile",
+    "phone": " Phone"
   },
   "createForm": {
     "addLinkButton": "Add Link"
@@ -36,7 +37,8 @@
     "delete": "Delete",
     "invalidURL": "Invalid URL",
     "required": "Required",
-    "linkForProvider": "Link for {{provider}}"
+    "linkForProvider": "Link for {{provider}}",
+    "name": "name"
   },
   "languageSwitcher": {
     "selectLanguage": "Select a language",

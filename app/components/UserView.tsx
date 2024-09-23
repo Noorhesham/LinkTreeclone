@@ -7,6 +7,8 @@ import { FcApproval } from "react-icons/fc";
 import { toast } from "react-toastify";
 import { Share } from "./Share";
 import { useTranslations } from "next-intl";
+import { PhoneIcon } from "lucide-react";
+import { MdEmail } from "react-icons/md";
 const BASE = `https://vega-nfc.vercel.app`;
 const UserView = ({ user }: { user: any }) => {
   const t = useTranslations("UserView");
@@ -47,6 +49,20 @@ const UserView = ({ user }: { user: any }) => {
               <span className="text-gray-400 text-xs font-medium">{`(${user.userName || ""})`}</span> <FcApproval />
             </h1>
             {<h4 className="text-center text-gray-50">{user.bio}</h4>}
+            <div className=" flex flex-col items-start gap-2 mt-3">
+              {user.phone && (
+                <div className=" text-gray-50   text-sm font-semibold  flex items-center gap-2">
+                  <PhoneIcon className=" w-4 h-4" />
+                  <p>{user.phone}</p>
+                </div>
+              )}
+              {user.email && (
+                <div className="text-gray-50 text-sm font-semibold flex items-center gap-2">
+                  <MdEmail className=" w-4 h-4" />
+                  <p>{user.email}</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
         <div className="flex items-center gap-5">

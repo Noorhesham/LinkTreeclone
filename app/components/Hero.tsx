@@ -36,12 +36,12 @@ const Hero = ({ user }: { user?: any }) => {
               <>
                 {" "}
                 <Button text={t("hero.getStarted")}>
-                  <Link href={`/${locale}/signup`}>
+                  <Link href={`/sign-up`}>
                     <CiUnlock />
                   </Link>
                 </Button>
                 <Button>
-                  <Link href={`/${locale}/login`}>{t("hero.logIn")}</Link>
+                  <Link href={`/sign-in`}>{t("hero.logIn")}</Link>
                 </Button>
               </>
             ) : (
