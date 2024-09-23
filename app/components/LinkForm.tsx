@@ -25,6 +25,7 @@ const linkSchema = z.object({
   link: z.string().url({ message: "Invalid URL" }),
   provider: z.string().min(1, { message: "Required" }),
   _id: z.string().optional(),
+  name: z.string().optional(),
 });
 
 const LinkForm = ({ userId, linkData, handleDeleteLink }: { userId: string; linkData: any; handleDeleteLink: any }) => {
@@ -52,7 +53,8 @@ const LinkForm = ({ userId, linkData, handleDeleteLink }: { userId: string; link
       }
     });
   };
-
+  const selected = form.getValues("provider") === "Custom_Link";
+  console.log(selected);
   return (
     <Reorder.Item
       className={`w-full   `}
@@ -87,6 +89,7 @@ const LinkForm = ({ userId, linkData, handleDeleteLink }: { userId: string; link
                 control={form.control}
                 name="link"
               />
+              {selected && <FormInput placeholder={t("linkForm.name")} control={form.control} name="name" />}
             </div>
             {form.getValues("provider") && (
               <Image width={50} height={50} alt={`${form.getValues("provider")}`} src={`/${image}.png`} />

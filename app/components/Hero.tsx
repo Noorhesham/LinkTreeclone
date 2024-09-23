@@ -15,6 +15,7 @@ import NFCWriter from "./WriteNfc";
 
 const Hero = ({ user }: { user?: any }) => {
   const { isLoaded, sessionId, userId } = useAuth();
+  const locale = useTranslations();
   const t = useTranslations();
   return (
     <section className="flex min-h-screen flex-col pt-28 md:pt-14 lg:max-h-screen lg:pt-24 overflow-hidden lg:flex-row relative items-center lg:gap-20 justify-center px-10 lg:px-20">
@@ -35,12 +36,12 @@ const Hero = ({ user }: { user?: any }) => {
               <>
                 {" "}
                 <Button text={t("hero.getStarted")}>
-                  <Link href="/signup">
+                  <Link href={`/${locale}/signup`}>
                     <CiUnlock />
                   </Link>
                 </Button>
                 <Button>
-                  <Link href="/login">{t("hero.logIn")}</Link>
+                  <Link href={`/${locale}/login`}>{t("hero.logIn")}</Link>
                 </Button>
               </>
             ) : (
