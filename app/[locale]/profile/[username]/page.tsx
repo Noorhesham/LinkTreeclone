@@ -11,6 +11,9 @@ import { notFound } from "next/navigation";
 import { WithContext, ProfilePage } from "schema-dts";
 import Head from "next/head";
 import { UserProps } from "@/app/constants";
+import { FontProvider } from "@/app/context/FontProvider";
+import { ThemeProvider } from "@/app/context/ThemeProvider";
+import FontWrapper from "@/app/components/FontWrapper";
 
 const getUserData = async (username: string) => {
   await connect();
@@ -96,33 +99,39 @@ const Page = async ({ params }: { params: { username: string; locale: string } }
       url: `https://vega-Smart Technology.vercel.app/${params.locale}/profile/${params.username}`,
     },
   };
-
+  console.log(user);
   return (
-    <ButtonProvider defaultBorder={user.buttons?.border} defaultColor={user.buttons?.color}>
-      <MaxWidthWrapper>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-          key="profile-jsonld"
-        />
+    <FontProvider defaultFont={user.font}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        key="profile-jsonld"
+      />
 
-        <section className={`w-full min-h-screen ${user.font} pt-20 theme-${user.theme}`}>
-          <div className="flex flex-col gap-5">
-            <UserView user={user} />
-            {user.links && user.links.length > 0 ? (
-              <DisplyLinks
-                border={user.buttons?.border}
-                color={user.buttons?.color}
-                theme={user.theme}
-                links={user.links}
-              />
-            ) : (
-              <div>No links available</div>
-            )}
-          </div>
-        </section>
-      </MaxWidthWrapper>
-    </ButtonProvider>
+      <ThemeProvider defaultTheme={user.theme}>
+        <ButtonProvider defaultBorder={user.buttons?.border} defaultColor={user.buttons?.color}>
+          <MaxWidthWrapper>
+            <FontWrapper defaultFont={user.font}>
+              <section className={`w-full min-h-screen  pt-20 `}>
+                <div className="flex flex-col gap-5">
+                  <UserView user={user} />
+                  {user.links && user.links.length > 0 ? (
+                    <DisplyLinks
+                      border={user.buttons?.border}
+                      color={user.buttons?.color}
+                      theme={user.theme}
+                      links={user.links}
+                    />
+                  ) : (
+                    <div>No links available</div>
+                  )}
+                </div>
+              </section>
+            </FontWrapper>
+          </MaxWidthWrapper>
+        </ButtonProvider>
+      </ThemeProvider>
+    </FontProvider>
   );
 };
 
