@@ -3,6 +3,7 @@ import connect from "@/app/lib/db";
 import User from "@/app/lib/models/userModel";
 import { DataTable } from "@/app/components/DataTable";
 import { columns } from "./Columns";
+import { redirect } from "next/navigation";
 
 const page = async () => {
   const { userId } = auth();
