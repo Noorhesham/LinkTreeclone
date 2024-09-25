@@ -4,7 +4,7 @@ const LinkSchema = new Schema({
   provider: { type: String, required: true },
   link: { type: String, required: true },
   userId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
-  name: { type: String, required: true },
+  name: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
 

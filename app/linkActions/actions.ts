@@ -15,7 +15,7 @@ export async function addLink(data: { link: string; provider: string }, userId: 
   const link = await Link.create({
     link: data.link,
     provider: data.provider,
-    name: data.name,
+    name: data?.name,
     userId,
   });
   const updatedUser = await User.findByIdAndUpdate(userId, {
