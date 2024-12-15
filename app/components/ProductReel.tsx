@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import ProductReelFetch from "./ProductReelFetch";
 import { Skeleton } from "@/components/ui/skeleton";
+import { PaginationDemo } from "./Pagination";
 interface ProductReelProps {
   title: string;
   subTitle?: string;
@@ -18,7 +19,7 @@ export interface ProductPropsServerProps {
   user: any;
 }
 const ProductReel = async (props: ProductReelProps & ProductPropsServerProps) => {
-  const { title, subTitle, href, className, sort, slider, onlyPrice, user } = props;
+  const { title, subTitle, href, className, sort, slider, onlyPrice, user,page } = props;
   return (
     <section className={className || " py-12 mt-5 "}>
       <div className="lg:flex lg:items-center lg:justify-between mb-4">
@@ -35,8 +36,9 @@ const ProductReel = async (props: ProductReelProps & ProductPropsServerProps) =>
                 <ProductLoader key={i} />
               ))}
             >
-              <ProductReelFetch user={user} />
+              <ProductReelFetch page={page} user={user} />
             </Suspense>
+            <PaginationDemo />
           </div>
         </div>
       </div>

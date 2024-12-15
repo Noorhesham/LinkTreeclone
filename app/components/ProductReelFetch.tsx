@@ -3,16 +3,17 @@ import ProductCard from "./ProductCard";
 import { unstable_cache } from "next/cache";
 import { getProducts } from "../lib/actions/actions";
 
-const fetchProducts = async () => {
-  return await getProducts();
+const fetchProducts = async (page: number) => {
+  return await getProducts(page);
 };
 
 // Wrapping the cache around the fetch function
-const cachedFetchProducts = unstable_cache(fetchProducts, ["products"], { revalidate: 60 });
+const cachedFetchProducts = (page: number) =>
+  unstable_cache(() => fetchProducts(page), [`products-${page}`], { revalidate: 60 });
 
-const ProductReelFetch = async ({ user }: { user: any }) => {
+const ProductReelFetch = async ({ user, page = 1 }: { user: any; page?: number }) => {
   // Use the cached function to fetch products
-  const res = await cachedFetchProducts();
+  const res = await cachedFetchProducts(page)();
 
   if (!res || !res.data) {
     return null; // Handle the case where the response is invalid or empty
@@ -29,7 +30,7 @@ const ProductReelFetch = async ({ user }: { user: any }) => {
           ))}
           {products.length < 12 &&
             Array.from({ length: 12 - products.length }).map((_, i) => (
-              <div className="lg:block hidden w-full h-full min-h-20" key={i}>
+              <div className="lg:block hidden w-full h-full " key={i}>
                 {" "}
               </div>
             ))}

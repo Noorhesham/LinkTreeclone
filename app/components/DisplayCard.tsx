@@ -30,14 +30,15 @@ const DisplayCard = ({ link, theme }: { link: { link: string; provider: string; 
   };
 
   return (
-    <div
+    <Link
+      href={link.link}
       style={{ borderRadius: border, backgroundColor: color }}
       className={`  border border-background hover:bg-opacity-85 duration-200 ${
         theme ? `card-${theme}` : "bg-[#1f1f23]"
       } flex items-center w-[90%] gap-5 rounded-3xl py-2 md:py-3 px-4 md:px-6`}
     >
       <div className=" aspect-square w-10 h-10 md:w-24 md:h-24 rounded-full relative">
-        <Image className=" object-cover" src={`/${link.provider}.png`} fill alt={link.provider} />
+        <Image className=" object-contain" src={`/${link.provider}.png`} fill alt={link.provider} />
       </div>
       <div className="flex flex-col gap-1">
         <h2 className=" text-base md:text-2xl font-bold">{link.provider}</h2>
@@ -49,13 +50,15 @@ const DisplayCard = ({ link, theme }: { link: { link: string; provider: string; 
           {getShortLink(link.link)}
         </p>
       </div>
-      <div className="  justify-end  ml-auto  flex items-center gap-2">
-        {link.name && <p className=" rounded-full bg-gray-200 border-input border py-2 px-4 text-gray-900"> {link.name}</p>}
-        <Link href={link.link} className="slef-end text-xl md:text-4xl cursor-pointer ml-auto">
+      <div onClick={handleCopyLink} className="  justify-end  ml-auto  flex items-center gap-2">
+        {link.name && (
+          <p className=" rounded-full bg-gray-200 border-input border py-2 px-4 text-gray-900"> {link.name}</p>
+        )}
+        <div className="slef-end text-xl md:text-4xl cursor-pointer ml-auto">
           <CiLink />{" "}
-        </Link>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -18,7 +18,7 @@ const Hero = ({ user }: { user?: any }) => {
   const locale = useTranslations();
   const t = useTranslations();
   return (
-    <section className="flex min-h-screen flex-col pt-28 md:pt-14 lg:max-h-screen lg:pt-24 overflow-hidden lg:flex-row relative items-center lg:gap-20 justify-center px-10 lg:px-20">
+    <section className="flex min-h-screen flex-col pt-28 md:pt-14  lg:pt-24 overflow-hidden lg:flex-row relative items-center lg:gap-20 justify-center px-10 lg:px-20">
       <span className="w-32 h-12 scale-125 -rotate-45 absolute top-36 -left-12 bg-violet-700/50 rounded-full"></span>
       <span className="w-32 h-12 scale-125 -rotate-45 absolute top-64 -left-10 bg-violet-700/50 rounded-full"></span>
       <span className="w-32 h-12 scale-125 -rotate-45 absolute top-36 -right-12 bg-violet-700/50 rounded-full"></span>

@@ -8,6 +8,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Metadata } from "next";
 import QueryProvider from "../context/QueryProvider";
+import { LoadingProvider } from "../context/LoadingContext";
 export const metadata: Metadata = {
   title: {
     default: "VEGA | Smart Technology",
@@ -67,12 +68,14 @@ export default async function RootLayout({
           className={`${locale === "ar" && "text-right"} dark`}
         >
           <QueryProvider>
-            <NextIntlClientProvider messages={messages}>
-              <ToastContainer position="top-center" theme="dark" />
-              <NavBar />
+            <LoadingProvider>
+              <NextIntlClientProvider messages={messages}>
+                <ToastContainer position="top-center" theme="dark" />
+                <NavBar />
 
-              {children}
-            </NextIntlClientProvider>
+                {children}
+              </NextIntlClientProvider>
+            </LoadingProvider>
           </QueryProvider>
         </body>
       </html>

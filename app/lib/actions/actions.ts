@@ -96,10 +96,10 @@ export async function toggleImg() {
     console.log(error);
   }
 }
-export async function getProducts(page = 1, limit = 10) {
+export async function getProducts(page = 1, limit = 8) {
   connect();
   const skip = (page - 1) * limit;
-  const products = await Product.find({}).skip(skip).limit(limit).lean();
+  const products = await Product.find({}).skip(skip).limit(8).lean();
 
   const totalProducts = await Product.countDocuments({});
   const totalPages = Math.ceil(totalProducts / limit);

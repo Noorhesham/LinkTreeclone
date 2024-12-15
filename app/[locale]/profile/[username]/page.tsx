@@ -14,7 +14,7 @@ import { UserProps } from "@/app/constants";
 import { FontProvider } from "@/app/context/FontProvider";
 import { ThemeProvider } from "@/app/context/ThemeProvider";
 import FontWrapper from "@/app/components/FontWrapper";
-
+import '../../fonts.css'
 const getUserData = async (username: string) => {
   await connect();
   const user: UserProps | any = await User.findOne({ userName: username })
@@ -82,6 +82,7 @@ export const generateMetadata = async ({
 
 const Page = async ({ params }: { params: { username: string; locale: string } }) => {
   const user = await getUserData(params.username);
+  console.log(user);
 
   if (!user) {
     return notFound();
@@ -99,7 +100,6 @@ const Page = async ({ params }: { params: { username: string; locale: string } }
       url: `https://vega-Smart Technology.vercel.app/${params.locale}/profile/${params.username}`,
     },
   };
-  console.log(user);
   return (
     <FontProvider defaultFont={user.font}>
       <script
