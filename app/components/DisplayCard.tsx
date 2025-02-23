@@ -54,9 +54,9 @@ const DisplayCard = ({ link, theme }: { link: { link: string; provider: string; 
         {link.name && (
           <p className=" rounded-full bg-gray-200 border-input border py-2 px-4 text-gray-900"> {link.name}</p>
         )}
-        <div className="slef-end text-xl md:text-4xl cursor-pointer ml-auto">
+        {/* <div className="slef-end text-xl md:text-4xl cursor-pointer ml-auto">
           <CiLink />{" "}
-        </div>
+        </div> */}
       </div>
     </Link>
   );

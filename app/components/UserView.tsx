@@ -30,11 +30,11 @@ const UserView = ({ user }: { user: any }) => {
     <div className="flex relative overflow-hidden w-full mb-auto h-full self-stretch flex-col items-center py-2 px-4 md:py-4 md:px-8">
       <div
         style={{ backgroundColor: !user.isImg && user.coverColor }}
-        className="bg-[#1f1f23] h-60 relative rounded-2xl w-full"
+        className="bg-[#1f1f23] h-64 relative rounded-2xl w-full"
       >
         {user.coverImage && (
           <div>
-            <Image fill alt="cover" className="rounded-2xl object-cover" src={user?.coverImage?.secure_url} />
+            <Image fill alt="cover" className="rounded-2xl object-contain" src={user?.coverImage?.secure_url} />
           </div>
         )}
       </div>
@@ -53,7 +53,7 @@ const UserView = ({ user }: { user: any }) => {
               {user.phone && (
                 <div
                   onClick={() => window.open(`tel:${user.phone}`)}
-                  className=" text-gray-50   text-sm font-semibold  flex items-center gap-2"
+                  className=" text-gray-50 cursor-pointer   text-sm font-semibold  flex items-center gap-2"
                 >
                   <PhoneIcon className=" w-4 h-4" />
                   <p>{user.phone}</p>
@@ -62,7 +62,7 @@ const UserView = ({ user }: { user: any }) => {
               {user.email && (
                 <div
                   onClick={() => window.open(`mailto:${user.email}`)}
-                  className="text-gray-50 text-sm font-semibold flex items-center gap-2"
+                  className="text-gray-50  cursor-pointer text-sm font-semibold flex items-center gap-2"
                 >
                   <MdEmail className=" w-4 h-4" />
                   <p>{user.email}</p>
