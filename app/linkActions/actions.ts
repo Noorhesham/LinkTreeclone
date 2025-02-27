@@ -82,7 +82,7 @@ export async function updateUserDetails(data: { bio?: string; userName?: string 
     if (data.userName !== undefined) updateData.userName = data.userName;
     if (data.phone) updateData.phone = data.phone;
     console.log(updateData);
-    const user = await User.findOneAndUpdate({ clerkUserId: userId }, updateData).lean();
+    const user = await User.findOneAndUpdate({ clerkUserId: userId }, updateData, { runValidators: true }).lean();
     console.log(user);
     if (!user) return { error: "User not updated!" };
     return { success: "User updated successfully!", status: 200, data: { user } };
