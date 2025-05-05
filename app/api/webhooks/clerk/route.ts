@@ -91,7 +91,7 @@ async function handleWebhookEvent(evt: WebhookEvent) {
       if (first_name) userData.firstName = first_name;
       if (last_name) userData.lastName = last_name;
       if (image_url) userData.photo = image_url;
-      if (cardId) userData.cardId = cardId;
+      if (cardIdCookie) userData.cardId = cardIdCookie;
 
       const updateResult = await updateUser(userData, id);
       console.log("✅ User updated instead of created:", updateResult);
@@ -110,7 +110,7 @@ async function handleWebhookEvent(evt: WebhookEvent) {
     if (first_name) minimalUserData.firstName = first_name;
     if (last_name) minimalUserData.lastName = last_name;
     if (image_url) minimalUserData.photo = image_url;
-    if (cardId) minimalUserData.cardId = cardId;
+    if (cardIdCookie) minimalUserData.cardId = cardIdCookie;
 
     console.log(`🚀 User object for database:`, JSON.stringify(minimalUserData));
 
@@ -159,12 +159,32 @@ async function handleWebhookEvent(evt: WebhookEvent) {
   else if (eventType === "user.deleted") {
     try {
       const { id } = evt.data;
-      if (id) {
-        // Pass the Clerk user ID to the deleteUser function
-        await deleteUser(id);
-        console.log("✅ User deleted successfully");
-        return "User deleted successfully";
+
+      if (!id) {
+        console.error("❌ Missing user ID in user.deleted event");
+        throw new Error("Missing user ID in deletion event");
       }
+
+      console.log(`🗑️ Processing user deletion for Clerk ID: ${id}`);
+
+      // First check if the user exists in our database
+      const existingUser = await User.findOne({ clerkUserId: id });
+      if (!existingUser) {
+        console.log("⚠️ User not found in database during deletion, may have been deleted already");
+        return "User already deleted or not found";
+      }
+
+      console.log(`Found user to delete: ${existingUser.email} (${existingUser._id})`);
+
+      // Pass the Clerk user ID to the deleteUser function
+      const result = await deleteUser(id);
+      console.log("🗑️ User deletion result:", result);
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
+      return "User deleted successfully";
     } catch (deleteError: any) {
       console.error("❌ Error processing user.deleted event:", deleteError);
       throw deleteError;

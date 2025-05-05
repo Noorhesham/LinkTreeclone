@@ -109,20 +109,53 @@ export async function updateTheme(theme: string) {
   }
 }
 export async function deleteUser(clerkUserId?: string) {
-  let userId = clerkUserId;
-  if (!userId) {
-    const authResult = await auth();
-    userId = authResult.userId;
-  }
+  try {
+    console.log("Deleting user with clerk ID:", clerkUserId);
 
-  if (!userId) {
-    return { error: "No user ID provided" };
-  }
+    let userId = clerkUserId;
+    if (!userId) {
+      const authResult = await auth();
+      // Fix type error by using type assertion or conditional check
+      userId = authResult?.userId || undefined;
+    }
 
-  await connect();
-  const user = await User.findOneAndDelete({ clerkUserId: userId });
-  if (!user) return { error: "User not deleted!" };
-  return { success: "User deleted successfully!", status: 200 };
+    console.log("Final userId for deletion:", userId);
+
+    if (!userId) {
+      console.error("No user ID provided for deletion");
+      return { error: "No user ID provided" };
+    }
+
+    await connect();
+
+    // Find the user first to get their ID and associated data
+    const user = await User.findOne({ clerkUserId: userId });
+    if (!user) {
+      console.error("User not found with clerkUserId:", userId);
+      return { error: "User not found" };
+    }
+
+    console.log("Found user to delete:", user._id);
+
+    // Delete any associated links
+    if (user.links && user.links.length > 0) {
+      console.log("Deleting associated links:", user.links);
+      await Link.deleteMany({ _id: { $in: user.links } });
+    }
+
+    // Finally delete the user
+    const deletedUser = await User.findByIdAndDelete(user._id);
+    if (!deletedUser) {
+      console.error("Failed to delete user");
+      return { error: "User deletion failed" };
+    }
+
+    console.log("User successfully deleted");
+    return { success: "User deleted successfully!", status: 200 };
+  } catch (error) {
+    console.error("Error in deleteUser function:", error);
+    return { error: `Deletion failed: ${(error as Error).message}` };
+  }
 }
 export async function updateButtons(data: { border: number; color: string }) {
   try {

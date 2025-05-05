@@ -14,6 +14,7 @@ const page = async () => {
     if (!user.isAdmin) redirect("/");
   }
   const users = await User.find({}).lean();
+  console.log(users);
  //@ts-ignore
   return <DataTable columns={columns} data={users} />;
 };
