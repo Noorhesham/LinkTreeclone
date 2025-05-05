@@ -26,7 +26,8 @@
     "addUserNamePlaceholder": "اضف اسم المستخدم هنا",
     "addUserNameButton": "اضف اسم المستخدم",
     "viewProfileButton": "عرض الصفحة الشحصية العامة",
-    "phone": "رقم الهاتف"
+    "phone": "رقم الهاتف",
+    "phone2": "رقم الهاتف الثانوي"
   },
   "createForm": {
     "addLinkButton": "أضف رابطًا"
@@ -38,7 +39,7 @@
     "invalidURL": "رابط غير صالح",
     "required": "مطلوب",
     "linkForProvider": "رابط لـ {{provider}}",
-    "name":"الاسم"
+    "name": "الاسم"
   },
   "languageSwitcher": {
     "selectLanguage": "اختر لغة",

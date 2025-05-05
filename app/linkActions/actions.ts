@@ -75,14 +75,14 @@ export async function deleteLink(id?: string) {
   }
 }
 
-export async function updateUserDetails(data: { bio?: string; userName?: string; cardId?: string; phone?: string }) {
+export async function updateUserDetails(data: { bio?: string; userName?: string; cardId?: string; phone?: string; phone2?: string }) {
   try {
     const { userId } = await auth();
     const updateData: any = {};
     if (data.bio !== undefined) updateData.bio = data.bio;
     if (data.userName !== undefined) updateData.userName = data.userName;
     if (data.phone !== undefined) updateData.phone = data.phone;
-
+    if (data.phone2 !== undefined) updateData.phone2 = data.phone2;
     // Handle cardId updates specially
     if (data.cardId) {
       console.log("Updating user with cardId:", data.cardId);

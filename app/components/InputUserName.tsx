@@ -146,8 +146,8 @@ const InputUserName = ({ disablee, id, value, fieldType, username }: InputUserNa
                   }
                   btn={
                     <Button2
-                      className=" rounded-full text-gray-50 bg-violet-400 hover:bg-violet-500 mt-3"
-                      disabled={form.formState.errors?.userName || form.getValues("userName")?.length < 3}
+                      className="rounded-full text-gray-50 bg-violet-400 hover:bg-violet-500 mt-3"
+                      disabled={!!form.formState.errors?.userName || (form.getValues("userName")?.length || 0) < 3}
                       type="button"
                     >
                       {" "}
