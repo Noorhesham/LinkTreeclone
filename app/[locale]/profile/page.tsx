@@ -9,10 +9,16 @@ export default async function ProfilePage({
   searchParams,
 }: {
   params: { username?: string };
-  searchParams: { cardId?: string; userName?: string };
+  searchParams: { cardId?: string; userName?: string; username?: string };
 }) {
-  const { cardId, userName } = searchParams;
+  // Support both userName (camelCase) and username (lowercase) formats
+  const { cardId } = searchParams;
+  // Prioritize userName if both are provided, otherwise use username
+  const userName = searchParams.userName || searchParams.username;
   const pathUserName = params.username;
+
+  console.log("Search params:", searchParams);
+  console.log("Username from params:", userName);
 
   // First priority: Check for cardId in route segment
   const routeCardId = pathUserName && /^[A-Z0-9]{8,}$/.test(pathUserName) ? pathUserName : null;
@@ -25,7 +31,7 @@ export default async function ProfilePage({
     console.log("Searching for user by cardId:", cardIdToUse);
     const result = await getUserByCardId(cardIdToUse);
 
-    if (!result.error) {
+    if (!result.error && result.data?.user) {
       // We found a user with this cardId, redirect to their profile
       const foundUserName = result.data.user.userName;
       if (foundUserName) {
@@ -58,11 +64,20 @@ export default async function ProfilePage({
   if (userName) {
     console.log("Searching for user by userName:", userName);
     await connect();
-    const user = await User.findOne({ userName }).lean();
-    console.log(user, "user");
+    const user = await User.findOne({
+      $or: [
+        { userName: userName },
+        { userName: { $regex: new RegExp("^" + userName + "$", "i") } }, // Case insensitive match
+      ],
+    }).lean();
+    console.log("User found by username:", user);
+
     if (user) {
       // Found the user, redirect to their profile
-      redirect(`/${userName}`);
+      // Use type assertion for safe access to user properties
+      const userObj = user as any;
+      const exactUserName = userObj.userName || userName;
+      redirect(`/${exactUserName}`);
     }
 
     // No user found with this userName either
@@ -113,7 +128,7 @@ export default async function ProfilePage({
           <div className="text-center">- OR -</div>
           <input
             type="text"
-            name="userName"
+            name="username"
             placeholder="Enter username"
             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
           />
