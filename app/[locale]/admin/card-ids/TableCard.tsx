@@ -2,18 +2,25 @@
 import { Table, TableBody, TableHead, TableRow, TableHeader, TableCell } from "@/components/ui/table";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { Copy, ExternalLink, UserRound } from "lucide-react";
 
 const TableCard = ({ cardIds }: { cardIds: any[] }) => {
+  const copyToClipboard = (text: string, message: string = "Copied!") => {
+    navigator.clipboard.writeText(text);
+    // You could add a toast notification here
+    alert(message);
+  };
+
   return (
     <div className="overflow-x-auto">
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>Card ID</TableHead>
-            <TableHead>Description</TableHead>
+            <TableHead>Assigned To</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Created</TableHead>
-            <TableHead>Signup URL</TableHead>
+            <TableHead className="text-center">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -27,7 +34,7 @@ const TableCard = ({ cardIds }: { cardIds: any[] }) => {
             cardIds.map((id) => (
               <TableRow key={id._id}>
                 <TableCell className="font-medium">{id.cardId}</TableCell>
-                <TableCell>{id.description || "-"}</TableCell>
+                <TableCell>{id.assignedTo?.userName || "-"}</TableCell>
                 <TableCell>
                   <span
                     className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
@@ -39,15 +46,45 @@ const TableCard = ({ cardIds }: { cardIds: any[] }) => {
                 </TableCell>
                 <TableCell>{new Date(id.createdAt).toLocaleDateString()}</TableCell>
                 <TableCell>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      navigator.clipboard.writeText(`${window.location.origin}/sign-up?cardId=${id.cardId}`);
-                    }}
-                  >
-                    Copy Link
-                  </Button>
+                  <div className="flex justify-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      title="Copy signup link with card ID"
+                      onClick={() =>
+                        copyToClipboard(`${window.location.origin}/sign-up?cardId=${id.cardId}`, "Signup link copied!")
+                      }
+                    >
+                      <ExternalLink className="h-4 w-4 mr-2" />
+                      Signup
+                    </Button>
+
+                    {id.isAssigned && id.assignedTo?.userName && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        title="Copy user profile link"
+                        onClick={() =>
+                          copyToClipboard(`${window.location.origin}/${id.assignedTo.userName}`, "Profile link copied!")
+                        }
+                      >
+                        <UserRound className="h-4 w-4 mr-2" />
+                        Profile
+                      </Button>
+                    )}
+
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      title="Copy profile search link by card ID"
+                      onClick={() =>
+                        copyToClipboard(`${window.location.origin}/profile?cardId=${id.cardId}`, "Search link copied!")
+                      }
+                    >
+                      <Copy className="h-4 w-4 mr-2" />
+                      Search
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))

@@ -14,10 +14,10 @@ import { UserProps } from "@/app/constants";
 import { FontProvider } from "@/app/context/FontProvider";
 import { ThemeProvider } from "@/app/context/ThemeProvider";
 import FontWrapper from "@/app/components/FontWrapper";
-import '../../fonts.css'
+import "../../fonts.css";
 const getUserData = async (username: string) => {
   await connect();
-  const user: UserProps | any = await User.findOne({ userName: username })
+  const user: UserProps | any = await User.findOne({ cardId: username })
     .populate({ path: "links", model: Link })
     .lean();
   return user;

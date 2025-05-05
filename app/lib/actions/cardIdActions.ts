@@ -9,7 +9,8 @@ import connect from "../db";
 export async function getCardIds() {
   try {
     await connect();
-    const cardIds = await CardId.find().sort({ createdAt: -1 });
+    const cardIds = await CardId.find().sort({ createdAt: -1 }).populate("assignedTo");
+    console.log(cardIds, "cardIds");
     return JSON.parse(JSON.stringify(cardIds));
   } catch (error) {
     console.error("Error getting card IDs:", error);

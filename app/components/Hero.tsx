@@ -84,7 +84,7 @@ const Hero = ({ user }: { user?: any }) => {
               <div className="flex flex-col items-start">
                 <InputUserName
                   fieldType="userName"
-                  value={user?.userName || ""}
+                  value={`/profile/${user?.cardId}&userName=${user?.userName}` || ""}
                   id={user?._id}
                   disablee={user?.userName!!}
                 />

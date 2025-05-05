@@ -185,3 +185,30 @@ export async function handleOrder() {
   console.log(order);
   return { success: "Order Placed successfully!", status: 200 };
 }
+
+export async function getUserByCardId(cardId: string) {
+  try {
+    await connect();
+    console.log("Looking up user by cardId:", cardId);
+
+    const user = await User.findOne({ cardId }).lean();
+
+    if (!user) {
+      console.log("No user found with cardId:", cardId);
+      return { error: "User not found", status: 404 };
+    }
+
+    // Use type assertion to handle the user object safely
+    const userObj = user as any;
+    console.log("Found user:", userObj.userName || "Unknown", userObj._id || "Unknown");
+
+    return {
+      success: "User found successfully",
+      status: 200,
+      data: { user: userObj },
+    };
+  } catch (error) {
+    console.error("Error looking up user by cardId:", error);
+    return { error: "Error looking up user", status: 500 };
+  }
+}

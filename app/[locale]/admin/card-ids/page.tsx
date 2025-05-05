@@ -7,7 +7,7 @@ import TableCard from "./TableCard";
 
 export default async function CardIdsPage() {
   const cardIds = await getCardIds();
-
+  console.log(cardIds, "cardIds");
   return (
     <div className="container mx-auto py-10">
       <div className="grid gap-10">
