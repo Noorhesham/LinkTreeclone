@@ -99,6 +99,7 @@ export async function POST(req: Request) {
   const eventType = evt.type;
   console.log("🔔 Webhook event type:", eventType);
 
+  // USER CREATED OR UPDATED EVENTS
   if (eventType === "user.created" || eventType === "user.updated") {
     console.log(`🔔 Processing ${eventType} event`);
     try {
@@ -132,51 +133,75 @@ export async function POST(req: Request) {
       const cardId = cardIdFromHeader || cardIdCookie;
       console.log("Final card ID to use:", cardId);
 
-      if (!id || !email_addresses) {
-        console.error("❌ Missing required user data");
-        return new Response("Error occurred -- missing data", {
-          status: 400,
-        });
+      // We need to create a minimal valid user object to avoid schema validation issues
+      if (!id || !email_addresses || !email_addresses[0]?.email_address) {
+        console.error("❌ Missing critical user data (id or email)");
+        return new Response("Error: Missing required user data", { status: 400 });
       }
 
-      const user = {
+      // Create the simplest possible user object that meets schema requirements
+      const minimalUserData = {
         clerkUserId: id,
         email: email_addresses[0].email_address,
-        ...(first_name ? { firstName: first_name } : {}),
-        ...(last_name ? { lastName: last_name } : {}),
-        ...(image_url ? { photo: image_url } : {}),
-        ...(cardId ? { cardId } : {}),
+        // Generate a random username since it's required
+        userName: `user_${Math.random().toString(36).substring(2, 10)}`,
       };
 
-      console.log(`🚀 User object to be sent to database:`, JSON.stringify(user));
+      // Only add optional fields if they exist
+      if (first_name) minimalUserData.firstName = first_name;
+      if (last_name) minimalUserData.lastName = last_name;
+      if (image_url) minimalUserData.photo = image_url;
+      if (cardId) minimalUserData.cardId = cardId;
+
+      console.log(`🚀 Minimal user object for database:`, JSON.stringify(minimalUserData));
 
       // Try creating/updating the user
       if (eventType === "user.created") {
         console.log("⏳ Calling createUser function...");
-        const result = await createUser(user);
-        console.log("✅ User created successfully:", result);
+        try {
+          const result = await createUser(minimalUserData);
+          console.log("✅ User created successfully:", result);
+        } catch (createError: any) {
+          console.error("❌ createUser function error:", createError);
+          // Try again with just the essential fields if something failed
+          if (createError.message?.includes("duplicate key")) {
+            console.log("Attempting to recover from duplicate key error...");
+            // Try a different username
+            minimalUserData.userName = `user_${Date.now().toString(36)}`;
+            const retryResult = await createUser(minimalUserData);
+            console.log("✅ User created on retry:", retryResult);
+          } else {
+            throw createError; // Re-throw if it's not a duplicate key issue
+          }
+        }
       } else if (eventType === "user.updated") {
         console.log("⏳ Calling updateUser function...");
-        const result = await updateUser(user, id);
+        const result = await updateUser(minimalUserData, id);
         console.log("✅ User updated successfully:", result);
       }
     } catch (processingError: any) {
+      // Safely handle the error
+      const errorMessage = processingError?.message || "Unknown error";
       console.error(`❌ Error processing ${eventType} event:`, processingError);
-      return new Response(`Error processing webhook: ${processingError.message || "Unknown error"}`, {
+      return new Response(`Error processing webhook: ${errorMessage}`, {
         status: 500,
       });
     }
-  } else if (eventType === "user.deleted") {
+  }
+  // USER DELETED EVENT
+  else if (eventType === "user.deleted") {
     try {
       const { id } = evt.data;
       if (id) {
         deleteUser();
         console.log("✅ User deleted successfully");
       }
-    } catch (deleteError) {
+    } catch (deleteError: any) {
       console.error("❌ Error processing user.deleted event:", deleteError);
     }
-  } else {
+  }
+  // ANY OTHER EVENT TYPES
+  else {
     console.log("⏭️ Ignoring event type:", eventType);
   }
 
