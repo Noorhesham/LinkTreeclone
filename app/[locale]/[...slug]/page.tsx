@@ -14,9 +14,10 @@ import { FontProvider } from "@/app/context/FontProvider";
 import { ThemeProvider } from "@/app/context/ThemeProvider";
 import FontWrapper from "@/app/components/FontWrapper";
 import "../fonts.css";
+
 const getUserData = async (username: string) => {
   await connect();
-  const user: UserProps | any = await User.findOne({ cardId: username })
+  const user: UserProps | any = await User.findOne({ userName: username })
     .populate({ path: "links", model: Link })
     .lean();
   return user;
@@ -25,9 +26,10 @@ const getUserData = async (username: string) => {
 export const generateMetadata = async ({
   params,
 }: {
-  params: { username: string; locale: string };
+  params: { slug: string[]; locale: string };
 }): Promise<Metadata> => {
-  const user = await getUserData(params.username);
+  const username = params.slug[0];
+  const user = await getUserData(username);
 
   if (!user) {
     return {
@@ -36,8 +38,8 @@ export const generateMetadata = async ({
       alternates: {
         canonical: `/${params.locale}/user-not-found`,
         languages: {
-          en: `/en/profile/${params.username}`,
-          ar: `/ar/profile/${params.username}`,
+          en: `/en/${username}`,
+          ar: `/ar/${username}`,
         },
       },
     };
@@ -49,16 +51,16 @@ export const generateMetadata = async ({
     title: `${user.firstName} ${user.lastName}`,
     description: `${user.bio || `Explore the profile and links of ${user.firstName}.`}`,
     alternates: {
-      canonical: `/${params.locale}/profile/${params.username}`,
+      canonical: `/${params.locale}/${username}`,
       languages: {
-        en: `/en/profile/${params.username}`,
-        ar: `/ar/profile/${params.username}`,
+        en: `/en/${username}`,
+        ar: `/ar/${username}`,
       },
     },
     openGraph: {
       title: `${user.firstName} | Vega Smart Technology`,
       description: `${user.bio || `Explore the profile and links of ${user.firstName}.`}`,
-      url: `${params.locale}/profile/${params.username}`,
+      url: `${params.locale}/${username}`,
       type: "profile",
       images: [
         {
@@ -73,15 +75,14 @@ export const generateMetadata = async ({
       card: "summary_large_image",
       title: `${user.firstName} | Vega Smart Technology`,
       description: `${user.bio || `Explore the profile and links of ${user.firstName}.`}`,
-
       images: [imageUrl],
     },
   };
 };
 
-const Page = async ({ params }: { params: { username: string; locale: string } }) => {
-  const user = await getUserData(params.username);
-  console.log(user);
+const Page = async ({ params }: { params: { slug: string[]; locale: string } }) => {
+  const username = params.slug[0];
+  const user = await getUserData(username);
 
   if (!user) {
     return notFound();
@@ -96,7 +97,7 @@ const Page = async ({ params }: { params: { username: string; locale: string } }
       name: `${user.firstName} ${user.lastName}`,
       description: user.bio,
       image: user.photo,
-      url: `https://vega-Smart Technology.vercel.app/${params.locale}/profile/${params.username}`,
+      url: `https://vega-Smart Technology.vercel.app/${params.locale}/${username}`,
     },
   };
   return (

@@ -31,6 +31,9 @@ const isPublicRoute = createRouteMatcher([
   "/ar/profile/(.*)",
   "/en/store",
   "/store",
+  "/[...slug]",
+  "/en/[...slug]",
+  "/ar/[...slug]",
 ]);
 
 // Define admin routes that need special protection
