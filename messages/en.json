@@ -26,7 +26,8 @@
     "addUserNamePlaceholder": "Add Your Username Here",
     "addUserNameButton": "Add Username",
     "viewProfileButton": "View Profile",
-    "phone": " Phone"
+    "phone": "Phone",
+    "phone2": "Secondary Phone"
   },
   "createForm": {
     "addLinkButton": "Add Link"

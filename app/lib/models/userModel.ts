@@ -36,6 +36,7 @@ const UserSchema = new Schema(
     active: { type: Boolean, default: true },
     cart: { type: [{ type: Schema.Types.ObjectId, ref: "Product" }], required: false },
     phone: { type: String, required: false },
+    phone2: { type: String, required: false },
     cardId: { type: String, required: false },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }

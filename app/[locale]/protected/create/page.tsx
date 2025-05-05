@@ -39,8 +39,24 @@ const page = async () => {
                   <div className=" w-full flex-col  md:justify-center flex items-center gap-2 md:w-[100%]">
                     <div className="flex flex-col items-center">
                       <InputUserName disablee={false} fieldType="bio" value={user.bio} id={user._id} />
-                      <InputUserName disablee={false} fieldType="phone" value={user.phone} id={user._id} />
-                      <div className=" flex flex-col items-center my-2 gap-2">
+
+                      <div className="flex flex-col md:flex-row items-center gap-4 w-full mt-6 mb-2">
+                        <div className="w-full md:w-1/2 relative">
+                          <div className=" text-xs text-gray-300 px-2 py-1 rounded-t-md inline-block">
+                            Primary Phone
+                          </div>
+                          <InputUserName disablee={false} fieldType="phone" value={user.phone} id={user._id} />
+                        </div>
+
+                        <div className="w-full md:w-1/2 relative">
+                          <div className=" text-xs text-gray-300 px-2 py-1 rounded-t-md inline-block">
+                            Secondary Phone
+                          </div>
+                          <InputUserName disablee={false} fieldType="phone2" value={user.phone2} id={user._id} />
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col items-center my-2 gap-2">
                         {!user.userName && (
                           <InputUserName
                             disablee={false}

@@ -23,13 +23,14 @@ const userNameschema = z.object({
     }),
 });
 
-type InputFieldType = "bio" | "userName" | "phone";
+type InputFieldType = "bio" | "userName" | "phone" | "phone2";
 
 interface InputUserNameProps {
   id: string;
   value: string;
   fieldType: InputFieldType;
   disablee: boolean;
+  username?: string;
 }
 
 const InputUserName = ({ disablee, id, value, fieldType, username }: InputUserNameProps) => {
@@ -37,13 +38,13 @@ const InputUserName = ({ disablee, id, value, fieldType, username }: InputUserNa
 
   const form = useForm({
     defaultValues: {
-      [fieldType]: username || "",
+      [fieldType]: username || value || "",
     },
     resolver: async (data) => {
       if (fieldType === "userName") {
         try {
           userNameschema.parse(data);
-        } catch (e) {
+        } catch (e: any) {
           return {
             values: data,
             errors: {
@@ -62,7 +63,8 @@ const InputUserName = ({ disablee, id, value, fieldType, username }: InputUserNa
   const onSubmit = (data: any) => {
     startTransition(async () => {
       const res: any = await updateUserDetails({ [fieldType]: data[fieldType] });
-      if (res.success) {
+      console.log(res, "res");
+      if (res?.success) {
         toast.success(res.success);
         router.refresh();
       } else {
@@ -108,6 +110,8 @@ const InputUserName = ({ disablee, id, value, fieldType, username }: InputUserNa
                               ? t("inputUserName.addBioPlaceholder")
                               : fieldType === "phone"
                               ? t("inputUserName.phone")
+                              : fieldType === "phone2"
+                              ? t("inputUserName.phone2") || "Enter secondary phone"
                               : t("inputUserName.addUserNamePlaceholder")
                           }
                         />
@@ -159,6 +163,8 @@ const InputUserName = ({ disablee, id, value, fieldType, username }: InputUserNa
                       ? t("inputUserName.addBioButton")
                       : fieldType === "phone"
                       ? t("inputUserName.phone")
+                      : fieldType === "phone2"
+                      ? t("inputUserName.phone2")
                       : t("inputUserName.addUserNameButton")
                   }
                   disabled={isPending}
