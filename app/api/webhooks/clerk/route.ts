@@ -22,36 +22,189 @@ export async function GET() {
   return new Response("Webhook endpoint is operational", { status: 200 });
 }
 
-export async function POST(req: Request) {
-  // Log the raw request URL and method for debugging
-  console.log(`====================== WEBHOOK ${req.method} REQUEST RECEIVED: ${req.url} ======================`);
+// Helper function to handle webhook events
+async function handleWebhookEvent(evt: WebhookEvent) {
+  const eventType = evt.type;
+  console.log(`🔔 Processing ${eventType} event`);
 
+  // Ensure DB connection first
   try {
-    // First, ensure DB connection
     await connect();
     console.log("✅ DB connection successful in webhook");
   } catch (dbError) {
     console.error("❌ DB connection failed in webhook:", dbError);
-    return new Response("Database connection failed", { status: 500 });
+    throw new Error("Database connection failed");
   }
 
-  const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
+  // USER CREATED OR UPDATED EVENTS
+  if (eventType === "user.created" || eventType === "user.updated") {
+    const { id, email_addresses, first_name, last_name, image_url } = evt.data;
 
+    console.log("User data from webhook:", {
+      id,
+      email: email_addresses?.[0]?.email_address,
+      first_name,
+      last_name,
+    });
 
-  // PRODUCTION MODE - verify signature
-  if (!WEBHOOK_SECRET) {
-    console.error("Missing CLERK_WEBHOOK_SECRET");
-    return new Response("Missing CLERK_WEBHOOK_SECRET", { status: 500 });
+    // We need to create a minimal valid user object to avoid schema validation issues
+    if (!id || !email_addresses || !email_addresses[0]?.email_address) {
+      console.error("❌ Missing critical user data (id or email)");
+      throw new Error("Missing required user data");
+    }
+
+    // Get cardId from cookie
+    const cardIdCookie = cookies().get("cardId")?.value;
+    console.log("Card ID from cookie:", cardIdCookie);
+
+    // Get cardId from referer header
+    let cardIdFromHeader = null;
+    const headerPayload = headers();
+    const referer = headerPayload.get("referer");
+    if (referer) {
+      try {
+        const url = new URL(referer);
+        cardIdFromHeader = url.searchParams.get("cardId");
+        console.log("Card ID from referer header:", cardIdFromHeader);
+      } catch (urlError) {
+        console.error("Error parsing referer URL:", urlError);
+      }
+    }
+
+    // Use cardId from either source
+    const cardId = cardIdFromHeader || cardIdCookie;
+    console.log("Final card ID to use:", cardId);
+
+    // Check if user already exists before trying to create
+    const existingUser = await User.findOne({ email: email_addresses[0].email_address });
+    if (existingUser && eventType === "user.created") {
+      console.log("⚠️ User already exists in database, updating instead of creating");
+
+      // Create the minimal user data for update
+      const userData: UserData = {
+        clerkUserId: id,
+        email: email_addresses[0].email_address,
+        userName: existingUser.userName,
+      };
+
+      // Only add optional fields if they exist
+      if (first_name) userData.firstName = first_name;
+      if (last_name) userData.lastName = last_name;
+      if (image_url) userData.photo = image_url;
+      if (cardId) userData.cardId = cardId;
+
+      const updateResult = await updateUser(userData, id);
+      console.log("✅ User updated instead of created:", updateResult);
+      return "User updated successfully";
+    }
+
+    // Create the simplest possible user object that meets schema requirements
+    const minimalUserData: UserData = {
+      clerkUserId: id,
+      email: email_addresses[0].email_address,
+      // Generate a random username since it's required
+      userName: `user_${Math.random().toString(36).substring(2, 10)}`,
+    };
+
+    // Only add optional fields if they exist
+    if (first_name) minimalUserData.firstName = first_name;
+    if (last_name) minimalUserData.lastName = last_name;
+    if (image_url) minimalUserData.photo = image_url;
+    if (cardId) minimalUserData.cardId = cardId;
+
+    console.log(`🚀 User object for database:`, JSON.stringify(minimalUserData));
+
+    // Try creating/updating the user
+    if (eventType === "user.created") {
+      console.log("⏳ Calling createUser function...");
+      try {
+        const result = await createUser(minimalUserData);
+        console.log("✅ User created successfully:", result);
+        return "User created successfully";
+      } catch (createError: any) {
+        console.error("❌ createUser function error:", createError);
+        // Try again with just the essential fields if something failed
+        if (createError.message?.includes("duplicate key") || createError.message?.includes("already exists")) {
+          console.log("Attempting to recover from duplicate key error...");
+          // Try a different username
+          minimalUserData.userName = `user_${Date.now().toString(36)}`;
+          try {
+            const retryResult = await createUser(minimalUserData);
+            console.log("✅ User created on retry:", retryResult);
+            return "User created on retry";
+          } catch (retryError: any) {
+            console.error("❌ Failed on retry too:", retryError);
+            // If we still fail, try to update instead
+            if (retryError.message?.includes("already exists")) {
+              console.log("Attempting to update existing user instead");
+              const updateResult = await updateUser(minimalUserData, id);
+              console.log("✅ User updated as fallback:", updateResult);
+              return "User updated as fallback";
+            } else {
+              throw retryError;
+            }
+          }
+        } else {
+          throw createError; // Re-throw if it's not a duplicate key issue
+        }
+      }
+    } else if (eventType === "user.updated") {
+      console.log("⏳ Calling updateUser function...");
+      const result = await updateUser(minimalUserData, id);
+      console.log("✅ User updated successfully:", result);
+      return "User updated successfully";
+    }
   }
+  // USER DELETED EVENT
+  else if (eventType === "user.deleted") {
+    try {
+      const { id } = evt.data;
+      if (id) {
+        // Pass the Clerk user ID to the deleteUser function
+        await deleteUser(id);
+        console.log("✅ User deleted successfully");
+        return "User deleted successfully";
+      }
+    } catch (deleteError: any) {
+      console.error("❌ Error processing user.deleted event:", deleteError);
+      throw deleteError;
+    }
+  }
+  // ANY OTHER EVENT TYPES
+  else {
+    console.log("⏭️ Ignoring event type:", eventType);
+    return `Ignored event: ${eventType}`;
+  }
+}
 
-  // Log all headers for debugging
-  const headerPayload = headers();
-  console.log("🔍 All request headers:");
+export async function POST(req: Request) {
+  // Log the raw request URL and method for debugging
+  console.log(`====================== WEBHOOK ${req.method} REQUEST RECEIVED: ${req.url} ======================`);
+
+  // For development mode - bypass signature verification
+  if (process.env.NODE_ENV === "development" && process.env.BYPASS_WEBHOOK_VERIFICATION === "true") {
+    console.log("⚠️ DEVELOPMENT MODE: Bypassing webhook signature verification");
+    try {
+      const payload = await req.json();
+      const result = await handleWebhookEvent(payload);
+      return new Response(result, { status: 200 });
+    } catch (error) {
+      console.error("Error in webhook (dev mode):", error);
+      return new Response(`Webhook Error: ${(error as Error).message}`, { status: 400 });
+    }
+  }
 
   // Get the Svix headers for verification
+  const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
+  const headerPayload = headers();
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
   const svix_signature = headerPayload.get("svix-signature");
+
+  if (!WEBHOOK_SECRET) {
+    console.error("❌ CLERK_WEBHOOK_SECRET is not set in environment variables");
+    return new Response("Webhook secret is not set", { status: 500 });
+  }
 
   console.log("Svix headers:", {
     "svix-id": svix_id,
@@ -61,9 +214,7 @@ export async function POST(req: Request) {
 
   if (!svix_id || !svix_timestamp || !svix_signature) {
     console.error("❌ Missing svix headers - this might not be a valid Clerk webhook call");
-    return new Response("Error occurred -- no svix headers", {
-      status: 400,
-    });
+    return new Response("Error occurred -- no svix headers", { status: 400 });
   }
 
   // Read and log the raw request body
@@ -90,7 +241,6 @@ export async function POST(req: Request) {
   }
 
   const wh = new Webhook(WEBHOOK_SECRET);
-
   let evt: WebhookEvent;
 
   try {
@@ -103,155 +253,15 @@ export async function POST(req: Request) {
     console.log("✅ Webhook verification successful");
   } catch (err) {
     console.error("❌ Error verifying webhook:", err);
-    return new Response("Error verifying webhook signature", {
-      status: 400,
-    });
+    return new Response("Error verifying webhook signature", { status: 400 });
   }
 
-  const eventType = evt.type;
-  console.log("🔔 Webhook event type:", eventType);
-
-  // USER CREATED OR UPDATED EVENTS
-  if (eventType === "user.created" || eventType === "user.updated") {
-    console.log(`🔔 Processing ${eventType} event`);
-    try {
-      const { id, email_addresses, first_name, last_name, image_url } = evt.data;
-
-      console.log("User data from webhook:", {
-        id,
-        email: email_addresses?.[0]?.email_address,
-        first_name,
-        last_name,
-      });
-
-      // Get cardId from cookie
-      const cardIdCookie = cookies().get("cardId")?.value;
-      console.log("Card ID from cookie:", cardIdCookie);
-
-      // Get cardId from referer header
-      let cardIdFromHeader = null;
-      const referer = headerPayload.get("referer");
-      if (referer) {
-        try {
-          const url = new URL(referer);
-          cardIdFromHeader = url.searchParams.get("cardId");
-          console.log("Card ID from referer header:", cardIdFromHeader);
-        } catch (urlError) {
-          console.error("Error parsing referer URL:", urlError);
-        }
-      }
-
-      // Use cardId from either source
-      const cardId = cardIdFromHeader || cardIdCookie;
-      console.log("Final card ID to use:", cardId);
-
-      // We need to create a minimal valid user object to avoid schema validation issues
-      if (!id || !email_addresses || !email_addresses[0]?.email_address) {
-        console.error("❌ Missing critical user data (id or email)");
-        return new Response("Error: Missing required user data", { status: 400 });
-      }
-
-      // Check if user already exists before trying to create
-      const existingUser = await User.findOne({ email: email_addresses[0].email_address });
-      if (existingUser && eventType === "user.updated") {
-        console.log("⚠️ User already exists in database, updating instead of creating");
-
-        // Create the minimal user data for update
-        const userData: UserData = {
-          clerkUserId: id,
-          email: email_addresses[0].email_address,
-          userName: existingUser.userName,
-        };
-
-        // Only add optional fields if they exist
-        if (first_name) userData.firstName = first_name;
-        if (last_name) userData.lastName = last_name;
-        if (image_url) userData.photo = image_url;
-        if (cardId) userData.cardId = cardId;
-
-        const updateResult = await updateUser(userData, id);
-        console.log("✅ User updated instead of created:", updateResult);
-        return new Response("User updated successfully", { status: 200 });
-      }
-
-      // Create the simplest possible user object that meets schema requirements
-      const minimalUserData: UserData = {
-        clerkUserId: id,
-        email: email_addresses[0].email_address,
-        // Generate a random username since it's required
-        userName: `user_${Math.random().toString(36).substring(2, 10)}`,
-      };
-
-      // Only add optional fields if they exist
-      if (first_name) minimalUserData.firstName = first_name;
-      if (last_name) minimalUserData.lastName = last_name;
-      if (image_url) minimalUserData.photo = image_url;
-      if (cardId) minimalUserData.cardId = cardId;
-
-      console.log(`🚀 Minimal user object for database:`, JSON.stringify(minimalUserData));
-
-      // Try creating/updating the user
-      if (eventType === "user.created") {
-        console.log("⏳ Calling createUser function...");
-        try {
-          const result = await createUser(minimalUserData);
-          console.log("✅ User created successfully:", result);
-        } catch (createError: any) {
-          console.error("❌ createUser function error:", createError);
-          // Try again with just the essential fields if something failed
-          if (createError.message?.includes("duplicate key") || createError.message?.includes("already exists")) {
-            console.log("Attempting to recover from duplicate key error...");
-            // Try a different username
-            minimalUserData.userName = `user_${Date.now().toString(36)}`;
-            try {
-              const retryResult = await createUser(minimalUserData);
-              console.log("✅ User created on retry:", retryResult);
-            } catch (retryError: any) {
-              console.error("❌ Failed on retry too:", retryError);
-              // If we still fail, try to update instead
-              if (retryError.message?.includes("already exists")) {
-                console.log("Attempting to update existing user instead");
-                const updateResult = await updateUser(minimalUserData, id);
-                console.log("✅ User updated as fallback:", updateResult);
-              } else {
-                throw retryError;
-              }
-            }
-          } else {
-            throw createError; // Re-throw if it's not a duplicate key issue
-          }
-        }
-      } else if (eventType === "user.updated") {
-        console.log("⏳ Calling updateUser function...");
-        const result = await updateUser(minimalUserData, id);
-        console.log("✅ User updated successfully:", result);
-      }
-    } catch (processingError: any) {
-      // Safely handle the error
-      const errorMessage = processingError?.message || "Unknown error";
-      console.error(`❌ Error processing ${eventType} event:`, processingError);
-      return new Response(`Error processing webhook: ${errorMessage}`, {
-        status: 500,
-      });
-    }
+  try {
+    const result = await handleWebhookEvent(evt);
+    console.log("==================== WEBHOOK COMPLETED ====================");
+    return new Response(result, { status: 200 });
+  } catch (error) {
+    console.error("❌ Error processing webhook:", error);
+    return new Response(`Error processing webhook: ${(error as Error).message}`, { status: 500 });
   }
-  // USER DELETED EVENT
-  else if (eventType === "user.deleted") {
-    try {
-      const { id } = evt.data;
-      if (id) {
-        deleteUser();
-        console.log("✅ User deleted successfully");
-      }
-    } catch (deleteError: any) {
-      console.error("❌ Error processing user.deleted event:", deleteError);
-    }
-  }
-  // ANY OTHER EVENT TYPES
-  else {
-    console.log("⏭️ Ignoring event type:", eventType);
-  }
-
-  console.log("==================== WEBHOOK COMPLETED ====================");
-  return new Response("Webhook processed", { status: 200 });
 }

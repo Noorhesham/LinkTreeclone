@@ -108,11 +108,21 @@ export async function updateTheme(theme: string) {
     console.log(error);
   }
 }
-export async function deleteUser() {
-  const { userId } = await auth();
+export async function deleteUser(clerkUserId?: string) {
+  let userId = clerkUserId;
+  if (!userId) {
+    const authResult = await auth();
+    userId = authResult.userId;
+  }
+
+  if (!userId) {
+    return { error: "No user ID provided" };
+  }
+
+  await connect();
   const user = await User.findOneAndDelete({ clerkUserId: userId });
-  if (!user) return { error: "User not deleted !" };
-  return { success: "User deleted successfully !", status: 200 };
+  if (!user) return { error: "User not deleted!" };
+  return { success: "User deleted successfully!", status: 200 };
 }
 export async function updateButtons(data: { border: number; color: string }) {
   try {
