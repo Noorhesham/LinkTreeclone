@@ -4,6 +4,18 @@ import { WebhookEvent } from "@clerk/nextjs/server";
 import { createUser, updateUser } from "@/app/lib/actions/actions";
 import { deleteUser } from "@/app/linkActions/actions";
 import connect from "@/app/lib/db"; // Import the DB connection
+import User from "@/app/lib/models/userModel"; // Correct path to User model
+
+// Define user data interface to fix type issues
+interface UserData {
+  clerkUserId: string;
+  email: string;
+  userName: string;
+  firstName?: string;
+  lastName?: string;
+  photo?: string;
+  cardId?: string;
+}
 
 // Add a route for GET requests to check if the webhook endpoint is reachable
 export async function GET() {
@@ -139,8 +151,31 @@ export async function POST(req: Request) {
         return new Response("Error: Missing required user data", { status: 400 });
       }
 
+      // Check if user already exists before trying to create
+      const existingUser = await User.findOne({ email: email_addresses[0].email_address });
+      if (existingUser && eventType === "user.created") {
+        console.log("⚠️ User already exists in database, updating instead of creating");
+
+        // Create the minimal user data for update
+        const userData: UserData = {
+          clerkUserId: id,
+          email: email_addresses[0].email_address,
+          userName: existingUser.userName,
+        };
+
+        // Only add optional fields if they exist
+        if (first_name) userData.firstName = first_name;
+        if (last_name) userData.lastName = last_name;
+        if (image_url) userData.photo = image_url;
+        if (cardId) userData.cardId = cardId;
+
+        const updateResult = await updateUser(userData, id);
+        console.log("✅ User updated instead of created:", updateResult);
+        return new Response("User updated successfully", { status: 200 });
+      }
+
       // Create the simplest possible user object that meets schema requirements
-      const minimalUserData = {
+      const minimalUserData: UserData = {
         clerkUserId: id,
         email: email_addresses[0].email_address,
         // Generate a random username since it's required
@@ -164,12 +199,24 @@ export async function POST(req: Request) {
         } catch (createError: any) {
           console.error("❌ createUser function error:", createError);
           // Try again with just the essential fields if something failed
-          if (createError.message?.includes("duplicate key")) {
+          if (createError.message?.includes("duplicate key") || createError.message?.includes("already exists")) {
             console.log("Attempting to recover from duplicate key error...");
             // Try a different username
             minimalUserData.userName = `user_${Date.now().toString(36)}`;
-            const retryResult = await createUser(minimalUserData);
-            console.log("✅ User created on retry:", retryResult);
+            try {
+              const retryResult = await createUser(minimalUserData);
+              console.log("✅ User created on retry:", retryResult);
+            } catch (retryError: any) {
+              console.error("❌ Failed on retry too:", retryError);
+              // If we still fail, try to update instead
+              if (retryError.message?.includes("already exists")) {
+                console.log("Attempting to update existing user instead");
+                const updateResult = await updateUser(minimalUserData, id);
+                console.log("✅ User updated as fallback:", updateResult);
+              } else {
+                throw retryError;
+              }
+            }
           } else {
             throw createError; // Re-throw if it's not a duplicate key issue
           }
