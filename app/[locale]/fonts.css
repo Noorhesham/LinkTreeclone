@@ -1,0 +1,380 @@
+/* styles/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;600&family=Inter:wght@400;600&family=Montserrat:wght@400;600&family=Nunito:wght@400;600&family=Lato:wght@400;600&family=Open+Sans:wght@400;600&family=Raleway:wght@400;600&family=Oswald:wght@400;600&family=Playfair+Display:wght@400;600&family=Merriweather:wght@400;600&family=Source+Sans+Pro:wght@400;600&family=Quicksand:wght@400;600&family=Fira+Sans:wght@400;600&family=Work+Sans:wght@400;600&family=DM+Sans:wght@400;600&family=Rubik:wght@400;600&family=Bebas+Neue&family=Ubuntu:wght@400;600&family=Cairo:wght@400;600&family=Amiri:wght@400;600&family=El+Messiri:wght@400;600&family=Lateef:wght@400;600&family=Tajawal:wght@400;600&family=Noto+Sans+Arabic:wght@400;600&family=Droid+Arabic+Kufi:wght@400;600&family=Harmattan:wght@400;600&family=Kufam:wght@400;600&family=Noto+Serif+Arabic:wght@400;600&family=Mada:wght@400;600&family=Sukar:wght@400;600&family=Reem+Kufi:wght@400;600&family=Aref+Ruqaa:wght@400;600&display=swap');
+
+.poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+.roboto {
+  font-family: 'Roboto', sans-serif;
+}
+
+.inter {
+  font-family: 'Inter', sans-serif;
+}
+
+.montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.nunito {
+  font-family: 'Nunito', sans-serif;
+}
+
+.lato {
+  font-family: 'Lato', sans-serif;
+}
+
+.open-sans {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.raleway {
+  font-family: 'Raleway', sans-serif;
+}
+
+.oswald {
+  font-family: 'Oswald', sans-serif;
+}
+
+.playfair {
+  font-family: 'Playfair Display', serif;
+}
+
+.merriweather {
+  font-family: 'Merriweather', serif;
+}
+
+.source-sans-pro {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.quicksand {
+  font-family: 'Quicksand', sans-serif;
+}
+
+.fira-sans {
+  font-family: 'Fira Sans', sans-serif;
+}
+
+.work-sans {
+  font-family: 'Work Sans', sans-serif;
+}
+
+.dm-sans {
+  font-family: 'DM Sans', sans-serif;
+}
+
+.rubik {
+  font-family: 'Rubik', sans-serif;
+}
+
+.bebas-neue {
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.ubuntu {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.cairo {
+  font-family: 'Cairo', sans-serif;
+}
+
+.amiri {
+  font-family: 'Amiri', serif;
+}
+
+.el-messiri {
+  font-family: 'El Messiri', sans-serif;
+}
+
+.lateef {
+  font-family: 'Lateef', serif;
+}
+
+.tajawal {
+  font-family: 'Tajawal', sans-serif;
+}
+
+.noto-sans-arabic {
+  font-family: 'Noto Sans Arabic', sans-serif;
+}
+
+.droid-arabic-kufi {
+  font-family: 'Droid Arabic Kufi', sans-serif;
+}
+
+.harmattan {
+  font-family: 'Harmattan', sans-serif;
+}
+
+.kufam {
+  font-family: 'Kufam', sans-serif;
+}
+
+.noto-serif-arabic {
+  font-family: 'Noto Serif Arabic', serif;
+}
+
+.mada {
+  font-family: 'Mada', sans-serif;
+}
+
+.sukar {
+  font-family: 'Sukar', sans-serif;
+}
+
+.reem-kufi {
+  font-family: 'Reem Kufi', sans-serif;
+}
+
+.aref-ruqaa {
+  font-family: 'Aref Ruqaa', serif;
+}
+.card-light {
+  background: #ffffff;
+  color: #000000;
+}
+.theme-light {
+  background: linear-gradient(135deg, #f6a38e, #37caff);
+  color: #ffffff;
+}
+.card-yellow {
+  background: #ffffff;
+  color: #000000;
+}
+.theme-yellow {
+  background: linear-gradient(135deg, #f68ed5, #e4d784);
+  color: #ffffff;
+}
+
+.card-babyBlue {
+  background: #ffffff;
+  color: #000000;
+}
+.theme-clouds {
+  background: linear-gradient(135deg, #dfe9f3, #ffffff);
+  color: #333;
+}
+.card-clouds {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-pebble {
+  background: linear-gradient(135deg, #e6e6e6, #d1d1d1);
+  color: #333;
+}
+.card-pebble {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-breeze {
+  background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+  color: #333;
+}
+.card-breeze {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-3dblocks {
+  background: linear-gradient(135deg, #fdcbf1, #e6dee9);
+  color: #333;
+}
+.card-3dblocks {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-starrynight {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #ffffff;
+}
+.card-starrynight {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-lakeblack {
+  background: linear-gradient(135deg, #141e30, #243b55);
+  color: #ffffff;
+}
+.card-lakeblack {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-lakewhite {
+  background: linear-gradient(135deg, #e0eafc, #cfdef3);
+  color: #333;
+}
+.card-lakewhite {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-hydrangea {
+  background: linear-gradient(135deg, #b3ffab, #12fff7);
+  color: #333;
+}
+.card-hydrangea {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-poppy {
+  background: linear-gradient(135deg, #ff6f61, #d5bb8e);
+  color: #ffffff;
+}
+.card-poppy {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-iris {
+  background: linear-gradient(135deg, #c2e59c, #64b3f4);
+  color: #333;
+}
+.card-iris {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-airwhite {
+  background: linear-gradient(135deg, #ffffff, #f8f8f8);
+  color: #333;
+}
+.card-airwhite {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-airmoon {
+  background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+  color: #333;
+}
+.card-airmoon {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-airsnow {
+  background: linear-gradient(135deg, #e0eafc, #cfdef3);
+  color: #333;
+}
+.card-airsnow {
+  background: #ffffff;
+  color: #000000;
+}
+
+.theme-image1 {
+  background: url('/bg2.png') no-repeat center center;
+  background-size: cover;
+  color: #ffffff;
+}
+.card-image1 {
+  background: rgba(255, 255, 255, 0.8);
+  color: #000000;
+}
+
+.theme-image2 {
+  background: url('/confetti.jpg') no-repeat center center;
+  background-size: cover;
+  color: black;
+}
+.card-image2 {
+  background: rgba(255, 255, 255, 0.8);
+  color: #000000;
+}
+.theme-cartoon {
+  background: linear-gradient(135deg, #ffcc00, #ff6666);
+  color: #000;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.card-cartoon {
+  background: #fff;
+  color: #000;
+  border: 2px dashed #000;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.card-cartoon:hover {
+  background: #ff6666;
+  color: #fff;
+  border-color: #ffcc00;
+}
+
+.theme-cartoon2 {
+  background: linear-gradient(135deg, #ffcc00, #ff6666);
+  color: #000;
+}
+
+.card-cartoon2 {
+  background: #fff;
+  color: #000;
+  border: 2px dashed #000;
+}
+
+.card-cartoon2:hover {
+  background: #ffcc66;
+  color: #fff;
+  border-color: #cc6600;
+}
+
+.theme-cartoon3 {
+  background: linear-gradient(135deg, #66ccff, #ffcc66);
+  color: #000;
+}
+
+.card-cartoon3 {
+  background: #fff;
+  color: #000;
+  border: 2px dashed #000;
+}
+
+.card-cartoon3:hover {
+  background: #66ccff;
+  color: #fff;
+  border-color: #3399ff;
+}
+
+.theme-cartoon4 {
+  background: linear-gradient(135deg, #ccff66, #66ffcc);
+  color: #000;
+}
+
+.card-cartoon4 {
+  background: #fff;
+  color: #000;
+  border: 2px dashed #000;
+}
+
+.card-cartoon4:hover {
+  background: #66ffcc;
+  color: #fff;
+  border-color: #33cc99;
+}
+
+.theme-cartoon5 {
+  background: linear-gradient(135deg, #ff99cc, #cc99ff);
+  color: #000;
+}
+
+.card-cartoon5 {
+  background: #fff;
+  color: #000;
+  border: 2px dashed #000;
+}
+
+.card-cartoon5:hover {
+  background: #cc99ff;
+  color: #fff;
+  border-color: #9933ff;
+}

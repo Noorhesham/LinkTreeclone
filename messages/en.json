@@ -1,0 +1,73 @@
+{
+  "page": {
+    "userNotFound": "User not found"
+  },
+  "navbar": {
+    "title": "Generate Link Now",
+    "home": "Home",
+    "create": "Create",
+    "contact": "Contact",
+    "signUp": "Sign Up",
+    "signIn": "Sign In",
+    "store": "Store",
+    "orders": "My Orders"
+  },
+  "hero": {
+    "highlight": "Effortlessly!",
+    "welcome": "Welcome to Cone!",
+    "paragraph": "Your one-stop solution to link everything you care about in one place. Share your social profiles, websites, portfolios, and more with a single, customizable link.",
+    "text": "Simplify your online presence with VEGA",
+    "getStarted": "Get Started",
+    "logIn": "Log In"
+  },
+  "inputUserName": {
+    "addBioPlaceholder": "Add Your Bio Here",
+    "addBioButton": "Add Bio",
+    "addUserNamePlaceholder": "Add Your Username Here",
+    "addUserNameButton": "Add Username",
+    "viewProfileButton": "View Profile",
+    "phone": " Phone"
+  },
+  "createForm": {
+    "addLinkButton": "Add Link"
+  },
+  "linkForm": {
+    "createLink": "Create Link",
+    "updateLink": "Update Link",
+    "delete": "Delete",
+    "invalidURL": "Invalid URL",
+    "required": "Required",
+    "linkForProvider": "Link for {{provider}}",
+    "name": "name"
+  },
+  "languageSwitcher": {
+    "selectLanguage": "Select a language",
+    "english": "English",
+    "arabic": "العربية"
+  },
+  "ImageCoverForm": {
+    "image": "Image",
+    "color": "Color",
+    "noFileSelected": "No file selected",
+    "fileUploadFailed": "File upload failed",
+    "unexpectedError": "An unexpected error occurred"
+  },
+  "UserView": {
+    "profileLink": "Public Profile Link",
+    "linkCopied": "Link copied to clipboard!",
+    "copyLinkFailed": "Failed to copy the link",
+    "share": "share",
+    "shareDesc": "Anyone who has this link will be able to view this.",
+    "copy": "copy",
+    "close": "Close"
+  },
+  "profileLink": "Public Profile Link",
+  "product": {
+    "name": "name",
+    "description": "description",
+    "price": "price",
+    "currentStock": "currentStock",
+    "create": "Create",
+    "update": "Update"
+  }
+}
