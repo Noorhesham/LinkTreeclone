@@ -1,11 +1,16 @@
 import { NextResponse } from "next/server";
 import { POST as webhookHandler } from "../webhooks/clerk/route";
+import { cookies } from "next/headers";
 
 // This simulates a Clerk webhook event for local testing
 export async function POST(req: Request) {
   try {
     // Get the event type and data from the request
     const { eventType, userData } = await req.json();
+
+    // Check if there's a cardId in the cookies
+    const cardIdCookie = cookies().get("cardId")?.value;
+    console.log("Test webhook - cardId cookie:", cardIdCookie);
 
     // Create a simulated webhook event based on the event type
     let mockWebhookEvent;
@@ -33,15 +38,26 @@ export async function POST(req: Request) {
       };
     }
 
-    // Create a new request with the proper Svix headers
+    // Manually add the cardId to the request headers to simulate the cookie
+    const headers = new Headers({
+      "Content-Type": "application/json",
+      "svix-id": "test-svix-id",
+      "svix-timestamp": Date.now().toString(),
+      "svix-signature": "test-signature",
+    });
+
+    // If there's a cardId provided in the test request, add it as a cookie
+    if (userData?.cardId) {
+      console.log("Adding cardId to test cookie:", userData.cardId);
+      // We can't directly set cookies here, but we'll set it in the request
+      // The webhook handler will use headers to extract this
+      headers.set("x-card-id", userData.cardId);
+    }
+
+    // Create a new request with the proper headers
     const mockRequest = new Request("http://localhost:3000/api/webhooks/clerk", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "svix-id": "test-svix-id",
-        "svix-timestamp": Date.now().toString(),
-        "svix-signature": "test-signature",
-      },
+      headers,
       body: JSON.stringify(mockWebhookEvent),
     });
 
@@ -56,6 +72,7 @@ export async function POST(req: Request) {
       message: "Test webhook processed",
       status: response.status,
       response: responseText,
+      cardIdCookie: cardIdCookie || "Not found in cookies",
     });
   } catch (error) {
     console.error("Error in test webhook:", error);

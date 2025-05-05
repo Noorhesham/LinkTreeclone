@@ -23,7 +23,7 @@ export async function GET() {
 }
 
 // Helper function to handle webhook events
-async function handleWebhookEvent(evt: WebhookEvent) {
+async function handleWebhookEvent(evt: WebhookEvent, customCardId?: string) {
   const eventType = evt.type;
   console.log(`🔔 Processing ${eventType} event`);
 
@@ -53,27 +53,40 @@ async function handleWebhookEvent(evt: WebhookEvent) {
       throw new Error("Missing required user data");
     }
 
-    // Get cardId from cookie
-    const cardIdCookie = cookies().get("cardId")?.value;
-    console.log("Card ID from cookie:", cardIdCookie);
+    // Get cardId from cookie only if we don't have a direct value from test
+    let cardId = customCardId;
 
-    // Get cardId from referer header
-    let cardIdFromHeader = null;
-    const headerPayload = headers();
-    const referer = headerPayload.get("referer");
-    if (referer) {
-      try {
-        const url = new URL(referer);
-        cardIdFromHeader = url.searchParams.get("cardId");
-        console.log("Card ID from referer header:", cardIdFromHeader);
-      } catch (urlError) {
-        console.error("Error parsing referer URL:", urlError);
+    if (!cardId) {
+      // Get cardId from cookie and log for debugging
+      const cardIdCookie = cookies().get("cardId")?.value;
+      console.log("⭐ Card ID from cookie:", cardIdCookie);
+
+      // Get cardId from referer header
+      let cardIdFromHeader = null;
+      const headerPayload = headers();
+
+      // Try to get cardId from x-card-id header (for testing)
+      let cardIdFromTestHeader = headerPayload.get("x-card-id");
+      if (cardIdFromTestHeader) {
+        console.log("⭐ Card ID from x-card-id header:", cardIdFromTestHeader);
       }
+
+      const referer = headerPayload.get("referer");
+      if (referer) {
+        try {
+          const url = new URL(referer);
+          cardIdFromHeader = url.searchParams.get("cardId");
+          console.log("⭐ Card ID from referer header:", cardIdFromHeader);
+        } catch (urlError) {
+          console.error("Error parsing referer URL:", urlError);
+        }
+      }
+
+      // Use cardId from any source, with explicit logging
+      cardId = cardIdFromTestHeader || cardIdFromHeader || cardIdCookie;
     }
 
-    // Use cardId from either source
-    const cardId = cardIdFromHeader || cardIdCookie;
-    console.log("Final card ID to use:", cardId);
+    console.log("⭐ Final card ID to use:", cardId);
 
     // Check if user already exists before trying to create
     const existingUser = await User.findOne({ email: email_addresses[0].email_address });
@@ -91,7 +104,7 @@ async function handleWebhookEvent(evt: WebhookEvent) {
       if (first_name) userData.firstName = first_name;
       if (last_name) userData.lastName = last_name;
       if (image_url) userData.photo = image_url;
-      if (cardIdCookie) userData.cardId = cardIdCookie;
+      if (cardId) userData.cardId = cardId;
 
       const updateResult = await updateUser(userData, id);
       console.log("✅ User updated instead of created:", updateResult);
@@ -110,7 +123,7 @@ async function handleWebhookEvent(evt: WebhookEvent) {
     if (first_name) minimalUserData.firstName = first_name;
     if (last_name) minimalUserData.lastName = last_name;
     if (image_url) minimalUserData.photo = image_url;
-    if (cardIdCookie) minimalUserData.cardId = cardIdCookie;
+    if (cardId) minimalUserData.cardId = cardId;
 
     console.log(`🚀 User object for database:`, JSON.stringify(minimalUserData));
 
@@ -197,16 +210,31 @@ async function handleWebhookEvent(evt: WebhookEvent) {
   }
 }
 
+// Helper function to check if we're in development mode
+function isDevMode() {
+  return process.env.NODE_ENV === "development" || process.env.BYPASS_WEBHOOK_VERIFICATION === "true";
+}
+
 export async function POST(req: Request) {
   // Log the raw request URL and method for debugging
   console.log(`====================== WEBHOOK ${req.method} REQUEST RECEIVED: ${req.url} ======================`);
+  console.log(`✅ NODE_ENV: ${process.env.NODE_ENV}`);
+  console.log(`✅ BYPASS_WEBHOOK_VERIFICATION: ${process.env.BYPASS_WEBHOOK_VERIFICATION}`);
+  console.log(`✅ Development mode: ${isDevMode() ? "YES" : "NO"}`);
 
   // For development mode - bypass signature verification
-  if (process.env.NODE_ENV === "development" && process.env.BYPASS_WEBHOOK_VERIFICATION === "true") {
+  if (isDevMode()) {
     console.log("⚠️ DEVELOPMENT MODE: Bypassing webhook signature verification");
     try {
       const payload = await req.json();
-      const result = await handleWebhookEvent(payload);
+
+      // Extract cardId from the headers if available (for testing)
+      const testCardId = headers().get("x-card-id") || undefined;
+      if (testCardId) {
+        console.log("💳 Using test cardId:", testCardId);
+      }
+
+      const result = await handleWebhookEvent(payload, testCardId);
       return new Response(result, { status: 200 });
     } catch (error) {
       console.error("Error in webhook (dev mode):", error);
