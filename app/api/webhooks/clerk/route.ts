@@ -37,11 +37,11 @@ export async function POST(req: Request) {
 
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
 
+
+  // PRODUCTION MODE - verify signature
   if (!WEBHOOK_SECRET) {
-    console.error("❌ CLERK_WEBHOOK_SECRET is not set in environment variables");
-    return new Response("Webhook secret is not set", {
-      status: 500,
-    });
+    console.error("Missing CLERK_WEBHOOK_SECRET");
+    return new Response("Missing CLERK_WEBHOOK_SECRET", { status: 500 });
   }
 
   // Log all headers for debugging
@@ -153,7 +153,7 @@ export async function POST(req: Request) {
 
       // Check if user already exists before trying to create
       const existingUser = await User.findOne({ email: email_addresses[0].email_address });
-      if (existingUser && eventType === "user.created") {
+      if (existingUser && eventType === "user.updated") {
         console.log("⚠️ User already exists in database, updating instead of creating");
 
         // Create the minimal user data for update
