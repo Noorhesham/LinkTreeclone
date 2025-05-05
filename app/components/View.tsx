@@ -27,7 +27,7 @@ const UserCard = ({ user }: { user: any }) => {
           </div>
         </div>
         {user.userName && (
-          <Link className=" underline my-2 hover:text-violet-500 duration-200" href={`/profile/${user.userName}`}>
+          <Link className=" underline my-2 hover:text-violet-500 duration-200" href={`/profile/${user.cardId||""}?userName=${user.userName}`}>
             Show Public Profile
           </Link>
         )}

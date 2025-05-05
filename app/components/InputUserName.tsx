@@ -32,12 +32,12 @@ interface InputUserNameProps {
   disablee: boolean;
 }
 
-const InputUserName = ({ disablee, id, value, fieldType }: InputUserNameProps) => {
+const InputUserName = ({ disablee, id, value, fieldType, username }: InputUserNameProps) => {
   const t = useTranslations();
 
   const form = useForm({
     defaultValues: {
-      [fieldType]: value || "",
+      [fieldType]: username || "",
     },
     resolver: async (data) => {
       if (fieldType === "userName") {

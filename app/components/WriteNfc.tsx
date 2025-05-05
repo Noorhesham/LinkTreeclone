@@ -47,26 +47,26 @@ const NFCWriter = ({ userName }: { userName?: string }) => {
   };
 
   return (
-    <div className="flex flex-col items-center lg:flex-row gap-2 h-full ml-5 mt-3 w-full lg:w-[60%]">
+    <div className="flex flex-col items-center justify-center lg:flex-row gap-2 h-full ml-5 mt-3 w-full lg:w-[60%]">
       <div>
         <AnimatedImage className="mx-auto w-[24rem]" data={"nfc.json"} />
       </div>
-      <div className="flex flex-col items-center mb-2 lg:items-start gap-2">
+       {/* <div className="flex flex-col items-center mb-2 lg:items-start gap-2">
         <div className="flex flex-col items-center gap-5">
           <Button disabled={userName === ""} text="Scan and Write to NFC" onClick={scanAndWriteToNFC} />
           {!userName && (
             <p className="text-base text-muted-foreground">TO WRITE TO NFC YOU MUST ADD USERNAME TO YOUR LINK</p>
-          )}
+          )} 
           {scanningStatus === "success" && <CheckCircleIcon className="w-6 h-6 text-green-500" />}
           {scanningStatus === "error" && <XCircleIcon className="w-6 h-6 text-red-500" />}
           {scanningStatus === "scanning" && (
             <p className="text-sm flex items-center gap-2">
               Scanning For NFC... <BabySpinner />
-            </p>
+            </p>  
           )}
         </div>
         <h2 className="text-xs">NFC Writer and Scanner (only enabled on a mobile device)</h2>
-      </div>
+      </div> */}
     </div>
   );
 };

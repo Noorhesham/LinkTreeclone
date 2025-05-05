@@ -17,8 +17,9 @@ const UserView = ({ user }: { user: any }) => {
   const locale = path.split("/")[1] || "en";
 
   const handleCopyLink = () => {
-    try {
-      navigator.clipboard.writeText(`${BASE}/${locale}/profile/${user.userName}`);
+    try {           
+
+      navigator.clipboard.writeText(`${BASE}/${locale}/profile/${user?.cardId||""}?userName=${user?.userName}`);
       toast.success(t("linkCopied"));
       setCopied(true);
     } catch (error) {
@@ -34,7 +35,7 @@ const UserView = ({ user }: { user: any }) => {
       >
         {user.coverImage && (
           <div>
-            <Image fill alt="cover" className="rounded-2xl object-contain" src={user?.coverImage?.secure_url} />
+            <Image fill alt="cover" className="rounded-2xl object-cover" src={user?.coverImage?.secure_url} />
           </div>
         )}
       </div>
@@ -74,8 +75,8 @@ const UserView = ({ user }: { user: any }) => {
         <div className="flex items-center gap-5">
           <Link
             className={`card-${user.theme} p-2 rounded-lg underline my-2 flex items-center gap-2 hover:text-violet-500 duration-200`}
-            href={`/profile/${user.userName}`}
-          >
+            href={ `/profile/${user?.cardId|| ""}?userName=${user?.userName}` || ""}
+            >
             {t("profileLink")}
           </Link>
           <Share theme={user.theme} onClick={handleCopyLink} link={`${BASE}/${locale}/profile/${user.userName}`} />

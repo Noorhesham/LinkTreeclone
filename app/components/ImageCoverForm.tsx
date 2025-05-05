@@ -105,7 +105,7 @@ const ImageCoverForm = ({ user }: { user: any }) => {
   return (
     <div style={{ backgroundColor: user.coverColor }} className="bg-[#1f1f23] h-60  relative rounded-2xl w-full">
       {user.coverImage && (
-        <Image fill src={user?.coverImage?.secure_url} alt="cover" className="rounded-2xl w-full w-full object-contain" />
+        <Image fill src={user?.coverImage?.secure_url} alt="cover" className="rounded-2xl w-full w-full object-cover" />
       )}
       {imageSrc && (
         <div className=" absolute inset-0 w-full h-full">
