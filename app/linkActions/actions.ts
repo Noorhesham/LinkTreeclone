@@ -8,6 +8,7 @@ import Product from "../lib/models/ProductModel";
 import { deleteImage } from "../lib/actions/actions";
 import { revalidatePath } from "next/cache";
 import Order from "../lib/models/Order";
+import mongoose from "mongoose";
 
 export async function addLink(data: { link: string; provider: string }, userId: string) {
   console.log(data, userId);
@@ -74,19 +75,56 @@ export async function deleteLink(id?: string) {
   }
 }
 
-export async function updateUserDetails(data: { bio?: string; userName?: string }) {
+export async function updateUserDetails(data: { bio?: string; userName?: string; cardId?: string; phone?: string }) {
   try {
     const { userId } = await auth();
     const updateData: any = {};
     if (data.bio !== undefined) updateData.bio = data.bio;
     if (data.userName !== undefined) updateData.userName = data.userName;
-    if (data.phone) updateData.phone = data.phone;
-    console.log(updateData);
+    if (data.phone !== undefined) updateData.phone = data.phone;
+
+    // Handle cardId updates specially
+    if (data.cardId) {
+      console.log("Updating user with cardId:", data.cardId);
+      updateData.cardId = data.cardId;
+
+      // If we're using the CardId model, mark it as assigned
+      await connect();
+      try {
+        const CardId = mongoose.models.CardId || (await import("../lib/models/Ids").then((m) => m.default));
+        if (CardId) {
+          // Find the cardId in the CardId collection
+          const cardIdRecord = await CardId.findOne({ cardId: data.cardId });
+          if (cardIdRecord) {
+            // Mark as assigned and link to this user
+            cardIdRecord.isAssigned = true;
+            cardIdRecord.assignedTo = (await User.findOne({ clerkUserId: userId }))?._id;
+            await cardIdRecord.save();
+            console.log("CardId marked as assigned:", data.cardId);
+          } else {
+            console.log("CardId not found in CardId collection, creating new record");
+            // Create a new record if it doesn't exist
+            await CardId.create({
+              cardId: data.cardId,
+              isAssigned: true,
+              assignedTo: (await User.findOne({ clerkUserId: userId }))?._id,
+              description: "Assigned via user update",
+            });
+          }
+        }
+      } catch (cardIdError) {
+        console.error("Error updating CardId model:", cardIdError);
+        // Continue with user update even if CardId update fails
+      }
+    }
+
+    console.log("Updating user with data:", updateData);
     const user = await User.findOneAndUpdate({ clerkUserId: userId }, updateData, { runValidators: true }).lean();
-    console.log(user);
+    console.log("User update result:", user);
     if (!user) return { error: "User not updated!" };
     return { success: "User updated successfully!", status: 200, data: { user } };
   } catch (error) {
+    console.error("Error in updateUserDetails:", error);
     return { error: "An error occurred while updating the user." };
   }
 }

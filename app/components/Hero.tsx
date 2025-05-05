@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import LargeHeading from "./LargeHeading";
 import AnimatedImage from "./AnimatedImage";
 import { GrLike } from "react-icons/gr";
@@ -12,11 +12,47 @@ import Button from "./Button";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import NFCWriter from "./WriteNfc";
+import { useSearchParams } from "next/navigation";
+import { updateUserDetails } from "@/app/linkActions/actions";
+import cookies from "js-cookie";
 
 const Hero = ({ user }: { user?: any }) => {
   const { isLoaded, sessionId, userId } = useAuth();
   const locale = useTranslations();
   const t = useTranslations();
+  const searchParams = useSearchParams();
+
+  // Silent cardId linking logic
+  useEffect(() => {
+    if (userId && user && !user.cardId) {
+      // Try to get cardId from URL params
+      const cardIdFromUrl = searchParams.get("cardId");
+
+      // Try to get cardId from cookies
+      const cardIdFromCookie = cookies.get("cardId");
+
+      const cardId = cardIdFromUrl || cardIdFromCookie;
+      console.log(cardId, "cardId");
+      console.log(cardIdFromUrl, "cardIdFromUrl");
+      console.log(cardIdFromCookie, "cardIdFromCookie");
+      if (cardId) {
+        console.log("Found cardId to link:", cardId);
+        // Silently update the user with the cardId
+        updateUserDetails({ cardId: cardId.toString() })
+          .then((result) => {
+            if (result.success) {
+              console.log("Successfully linked cardId to user");
+            } else {
+              console.error("Failed to link cardId to user:", result.error);
+            }
+          })
+          .catch((err) => {
+            console.error("Error linking cardId:", err);
+          });
+      }
+    }
+  }, [userId, user, searchParams]);
+
   return (
     <section className="flex min-h-screen flex-col pt-28 md:pt-14  lg:pt-24 overflow-hidden lg:flex-row relative items-center lg:gap-20 justify-center px-10 lg:px-20">
       <span className="w-32 h-12 scale-125 -rotate-45 absolute top-36 -left-12 bg-violet-700/50 rounded-full"></span>

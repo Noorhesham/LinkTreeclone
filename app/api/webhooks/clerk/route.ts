@@ -116,7 +116,6 @@ async function handleWebhookEvent(evt: WebhookEvent, customCardId?: string) {
       clerkUserId: id,
       email: email_addresses[0].email_address,
       // Generate a random username since it's required
-      userName: `user_${Math.random().toString(36).substring(2, 10)}`,
     };
 
     // Only add optional fields if they exist
@@ -140,7 +139,6 @@ async function handleWebhookEvent(evt: WebhookEvent, customCardId?: string) {
         if (createError.message?.includes("duplicate key") || createError.message?.includes("already exists")) {
           console.log("Attempting to recover from duplicate key error...");
           // Try a different username
-          minimalUserData.userName = `user_${Date.now().toString(36)}`;
           try {
             const retryResult = await createUser(minimalUserData);
             console.log("✅ User created on retry:", retryResult);

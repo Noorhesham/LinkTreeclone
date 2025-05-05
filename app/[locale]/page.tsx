@@ -14,6 +14,7 @@ export default async function Home() {
     //@ts-ignore
     if (user?.isAdmin) redirect("/admin");
   }
+  console.log(user, userId, "meow");
   return (
     <div>
       <Hero user={user} />
