@@ -35,7 +35,7 @@ export default async function ProfilePage({
       // We found a user with this cardId, redirect to their profile
       const foundUserName = result.data.user.userName;
       if (foundUserName) {
-        redirect(`/${foundUserName}`);
+        redirect(`/profile/${foundUserName}`);
       } else {
         // Found user but no username
         return (
@@ -77,7 +77,7 @@ export default async function ProfilePage({
       // Use type assertion for safe access to user properties
       const userObj = user as any;
       const exactUserName = userObj.userName || userName;
-      redirect(`/${exactUserName}`);
+      redirect(`/profile/${exactUserName}`);
     }
 
     // No user found with this userName either

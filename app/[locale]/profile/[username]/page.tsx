@@ -15,11 +15,24 @@ import { FontProvider } from "@/app/context/FontProvider";
 import { ThemeProvider } from "@/app/context/ThemeProvider";
 import FontWrapper from "@/app/components/FontWrapper";
 import "../../fonts.css";
+
 const getUserData = async (username: string) => {
   await connect();
-  const user: UserProps | any = await User.findOne({ cardId: username })
-    .populate({ path: "links", model: Link })
-    .lean();
+  // Try to find by cardId first, then by userName if no user is found
+  let user: UserProps | any = await User.findOne({ cardId: username }).populate({ path: "links", model: Link }).lean();
+
+  // If no user found by cardId, try finding by userName
+  if (!user) {
+    user = await User.findOne({
+      $or: [
+        { userName: username },
+        { userName: { $regex: new RegExp("^" + username + "$", "i") } }, // Case insensitive match
+      ],
+    })
+      .populate({ path: "links", model: Link })
+      .lean();
+  }
+
   return user;
 };
 
