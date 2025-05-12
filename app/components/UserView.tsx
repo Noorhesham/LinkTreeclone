@@ -60,6 +60,15 @@ const UserView = ({ user }: { user: any }) => {
                   <p>{user.phone}</p>
                 </div>
               )}
+              {user.phone2 && (
+                <div
+                  onClick={() => window.open(`tel:${user.phone}`)}
+                  className=" text-gray-50 cursor-pointer   text-sm font-semibold  flex items-center gap-2"
+                >
+                  <PhoneIcon className=" w-4 h-4" />
+                  <p>{user.phone2}</p>
+                </div>
+              )}
               {user.email && (
                 <div
                   onClick={() => window.open(`mailto:${user.email}`)}
