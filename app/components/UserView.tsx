@@ -62,7 +62,7 @@ const UserView = ({ user }: { user: any }) => {
               )}
               {user.phone2 && (
                 <div
-                  onClick={() => window.open(`tel:${user.phone}`)}
+                  onClick={() => window.open(`tel:${user.phone2}`)}
                   className=" text-gray-50 cursor-pointer   text-sm font-semibold  flex items-center gap-2"
                 >
                   <PhoneIcon className=" w-4 h-4" />
