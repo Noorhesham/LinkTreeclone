@@ -55,7 +55,8 @@ export async function createUser(userData: any) {
 export async function updateUser(data: any, id: string) {
   try {
     await connect();
-    const user = await User.findOneAndUpdate({ clerkUserId: id }, data);
+    console.log("🔄 updateUser function called with data:", data);
+    const user = await User.findOneAndUpdate({ clerkUserId: id }, data, { new: true });
     return JSON.parse(JSON.stringify(user));
   } catch (error) {
     console.log(error);

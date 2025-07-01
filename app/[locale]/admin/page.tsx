@@ -4,6 +4,7 @@ import User from "@/app/lib/models/userModel";
 import { DataTable } from "@/app/components/DataTable";
 import { columns } from "./Columns";
 import { redirect } from "next/navigation";
+import { deleteUsers } from "@/app/linkActions/actions";
 
 const page = async () => {
   const { userId } = auth();
@@ -15,8 +16,8 @@ const page = async () => {
   }
   const users = await User.find({}).lean();
   console.log(users);
- //@ts-ignore
-  return <DataTable columns={columns} data={users} />;
+  //@ts-ignore
+  return <DataTable handleDeleteAll={deleteUsers} columns={columns} data={users} />;
 };
 
 export default page;

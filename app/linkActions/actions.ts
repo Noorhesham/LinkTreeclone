@@ -75,7 +75,13 @@ export async function deleteLink(id?: string) {
   }
 }
 
-export async function updateUserDetails(data: { bio?: string; userName?: string; cardId?: string; phone?: string; phone2?: string }) {
+export async function updateUserDetails(data: {
+  bio?: string;
+  userName?: string;
+  cardId?: string;
+  phone?: string;
+  phone2?: string;
+}) {
   try {
     const { userId } = await auth();
     const updateData: any = {};
@@ -83,6 +89,8 @@ export async function updateUserDetails(data: { bio?: string; userName?: string;
     if (data.userName !== undefined) updateData.userName = data.userName;
     if (data.phone !== undefined) updateData.phone = data.phone;
     if (data.phone2 !== undefined) updateData.phone2 = data.phone2;
+    console.log(updateData, "data");
+    console.log(data.cardId, "data.cardId");
     // Handle cardId updates specially
     if (data.cardId) {
       console.log("Updating user with cardId:", data.cardId);
@@ -119,7 +127,29 @@ export async function updateUserDetails(data: { bio?: string; userName?: string;
     }
 
     console.log("Updating user with data:", updateData);
-    const user = await User.findOneAndUpdate({ clerkUserId: userId }, updateData, { runValidators: true }).lean();
+    console.log("Looking for user with clerkUserId:", userId);
+
+    // First find the user to get their MongoDB _id
+    const existingUser = await User.findOne({ clerkUserId: userId }).lean();
+    console.log("Existing user found:", existingUser ? "Yes" : "No");
+    if (!existingUser) {
+      console.error("User not found with clerkUserId:", userId);
+      return { error: "User not found!" };
+    }
+
+    const mongoId = (existingUser as any)._id;
+    console.log("Found user MongoDB ID:", mongoId);
+    console.log("Existing user details:", {
+      _id: mongoId,
+      userName: (existingUser as any).userName,
+      email: (existingUser as any).email,
+    });
+
+    // Now update using the MongoDB _id instead of clerkUserId
+    const user = await User.findByIdAndUpdate(mongoId, updateData, {
+      new: true,
+      runValidators: true,
+    }).lean();
     console.log("User update result:", user);
     if (!user) return { error: "User not updated!" };
     return { success: "User updated successfully!", status: 200, data: { user } };
@@ -193,6 +223,51 @@ export async function deleteUser(clerkUserId?: string) {
   } catch (error) {
     console.error("Error in deleteUser function:", error);
     return { error: `Deletion failed: ${(error as Error).message}` };
+  }
+}
+
+export async function deleteUsers(userIds: string[]) {
+  try {
+    console.log("Deleting users with MongoDB IDs:", userIds);
+
+    if (!userIds || userIds.length === 0) {
+      console.error("No user IDs provided for deletion");
+      return { error: "No user IDs provided" };
+    }
+
+    await connect();
+
+    // Find all users first to get their associated data
+    const users = await User.find({ _id: { $in: userIds } });
+    if (users.length === 0) {
+      console.error("No users found with the provided IDs");
+      return { error: "No users found" };
+    }
+
+    console.log(`Found ${users.length} users to delete`);
+
+    // Collect all link IDs from all users
+    const allLinkIds = users.reduce((acc: any[], user: any) => {
+      if (user.links && user.links.length > 0) {
+        acc.push(...user.links);
+      }
+      return acc;
+    }, []);
+
+    // Delete all associated links
+    if (allLinkIds.length > 0) {
+      console.log(`Deleting ${allLinkIds.length} associated links`);
+      await Link.deleteMany({ _id: { $in: allLinkIds } });
+    }
+
+    // Delete all users
+    const deletionResult = await User.deleteMany({ _id: { $in: userIds } });
+
+    console.log(`Successfully deleted ${deletionResult.deletedCount} users`);
+    return { success: `${deletionResult.deletedCount} users deleted successfully!`, status: 200 };
+  } catch (error) {
+    console.error("Error in deleteUsers function:", error);
+    return { error: `Bulk deletion failed: ${(error as Error).message}` };
   }
 }
 export async function updateButtons(data: { border: number; color: string }) {

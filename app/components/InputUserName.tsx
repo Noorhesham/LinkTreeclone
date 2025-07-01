@@ -38,7 +38,7 @@ const InputUserName = ({ disablee, id, value, fieldType, username }: InputUserNa
 
   const form = useForm({
     defaultValues: {
-      [fieldType]: username || value || "",
+      [fieldType]: username || "",
     },
     resolver: async (data) => {
       if (fieldType === "userName") {

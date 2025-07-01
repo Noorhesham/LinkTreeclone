@@ -9,7 +9,6 @@ import { getMessages } from "next-intl/server";
 import { Metadata } from "next";
 import QueryProvider from "../context/QueryProvider";
 import { LoadingProvider } from "../context/LoadingContext";
-import AuthSessionHandler from "../components/AuthSessionHandler";
 
 export const metadata: Metadata = {
   title: {
@@ -74,8 +73,6 @@ export default async function RootLayout({
               <NextIntlClientProvider messages={messages}>
                 <ToastContainer position="top-center" theme="dark" />
                 <NavBar />
-                <AuthSessionHandler />
-
                 {children}
               </NextIntlClientProvider>
             </LoadingProvider>

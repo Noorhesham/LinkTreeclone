@@ -1,3 +1,9 @@
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <main className="min-h-screen py-5 px-10 pt-24 flex justify-center items-center">{children}</main>;
+export default async function AuthLayout({
+  children,
+  params: { locale },
+}: {
+  children: React.ReactNode;
+  params: { locale: string };
+}) {
+  return <div className="flex flex-col items-center justify-center h-screen">{children}</div>;
 }

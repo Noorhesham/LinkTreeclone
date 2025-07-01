@@ -85,7 +85,7 @@ const Hero = ({ user }: { user?: any }) => {
                 <InputUserName
                   username={user?.userName}
                   fieldType="userName"
-                  value={`/profile/${user?.cardId}?userName=${user?.userName}` || ""}
+                  value={user?.userName || ""}
                   id={user?._id}
                   disablee={user?.userName!!}
                 />
