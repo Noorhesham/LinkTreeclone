@@ -86,7 +86,10 @@ export async function updateUserDetails(data: {
     const { userId } = await auth();
     const updateData: any = {};
     if (data.bio !== undefined) updateData.bio = data.bio;
-    if (data.userName !== undefined) updateData.userName = data.userName;
+    if (data.userName !== undefined) {
+      updateData.userName = data.userName;
+      updateData.hasCustomUsername = true; // Mark that user has customized their username
+    }
     if (data.phone !== undefined) updateData.phone = data.phone;
     if (data.phone2 !== undefined) updateData.phone2 = data.phone2;
     console.log(updateData, "data");
@@ -135,6 +138,12 @@ export async function updateUserDetails(data: {
     if (!existingUser) {
       console.error("User not found with clerkUserId:", userId);
       return { error: "User not found!" };
+    }
+
+    // Check if user is trying to change username but has already customized it
+    if (data.userName !== undefined && (existingUser as any).hasCustomUsername) {
+      console.log("User already has a custom username, preventing change");
+      return { error: "Username can only be changed once!" };
     }
 
     const mongoId = (existingUser as any)._id;

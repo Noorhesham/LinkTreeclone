@@ -87,7 +87,7 @@ const Hero = ({ user }: { user?: any }) => {
                   fieldType="userName"
                   value={user?.userName || ""}
                   id={user?._id}
-                  disablee={user?.userName!!}
+                  disablee={user?.hasCustomUsername || false}
                 />
               </div>
             )}

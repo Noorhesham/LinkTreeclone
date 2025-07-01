@@ -31,6 +31,7 @@ const UserSchema = new Schema(
       required: false,
     },
     userName: { type: String, unique: true },
+    hasCustomUsername: { type: Boolean, default: false },
     theme: { type: String, default: "" },
     buttons: { type: { color: String, border: String } },
     active: { type: Boolean, default: true },
