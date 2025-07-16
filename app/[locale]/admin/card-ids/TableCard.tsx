@@ -1,18 +1,23 @@
 "use client";
 import { Table, TableBody, TableHead, TableRow, TableHeader, TableCell } from "@/components/ui/table";
-import React, { useRef } from "react"; // Add useRef
+import React, { useRef, useState } from "react"; // Add useRef and useState
 import { Button } from "@/components/ui/button";
-import { Copy, CopyIcon, ExternalLink, UserRound, Download } from "lucide-react"; // Add Download icon
+import { Copy, CopyIcon, ExternalLink, UserRound, Download, Settings } from "lucide-react"; // Add more icons
 import CustomDialog from "@/app/components/CustomDialog";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label"; // Assuming you have a Label component
+import { Switch } from "@/components/ui/switch"; // Assuming you have a Switch component
 import { QRCodeCanvas } from "qrcode.react"; // Import the QR Code library
 
 /**
  * QR Code Display Sub-component
- * This component generates a QR code from a given value and provides a download button.
+ * This component now includes controls for color and transparency.
  */
 const QRCodeDisplay = ({ value, cardId }: { value: string; cardId: string }) => {
   const qrRef = useRef<HTMLDivElement>(null);
+  // --- STATE FOR CUSTOMIZATION ---
+  const [qrColor, setQrColor] = useState("#000000");
+  const [isTransparent, setIsTransparent] = useState(false);
 
   // Handles the download of the QR code canvas as a PNG image.
   const handleDownload = () => {
@@ -31,21 +36,45 @@ const QRCodeDisplay = ({ value, cardId }: { value: string; cardId: string }) => 
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 p-4">
-      <p className="text-sm text-center text-gray-600">
-        Scan this QR code with a mobile device to open the signup link directly.
-      </p>
-      <div ref={qrRef} className="p-2 bg-white rounded-lg border">
+    <div className="flex flex-col items-center justify-center gap-4 p-4 border-t border-b">
+      <div ref={qrRef} className="p-2 bg-white rounded-lg border shadow-sm">
         <QRCodeCanvas
           value={value}
-          size={200} // A good size for modals
-          bgColor={"#ffffff"}
-          fgColor={"#000000"}
-          level={"H"} // High error correction level for better scanning
+          size={200}
+          // --- APPLY CUSTOMIZATION ---
+          bgColor={isTransparent ? "transparent" : "#ffffff"}
+          fgColor={qrColor}
+          level={"H"}
           includeMargin={true}
         />
       </div>
-      <Button onClick={handleDownload} variant="outline">
+
+      {/* --- CUSTOMIZATION CONTROLS --- */}
+      <div className="w-full space-y-4 p-4 bg-gray-50 rounded-lg border">
+        <div className="flex items-center justify-between">
+          <Label htmlFor="qr-color" className="font-medium">
+            QR Code Color
+          </Label>
+          <div className="relative h-8 w-8">
+            <input
+              id="qr-color"
+              type="color"
+              value={qrColor}
+              onChange={(e) => setQrColor(e.target.value)}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            />
+            <div className="h-full w-full rounded-md border" style={{ backgroundColor: qrColor }} />
+          </div>
+        </div>
+        <div className="flex items-center justify-between">
+          <Label htmlFor="transparent-bg" className="font-medium">
+            Transparent Background
+          </Label>
+          <Switch id="transparent-bg" checked={isTransparent} onCheckedChange={setIsTransparent} />
+        </div>
+      </div>
+
+      <Button onClick={handleDownload} variant="outline" className="w-full">
         <Download className="mr-2 h-4 w-4" />
         Download QR Code
       </Button>
@@ -54,17 +83,14 @@ const QRCodeDisplay = ({ value, cardId }: { value: string; cardId: string }) => 
 };
 
 const TableCard = ({ cardIds }: { cardIds: any[] }) => {
-  // A more robust way to copy to clipboard without using alert()
   const copyToClipboard = (text: string, message: string = "Copied!") => {
     navigator.clipboard
       .writeText(text)
       .then(() => {
-        // SUCCESS: You can show a toast notification here.
-        // For example: toast.success(message);
         console.log(message);
+        // Consider using a toast library for user feedback instead of console.log
       })
       .catch((err) => {
-        // ERROR: Handle the error, e.g., show an error toast.
         console.error("Failed to copy text: ", err);
       });
   };
@@ -90,7 +116,6 @@ const TableCard = ({ cardIds }: { cardIds: any[] }) => {
             </TableRow>
           ) : (
             cardIds.map((id) => {
-              // Define the signup link once per row
               const signupLink = `${window.location.origin}/sign-up?cardId=${id.cardId}`;
 
               return (
@@ -110,7 +135,7 @@ const TableCard = ({ cardIds }: { cardIds: any[] }) => {
                   <TableCell>
                     <div className="flex justify-center gap-2">
                       <CustomDialog
-                        title="Signup Link & QR Code" // Updated dialog title
+                        title="Signup Link & QR Code"
                         btn={
                           <Button variant="outline" size="sm">
                             <ExternalLink className="h-4 w-4 mr-2" />
@@ -119,11 +144,12 @@ const TableCard = ({ cardIds }: { cardIds: any[] }) => {
                         }
                         content={
                           <div className="space-y-4">
-                            {/* --- QR Code Section --- */}
+                            <p className="text-sm text-center text-gray-600 px-4">
+                              Share this QR code or link for user registration.
+                            </p>
                             <QRCodeDisplay value={signupLink} cardId={id.cardId} />
 
-                            {/* --- Link Section (retained for convenience) --- */}
-                            <div className="space-y-2">
+                            <div className="space-y-2 px-4 pb-2">
                               <p className="text-sm font-medium text-center">Or copy the link manually:</p>
                               <div className="flex items-center gap-2">
                                 <Input value={signupLink} readOnly />
