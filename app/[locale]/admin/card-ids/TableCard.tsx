@@ -37,12 +37,12 @@ const QRCodeDisplay = ({ value, cardId }: { value: string; cardId: string }) => 
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 p-4 border-t border-b">
-      <div ref={qrRef} className="p-2 bg-white rounded-lg border shadow-sm">
+      <div ref={qrRef} className="p-2  rounded-lg border shadow-sm">
         <QRCodeCanvas
           value={value}
           size={200}
           // --- APPLY CUSTOMIZATION ---
-          bgColor={isTransparent ? "transparent" : "#ffffff"}
+          bgColor={"transparent"}
           fgColor={qrColor}
           level={"H"}
           includeMargin={true}
@@ -50,7 +50,7 @@ const QRCodeDisplay = ({ value, cardId }: { value: string; cardId: string }) => 
       </div>
 
       {/* --- CUSTOMIZATION CONTROLS --- */}
-      <div className="w-full space-y-4 p-4 bg-gray-50 rounded-lg border">
+      <div className="w-full space-y-4 p-4 rounded-lg border">
         <div className="flex items-center justify-between">
           <Label htmlFor="qr-color" className="font-medium">
             QR Code Color
@@ -66,12 +66,12 @@ const QRCodeDisplay = ({ value, cardId }: { value: string; cardId: string }) => 
             <div className="h-full w-full rounded-md border" style={{ backgroundColor: qrColor }} />
           </div>
         </div>
-        <div className="flex items-center justify-between">
+        {/* <div className="flex items-center justify-between">
           <Label htmlFor="transparent-bg" className="font-medium">
             Transparent Background
           </Label>
           <Switch id="transparent-bg" checked={isTransparent} onCheckedChange={setIsTransparent} />
-        </div>
+        </div> */}
       </div>
 
       <Button onClick={handleDownload} variant="outline" className="w-full">
