@@ -11,6 +11,8 @@ export default async function ProfilePage({
   params: { username?: string };
   searchParams: { cardId?: string; userName?: string; username?: string };
 }) {
+  if (true) return <div></div>;
+
   // Support both userName (camelCase) and username (lowercase) formats
   const { cardId } = searchParams;
   // Prioritize userName if both are provided, otherwise use username
