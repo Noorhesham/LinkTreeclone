@@ -6,6 +6,7 @@ import connect from "../lib/db";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
+  if (true) return <div></div>;
   const { userId } = auth();
   let user = null;
   if (userId) {
